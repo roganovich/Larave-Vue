@@ -73,7 +73,10 @@ Homestead.json
 /.vagrant
 .phpunit.result.cache#Laravel Specific files
 /vendor
+/node_modules
+/bootstrap
 .env
 /public/.htaccess
 /storage
 storage/*.key
+
