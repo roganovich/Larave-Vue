@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Wikipage;
 use Illuminate\Http\Request;
+use App\Http\Resources\WikiPageResourceCollection;
 
 class WikipagesController extends Controller
 {
@@ -12,20 +14,23 @@ class WikipagesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return new WikiPageResourceCollection(Wikipage::filter($request)->paginate(5));
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function parentlist()
     {
-        //
+        return new WikiPageResourceCollection(Wikipage::orderBy('title', 'ASC')->get());
     }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +40,8 @@ class WikipagesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $model = Wikipage::create($request->all());
+        return $model;
     }
 
     /**
@@ -46,7 +52,7 @@ class WikipagesController extends Controller
      */
     public function show($id)
     {
-        //
+        return Wikipage::findOrFail($id);
     }
 
     /**
@@ -69,7 +75,10 @@ class WikipagesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $model = Wikipage::findOrFail($id);
+        $model->update($request->all());
+
+        return $model;
     }
 
     /**
@@ -80,6 +89,8 @@ class WikipagesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $model = Wikipage::findOrFail($id);
+        $model->delete();
+        return '';
     }
 }

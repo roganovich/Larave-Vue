@@ -8,9 +8,6 @@ require('./bootstrap');
 
 import { createApp,h } from "vue";
 import { createRouter, createWebHistory } from 'vue-router';
-
-//window.Vue = require('vue');
-
 import App from './App.vue';
 import {routes} from './routes';
 
@@ -24,5 +21,5 @@ const router = createRouter({
 })
 
 app.use(router)
-app.mount('#app')
+app.mount('#admin')
 

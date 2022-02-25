@@ -17,8 +17,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index']);
+//Route::get('/admin{any}', [\App\Http\Controllers\AdminController::class, 'index']);
+
+Route::get('/admin{any}', function () {
+    return view('layouts.admin');
+})->where('any', '.*');
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+require_once "api.php";
