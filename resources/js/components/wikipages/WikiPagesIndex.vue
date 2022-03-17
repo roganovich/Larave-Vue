@@ -1,5 +1,9 @@
 <template>
-    <div>
+    <div v-if="preloader">
+        <vue-preloader></vue-preloader>
+    </div>
+
+    <div v-else>
         <div class="mt-1">
             <h5 class="card-title">Список</h5>
         </div>
@@ -15,14 +19,17 @@
                 @submit="getResults()"></vue-filter>
         </div>
 
-        <div class="mt-1">
+        <div v-if="search">
+            <vue-preloader></vue-preloader>
+        </div>
+        <div v-else class="mt-1">
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
                     <th>Заголовок</th>
                     <th>Родитель</th>
                     <th>Обновлен</th>
-                    <th width="100">&nbsp;</th>
+                    <th>&nbsp;</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -71,11 +78,14 @@
 <script>
 import VuePagination from '../pagination.vue';
 import VueFilter from './filter.vue';
+import VuePreloader from '../preloader.vue';
 import moment from 'moment';
 
 export default {
     data: function () {
         return {
+            preloader: true,
+            search: true,
             wikipages: {
                 meta: {
                     total: 0,
@@ -106,17 +116,21 @@ export default {
     },
     components: {
         VuePagination,
-        VueFilter
+        VueFilter,
+        VuePreloader
     },
     methods: {
         getResults: function () {
             var app = this;
+            app.search = true;
             this.wikipagesearch.page = this.wikipages.meta.current_page;
             console.log(this.wikipagesearch);
             axios.post('/api/v1/wikipages', this.wikipagesearch)
                 .then(function (resp) {
                     console.log(resp.data.data);
                     app.wikipages = resp.data;
+                    app.preloader = false;
+                    app.search = false;
                 })
                 .catch(function (resp) {
                     alert("Could not load wikipage");
