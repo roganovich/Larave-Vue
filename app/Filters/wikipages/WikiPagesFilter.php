@@ -1,11 +1,8 @@
 <?php
 
-// ProductFilter.php
-
-namespace App\Filters;
+namespace App\Filters\wikipages;
 
 use App\Filters\AbstractFilter;
-use Illuminate\Database\Eloquent\Builder;
 
 class WikiPagesFilter extends AbstractFilter
 {
@@ -14,4 +11,12 @@ class WikiPagesFilter extends AbstractFilter
         'description' => DescriptionFilter::class,
         'parent' => ParentFilter::class,
     ];
+
+    protected $sortables = [
+        'title' => TitleSort::class,
+        'parent' => ParentSort::class,
+        'updated_at' => UpdateatSort::class,
+    ];
+
+
 }

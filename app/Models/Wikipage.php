@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Filters\WikiPagesFilter;
+use App\Filters\wikipages\WikiPagesFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Builder;
 
 class Wikipage extends Model
 {
@@ -14,11 +14,17 @@ class Wikipage extends Model
 
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'parent_id'];
+    protected $fillable = ['title', 'description', 'parent_id', 'updated_at'];
 
+    // Поиск по полям
     public function scopeFilter(Builder $builder, $request)
     {
-        return (new WikiPagesFilter($request->search))->filter($builder);
+        return (new WikiPagesFilter($request))->filter($builder);
+    }
+    // Сортировка по полям
+    public function scopeSort(Builder $builder, $request)
+    {
+        return (new WikiPagesFilter($request))->sortable($builder);
     }
 
     public function parent()

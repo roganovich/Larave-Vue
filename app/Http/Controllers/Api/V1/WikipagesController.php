@@ -16,7 +16,9 @@ class WikipagesController extends Controller
      */
     public function index(Request $request)
     {
-        return new WikiPageResourceCollection(Wikipage::filter($request)->paginate(5));
+        return new WikiPageResourceCollection(Wikipage::filter($request->search)
+            ->sort($request->sort)
+            ->paginate(5));
 
     }
 
