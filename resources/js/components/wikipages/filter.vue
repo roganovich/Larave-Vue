@@ -7,7 +7,7 @@
                     Поиск
                 </button>
             </h2>
-            <div id="collapseFilter" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+            <div id="collapseFilter" class="accordion-collapse collapse hide" aria-labelledby="headingOne"
                  data-bs-parent="#accordionFilter">
                 <div class="accordion-body">
                     <form @submit.prevent="onFormSubmit">

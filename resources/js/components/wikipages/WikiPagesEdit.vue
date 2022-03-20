@@ -10,11 +10,17 @@
     <div v-else class=" mt-1">
         <div class="card-title mt-1">Редактируем {{ model.title }}</div>
         <div class="p-1">
-            <form v-on:submit="saveForm()">
+            <form v-on:submit.prevent="saveForm()">
                 <div class="row">
                     <div class="col-xs-12 form-group">
                         <label class="control-label">Заголовок</label>
-                        <input type="text" v-model="model.title" class="form-control">
+                        <input type="text"
+                               v-model="model.title"
+                               class="form-control"
+                               v-bind:class="{ 'is-invalid': errors.title }">
+                        <div class="invalid-feedback" v-if="errors.title">
+                            {{ errors.title }}
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -22,17 +28,28 @@
                         <label class="control-label">Родитель</label>
                         <select v-model="model.parent_id"
                                 class="form-control"
+                                v-bind:class="{ 'is-invalid': errors.parent_id }"
                                 id="inputSearchParent">
+                            <option></option>
                             <option v-for="(item, id) in parents" :value="item.id">
                                 {{ item.title }}
                             </option>
                         </select>
+                        <div class="invalid-feedback" v-if="errors.parent_id">
+                            {{ errors.parent_id }}
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12 form-group">
                         <label class="control-label">Описание</label>
-                        <textarea class="form-control" v-model="model.description" rows="3"></textarea>
+                        <textarea v-model="model.description"
+                                  class="form-control"
+                                  v-bind:class="{ 'is-invalid': errors.description }"
+                                  rows="3"></textarea>
+                        <div class="invalid-feedback" v-if="errors.description">
+                            {{ errors.description }}
+                        </div>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -59,6 +76,7 @@ export default {
     data: function () {
         return {
             preloader: true,
+            errors: {},
             parents: {},
             model_id: null,
             model: {
@@ -96,18 +114,32 @@ export default {
                     alert("Could not load wikipage");
                 });
         },
-        saveForm() {
+        saveForm(e) {
             var app = this;
-            app.preloader = true;
-            var newModel = app.model;
-            axios.post('/api/v1/wikipages/' + app.model_id + '/update', newModel)
-                .then(function (resp) {
-                    app.$router.push({name: 'wikipages_index'});
-                    app.preloader = false;
-                })
-                .catch(function (resp) {
-                    alert("Could not save form");
-                });
+            this.validate();
+            console.log(app.errors);
+            if (!Object.keys(app.errors).length) {
+                app.preloader = true;
+                var newModel = app.model;
+                axios.post('/api/v1/wikipages/' + app.model_id + '/update', newModel)
+                    .then(function (resp) {
+                        app.$router.push({name: 'wikipages_index'});
+                        app.preloader = false;
+                    })
+                    .catch(function (resp) {
+                        alert("Could not save form");
+                    });
+            }
+        },
+        validate: function (e) {
+            var app = this;
+            app.errors = [];
+            if (!app.model.title) {
+                app.errors.title = 'Требуется указать Заголовок.';
+            }
+            if (!app.model.description) {
+                app.errors.description = 'Требуется указать Описание.';
+            }
         }
     }
 }
