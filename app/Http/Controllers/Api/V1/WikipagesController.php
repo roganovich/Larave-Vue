@@ -54,7 +54,7 @@ class WikipagesController extends Controller
      */
     public function get($id)
     {
-        return Wikipage::findOrFail($id);
+        return Wikipage::select('id', 'title', 'parent_id', 'description')->findOrFail($id);
     }
 
     /**

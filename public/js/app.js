@@ -22893,12 +22893,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _preloader_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../preloader.vue */ "./resources/js/components/preloader.vue");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
-    this.getResults(), this.getParentList();
+    this.getData(), this.getParentList();
+  },
+  components: {
+    VuePreloader: _preloader_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
     return {
+      preloader: true,
       parents: {},
       model_id: null,
       model: {
@@ -22910,33 +22916,38 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    getResults: function getResults() {
+    getData: function getData() {
       var app = this;
+      app.preloader = true;
       var id = app.$route.params.id;
       app.model_id = id;
       axios.get('/api/v1/wikipages/' + id + '/get/').then(function (resp) {
         app.model = resp.data;
+        app.preloader = false;
       })["catch"](function () {
         alert("Could not load your company");
       });
     },
     getParentList: function getParentList() {
       var app = this;
+      app.preloader = true;
       axios.get('/api/v1/wikipages/parentlist').then(function (resp) {
         app.parents = resp.data.data;
+        app.preloader = false;
       })["catch"](function (resp) {
         alert("Could not load wikipage");
       });
     },
     saveForm: function saveForm() {
-      event.preventDefault();
       var app = this;
+      app.preloader = true;
       var newModel = app.model;
-      axios.patch('/api/v1/wikipages/' + app.companyId + '/update/', newModel).then(function (resp) {
-        console.log(resp.data.data);
-        app.model = resp.data;
+      axios.post('/api/v1/wikipages/' + app.model_id + '/update', newModel).then(function (resp) {
+        app.$router.push({
+          name: 'wikipages_index'
+        });
+        app.preloader = false;
       })["catch"](function (resp) {
-        console.log(resp);
         alert("Could not save form");
       });
     }
@@ -23007,6 +23018,7 @@ __webpack_require__.r(__webpack_exports__);
     getResults: function getResults() {
       var app = this;
       app.search = true;
+      app.preloader = true;
       this.wikipagesearch.page = this.wikipages.meta.current_page;
       console.log(this.wikipagesearch);
       axios.post('/api/v1/wikipages', this.wikipagesearch).then(function (resp) {
@@ -23580,55 +23592,59 @@ var _hoisted_2 = {
 var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Back");
 
 var _hoisted_4 = {
-  "class": "mt-1"
+  key: 0
 };
 var _hoisted_5 = {
-  "class": "card-title mt-1"
+  key: 1,
+  "class": "mt-1"
 };
 var _hoisted_6 = {
-  "class": "p-1"
+  "class": "card-title mt-1"
 };
 var _hoisted_7 = {
-  "class": "row"
+  "class": "p-1"
 };
 var _hoisted_8 = {
+  "class": "row"
+};
+var _hoisted_9 = {
   "class": "col-xs-12 form-group"
 };
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "class": "control-label"
 }, "Заголовок", -1
 /* HOISTED */
 );
 
-var _hoisted_10 = {
+var _hoisted_11 = {
   "class": "row"
 };
-var _hoisted_11 = {
+var _hoisted_12 = {
   "class": "col-xs-12 form-group"
 };
 
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "class": "control-label"
 }, "Родитель", -1
 /* HOISTED */
 );
 
-var _hoisted_13 = ["value"];
-var _hoisted_14 = {
+var _hoisted_14 = ["value"];
+var _hoisted_15 = {
   "class": "row"
 };
-var _hoisted_15 = {
+var _hoisted_16 = {
   "class": "col-xs-12 form-group"
 };
 
-var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "class": "control-label"
 }, "Описание", -1
 /* HOISTED */
 );
 
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "row mt-3"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "col-xs-12 form-group"
@@ -23641,6 +23657,8 @@ var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
 
+  var _component_vue_preloader = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("vue-preloader");
+
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/",
     "class": "btn btn-dark btn-sm"
@@ -23651,13 +23669,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, "Редактируем " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.model.title), 1
+  })])]), _ctx.preloader ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_vue_preloader)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, "Редактируем " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.model.title), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onSubmit: _cache[3] || (_cache[3] = function ($event) {
       return $options.saveForm();
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return _ctx.model.title = $event;
@@ -23665,7 +23683,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "form-control"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.model.title]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.model.title]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return _ctx.model.parent_id = $event;
     }),
@@ -23676,12 +23694,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       value: item.id
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 9
     /* TEXT, PROPS */
-    , _hoisted_13);
+    , _hoisted_14);
   }), 256
   /* UNKEYED_FRAGMENT */
   ))], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.model.parent_id]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.model.parent_id]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     "class": "form-control",
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return _ctx.model.description = $event;
@@ -23689,9 +23707,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     rows: "3"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.model.description]])])]), _hoisted_17], 32
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.model.description]])])]), _hoisted_18], 32
   /* HYDRATE_EVENTS */
-  )])])], 64
+  )])]))], 64
   /* STABLE_FRAGMENT */
   );
 }

@@ -123,6 +123,7 @@ export default {
         getResults: function () {
             var app = this;
             app.search = true;
+            app.preloader = true;
             this.wikipagesearch.page = this.wikipages.meta.current_page;
             console.log(this.wikipagesearch);
             axios.post('/api/v1/wikipages', this.wikipagesearch)

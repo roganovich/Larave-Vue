@@ -4,8 +4,10 @@
             <router-link to="/" class="btn btn-dark btn-sm">Back</router-link>
         </div>
     </div>
-
-    <div class=" mt-1">
+    <div v-if="preloader">
+        <vue-preloader></vue-preloader>
+    </div>
+    <div v-else class=" mt-1">
         <div class="card-title mt-1">Редактируем {{ model.title }}</div>
         <div class="p-1">
             <form v-on:submit="saveForm()">
@@ -44,13 +46,19 @@
 </template>
 
 <script>
+import VuePreloader from '../preloader.vue';
+
 export default {
     mounted() {
-        this.getResults(),
-        this.getParentList()
+        this.getData(),
+            this.getParentList()
+    },
+    components: {
+        VuePreloader
     },
     data: function () {
         return {
+            preloader: true,
             parents: {},
             model_id: null,
             model: {
@@ -62,13 +70,15 @@ export default {
         }
     },
     methods: {
-        getResults: function () {
+        getData: function () {
             let app = this;
+            app.preloader = true;
             let id = app.$route.params.id;
             app.model_id = id;
             axios.get('/api/v1/wikipages/' + id + '/get/')
                 .then(function (resp) {
                     app.model = resp.data;
+                    app.preloader = false;
                 })
                 .catch(function () {
                     alert("Could not load your company")
@@ -76,25 +86,26 @@ export default {
         },
         getParentList: function () {
             var app = this;
+            app.preloader = true;
             axios.get('/api/v1/wikipages/parentlist')
                 .then(function (resp) {
                     app.parents = resp.data.data;
+                    app.preloader = false;
                 })
                 .catch(function (resp) {
                     alert("Could not load wikipage");
                 });
         },
         saveForm() {
-            event.preventDefault();
             var app = this;
+            app.preloader = true;
             var newModel = app.model;
-            axios.patch('/api/v1/wikipages/' + app.companyId + '/update/', newModel)
+            axios.post('/api/v1/wikipages/' + app.model_id + '/update', newModel)
                 .then(function (resp) {
-                    console.log(resp.data.data);
-                    app.model = resp.data;
+                    app.$router.push({name: 'wikipages_index'});
+                    app.preloader = false;
                 })
                 .catch(function (resp) {
-                    console.log(resp);
                     alert("Could not save form");
                 });
         }
