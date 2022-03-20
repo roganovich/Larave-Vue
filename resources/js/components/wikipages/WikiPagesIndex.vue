@@ -52,7 +52,7 @@
                             title="Удалить"
                             :to="{}"
                             class="btn btn-sm btn-danger"
-                            v-on:click="deleteEntry(wikipage.id, index)">
+                            v-on:click="deleteEntry(wikipage, index)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  class="bi bi-trash" viewBox="0 0 16 16">
                                 <path
@@ -122,31 +122,31 @@ export default {
     methods: {
         getResults: function () {
             var app = this;
+            app.preloader = false;
             app.search = true;
-            app.preloader = true;
             this.wikipagesearch.page = this.wikipages.meta.current_page;
-            console.log(this.wikipagesearch);
             axios.post('/api/v1/wikipages', this.wikipagesearch)
                 .then(function (resp) {
-                    console.log(resp.data.data);
                     app.wikipages = resp.data;
-                    app.preloader = false;
                     app.search = false;
                 })
                 .catch(function (resp) {
-                    alert("Could not load wikipage");
+                    alert("Не смог получить данные");
                 });
         },
-        deleteEntry: function (id, index) {
-            if (confirm("Do you really want to delete it?")) {
+        deleteEntry: function (wikipage, index) {
+            if (confirm("Вы действительно хотите " + wikipage.title + " запись?")) {
                 var app = this;
-                axios.delete('/api/v1/wikipages/' + id)
+                app.search = true;
+                axios.delete('/api/v1/wikipages/' + wikipage.id + '/destroy')
                     .then(function (resp) {
-                        app.wikipages.splice(index, 1);
+                        app.search = false;
+                        app.$router.push({name: 'wikipages_index'});
                     })
                     .catch(function (resp) {
-                        alert("Could not delete wikipage");
+                        alert("Не смог удалить данные");
                     });
+                this.getResults();
             }
         },
         short_date(date) {

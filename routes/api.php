@@ -18,15 +18,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Страницы WIKI
 Route::group(['prefix' => '/v1/wikipages/'], function(){
+    // Список, поиск записей
     Route::post('', [\App\Http\Controllers\Api\V1\WikipagesController::class, 'index']);
+    // Создание новой записи
     Route::post('store', [\App\Http\Controllers\Api\V1\WikipagesController::class, 'store']);
+    // Получить данные записи
     Route::get('{id}/get', [\App\Http\Controllers\Api\V1\WikipagesController::class, 'get']);
+    // Обновить запись
     Route::post('{id}/update', [\App\Http\Controllers\Api\V1\WikipagesController::class, 'update']);
-    Route::post('{id}/destroy', [\App\Http\Controllers\Api\V1\WikipagesController::class, 'destroy']);
-
+    // Удалить запись
+    Route::delete('{id}/destroy', [\App\Http\Controllers\Api\V1\WikipagesController::class, 'destroy']);
+    // Пролучить категории
     Route::get('parentlist', [\App\Http\Controllers\Api\V1\WikipagesController::class, 'parentlist']);
-
-
 });
 

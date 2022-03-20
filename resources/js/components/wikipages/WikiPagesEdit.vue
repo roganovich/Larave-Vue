@@ -1,7 +1,7 @@
 <template>
     <div class="p-1">
         <div class="form-group mt-1">
-            <router-link to="/" class="btn btn-dark btn-sm">Back</router-link>
+            <router-link :to="{name: 'wikipages_index'}" class="btn btn-dark btn-sm" title="Назад">Назад</router-link>
         </div>
     </div>
     <div v-if="preloader">
@@ -68,7 +68,7 @@ import VuePreloader from '../preloader.vue';
 export default {
     mounted() {
         this.getData(),
-            this.getParentList()
+        this.getParentList()
     },
     components: {
         VuePreloader
@@ -99,7 +99,7 @@ export default {
                     app.preloader = false;
                 })
                 .catch(function () {
-                    alert("Could not load your company")
+                    alert("Не смог получить данные")
                 });
         },
         getParentList: function () {
@@ -111,7 +111,7 @@ export default {
                     app.preloader = false;
                 })
                 .catch(function (resp) {
-                    alert("Could not load wikipage");
+                    alert("Не смог получить данные");
                 });
         },
         saveForm(e) {
@@ -127,7 +127,7 @@ export default {
                         app.preloader = false;
                     })
                     .catch(function (resp) {
-                        alert("Could not save form");
+                        alert("Не смог сохранить форму");
                     });
             }
         },

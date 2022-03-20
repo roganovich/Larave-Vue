@@ -112,17 +112,15 @@ export default {
             axios.get('/api/v1/wikipages/parentlist')
                 .then(function (resp) {
                     app.parents = resp.data.data;
-                    console.log(resp.data.data)
                 })
                 .catch(function (resp) {
-                    alert("Could not load wikipage");
+                    alert("Не смог получить данные");
                 });
         },
         onFormSubmit: function () {
             //this.wikipagesearch.search.title = '1234';
-            console.log('submit');
+            console.log('search');
             //this.$emit('submit');
-
         },
     },
 }

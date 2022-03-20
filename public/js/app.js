@@ -22853,10 +22853,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _preloader_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../preloader.vue */ "./resources/js/components/preloader.vue");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  mounted: function mounted() {
+    this.getParentList();
+  },
+  components: {
+    VuePreloader: _preloader_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
-      wikipage: {
+      preloader: true,
+      errors: {},
+      parents: {},
+      model_id: null,
+      model: {
+        id: '',
         title: '',
         parent_id: '',
         description: ''
@@ -22864,18 +22877,45 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    saveForm: function saveForm() {
-      event.preventDefault();
+    getParentList: function getParentList() {
       var app = this;
-      var item = app.wikipage;
-      axios.post('/api/v1/wikipages/store', item).then(function (resp) {
-        app.$router.push({
-          path: '/'
-        });
+      app.preloader = true;
+      axios.get('/api/v1/wikipages/parentlist').then(function (resp) {
+        app.parents = resp.data.data;
+        app.preloader = false;
       })["catch"](function (resp) {
-        console.log(resp);
-        alert("Could not create your wikipage");
+        alert("Не смог получить данные");
       });
+    },
+    saveForm: function saveForm(e) {
+      var app = this;
+      this.validate();
+      console.log(app.errors);
+
+      if (!Object.keys(app.errors).length) {
+        app.preloader = true;
+        var newModel = app.model;
+        axios.post('/api/v1/wikipages/store', newModel).then(function (resp) {
+          app.$router.push({
+            name: 'wikipages_index'
+          });
+          app.preloader = false;
+        })["catch"](function (resp) {
+          alert("Не смог сохранить форму");
+        });
+      }
+    },
+    validate: function validate(e) {
+      var app = this;
+      app.errors = [];
+
+      if (!app.model.title) {
+        app.errors.title = 'Требуется указать Заголовок.';
+      }
+
+      if (!app.model.description) {
+        app.errors.description = 'Требуется указать Описание.';
+      }
     }
   }
 });
@@ -22926,7 +22966,7 @@ __webpack_require__.r(__webpack_exports__);
         app.model = resp.data;
         app.preloader = false;
       })["catch"](function () {
-        alert("Could not load your company");
+        alert("Не смог получить данные");
       });
     },
     getParentList: function getParentList() {
@@ -22936,7 +22976,7 @@ __webpack_require__.r(__webpack_exports__);
         app.parents = resp.data.data;
         app.preloader = false;
       })["catch"](function (resp) {
-        alert("Could not load wikipage");
+        alert("Не смог получить данные");
       });
     },
     saveForm: function saveForm(e) {
@@ -22953,7 +22993,7 @@ __webpack_require__.r(__webpack_exports__);
           });
           app.preloader = false;
         })["catch"](function (resp) {
-          alert("Could not save form");
+          alert("Не смог сохранить форму");
         });
       }
     },
@@ -23035,27 +23075,29 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     getResults: function getResults() {
       var app = this;
+      app.preloader = false;
       app.search = true;
-      app.preloader = true;
       this.wikipagesearch.page = this.wikipages.meta.current_page;
-      console.log(this.wikipagesearch);
       axios.post('/api/v1/wikipages', this.wikipagesearch).then(function (resp) {
-        console.log(resp.data.data);
         app.wikipages = resp.data;
-        app.preloader = false;
         app.search = false;
       })["catch"](function (resp) {
-        alert("Could not load wikipage");
+        alert("Не смог получить данные");
       });
     },
-    deleteEntry: function deleteEntry(id, index) {
-      if (confirm("Do you really want to delete it?")) {
+    deleteEntry: function deleteEntry(wikipage, index) {
+      if (confirm("Вы действительно хотите " + wikipage.title + " запись?")) {
         var app = this;
-        axios["delete"]('/api/v1/wikipages/' + id).then(function (resp) {
-          app.wikipages.splice(index, 1);
+        app.search = true;
+        axios["delete"]('/api/v1/wikipages/' + wikipage.id + '/destroy').then(function (resp) {
+          app.search = false;
+          app.$router.push({
+            name: 'wikipages_index'
+          });
         })["catch"](function (resp) {
-          alert("Could not delete wikipage");
+          alert("Не смог удалить данные");
         });
+        this.getResults();
       }
     },
     short_date: function short_date(date) {
@@ -23094,14 +23136,13 @@ __webpack_require__.r(__webpack_exports__);
       var app = this;
       axios.get('/api/v1/wikipages/parentlist').then(function (resp) {
         app.parents = resp.data.data;
-        console.log(resp.data.data);
       })["catch"](function (resp) {
-        alert("Could not load wikipage");
+        alert("Не смог получить данные");
       });
     },
     onFormSubmit: function onFormSubmit() {
       //this.wikipagesearch.search.title = '1234';
-      console.log('submit'); //this.$emit('submit');
+      console.log('search'); //this.$emit('submit');
     }
   }
 });
@@ -23475,61 +23516,83 @@ var _hoisted_2 = {
   "class": "form-group mt-1"
 };
 
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Back");
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Назад");
 
 var _hoisted_4 = {
+  key: 0
+};
+var _hoisted_5 = {
+  key: 1,
   "class": "mt-1"
 };
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "card-title mt-1"
-}, "Новая запись", -1
+}, "Создание", -1
 /* HOISTED */
 );
 
-var _hoisted_6 = {
+var _hoisted_7 = {
   "class": "p-1"
 };
-var _hoisted_7 = {
+var _hoisted_8 = {
   "class": "row"
 };
-var _hoisted_8 = {
+var _hoisted_9 = {
   "class": "col-xs-12 form-group"
 };
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "class": "control-label"
 }, "Заголовок", -1
 /* HOISTED */
 );
 
-var _hoisted_10 = {
+var _hoisted_11 = {
+  key: 0,
+  "class": "invalid-feedback"
+};
+var _hoisted_12 = {
   "class": "row"
 };
-var _hoisted_11 = {
+var _hoisted_13 = {
   "class": "col-xs-12 form-group"
 };
 
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "class": "control-label"
 }, "Родитель", -1
 /* HOISTED */
 );
 
-var _hoisted_13 = {
-  "class": "row"
-};
-var _hoisted_14 = {
-  "class": "col-xs-12 form-group"
-};
-
-var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "control-label"
-}, "Обновлен", -1
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", null, null, -1
 /* HOISTED */
 );
 
-var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_16 = ["value"];
+var _hoisted_17 = {
+  key: 0,
+  "class": "invalid-feedback"
+};
+var _hoisted_18 = {
+  "class": "row"
+};
+var _hoisted_19 = {
+  "class": "col-xs-12 form-group"
+};
+
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "control-label"
+}, "Описание", -1
+/* HOISTED */
+);
+
+var _hoisted_21 = {
+  key: 0,
+  "class": "invalid-feedback"
+};
+
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "row mt-3"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "col-xs-12 form-group"
@@ -23542,9 +23605,14 @@ var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
-    to: "/",
-    "class": "btn btn-dark btn-sm"
+  var _component_vue_preloader = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("vue-preloader");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    to: {
+      name: 'wikipages_index'
+    },
+    "class": "btn btn-dark btn-sm",
+    title: "Назад"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [_hoisted_3];
@@ -23552,37 +23620,59 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onSubmit: _cache[3] || (_cache[3] = function ($event) {
+  })])]), _ctx.preloader ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_vue_preloader)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return $options.saveForm();
-    })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, ["prevent"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.wikipage.title = $event;
+      return _ctx.model.title = $event;
     }),
-    "class": "form-control"
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.wikipage.title]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "text",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control", {
+      'is-invalid': _ctx.errors.title
+    }])
+  }, null, 2
+  /* CLASS */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.model.title]]), _ctx.errors.title ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.errors.title), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.wikipage.parent_id = $event;
+      return _ctx.model.parent_id = $event;
     }),
-    "class": "form-control"
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.wikipage.parent_id]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "text",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control", {
+      'is-invalid': _ctx.errors.parent_id
+    }]),
+    id: "inputSearchParent"
+  }, [_hoisted_15, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.parents, function (item, id) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      value: item.id
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 9
+    /* TEXT, PROPS */
+    , _hoisted_16);
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  ))], 2
+  /* CLASS */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.model.parent_id]]), _ctx.errors.parent_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.errors.parent_id), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.wikipage.description = $event;
+      return _ctx.model.description = $event;
     }),
-    "class": "form-control"
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.wikipage.description]])])]), _hoisted_16], 32
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control", {
+      'is-invalid': _ctx.errors.description
+    }]),
+    rows: "3"
+  }, null, 2
+  /* CLASS */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.model.description]]), _ctx.errors.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.errors.description), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), _hoisted_22], 32
   /* HYDRATE_EVENTS */
-  )])])]);
+  )])]))], 64
+  /* STABLE_FRAGMENT */
+  );
 }
 
 /***/ }),
@@ -23607,7 +23697,7 @@ var _hoisted_2 = {
   "class": "form-group mt-1"
 };
 
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Back");
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Назад");
 
 var _hoisted_4 = {
   key: 0
@@ -23695,8 +23785,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_vue_preloader = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("vue-preloader");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
-    to: "/",
-    "class": "btn btn-dark btn-sm"
+    to: {
+      name: 'wikipages_index'
+    },
+    "class": "btn btn-dark btn-sm",
+    title: "Назад"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [_hoisted_3];
@@ -23905,7 +23998,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       to: {},
       "class": "btn btn-sm btn-danger",
       onClick: function onClick($event) {
-        return $options.deleteEntry(wikipage.id, index);
+        return $options.deleteEntry(wikipage, index);
       }
     }, {
       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
