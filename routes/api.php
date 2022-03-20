@@ -32,5 +32,7 @@ Route::group(['prefix' => '/v1/wikipages/'], function(){
     Route::delete('{id}/destroy', [\App\Http\Controllers\Api\V1\WikipagesController::class, 'destroy']);
     // Пролучить категории
     Route::get('parentlist', [\App\Http\Controllers\Api\V1\WikipagesController::class, 'parentlist']);
+    // Пролучить категории
+    Route::post('addimage', [\App\Http\Controllers\Api\V1\WikipagesController::class, 'addimage']);
 });
 

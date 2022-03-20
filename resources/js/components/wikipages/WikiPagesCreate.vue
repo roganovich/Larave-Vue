@@ -43,10 +43,15 @@
                 <div class="row">
                     <div class="col-xs-12 form-group">
                         <label class="control-label">Описание</label>
-                        <textarea v-model="model.description"
-                                  class="form-control"
-                                  v-bind:class="{ 'is-invalid': errors.description }"
-                                  rows="3"></textarea>
+                        <vue-editor
+                            id="editor"
+                            useCustomImageHandler
+                            @imageAdded="handleImageAdded"
+                            class="form-control"
+                            v-bind:class="{ 'is-invalid': errors.description }"
+                            v-model="model.description"
+                        >
+                        </vue-editor>
                         <div class="invalid-feedback" v-if="errors.description">
                             {{ errors.description }}
                         </div>
@@ -64,13 +69,15 @@
 
 <script>
 import VuePreloader from '../preloader.vue';
+import {VueEditor} from "vue3-editor";
 
 export default {
     mounted() {
         this.getParentList()
     },
     components: {
-        VuePreloader
+        VuePreloader,
+        VueEditor
     },
     data: function () {
         return {
@@ -115,6 +122,22 @@ export default {
                         alert("Не смог сохранить форму");
                     });
             }
+        },
+        handleImageAdded: function (file, Editor, cursorLocation, resetUploader) {
+            var app = this;
+
+            var formData = new FormData();
+            formData.append("image", file);
+
+            axios.post('/api/v1/wikipages/addimage', formData)
+                .then(function (resp) {
+                    const url = resp.data.url; // Get url from response
+                    Editor.insertEmbed(cursorLocation, "image", url);
+                    resetUploader();
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         },
         validate: function (e) {
             var app = this;

@@ -23,7 +23,6 @@
                     </svg>
                 </a>
             </li>
-
             <li class="page-item" v-if="pagination.meta.current_page < pagination.meta.last_page">
                 <a class="page-link" href="javascript:void(0)" aria-label="Next" v-on:click.prevent="changePage(pagination.meta.last_page)" title="В конец">
                     Конец
