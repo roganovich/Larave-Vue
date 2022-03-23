@@ -36,3 +36,18 @@ Route::group(['prefix' => '/v1/wikipages/'], function(){
     Route::post('addimage', [\App\Http\Controllers\Api\V1\WikipagesController::class, 'addimage']);
 });
 
+
+// Страницы Users
+Route::group(['prefix' => '/v1/users/'], function(){
+    // Список, поиск записей
+    Route::post('', [\App\Http\Controllers\Api\V1\UsersController::class, 'index']);
+    // Создание новой записи
+    Route::post('store', [\App\Http\Controllers\Api\V1\UsersController::class, 'store']);
+    // Получить данные записи
+    Route::get('{id}/get', [\App\Http\Controllers\Api\V1\UsersController::class, 'get']);
+    // Обновить запись
+    Route::post('{id}/update', [\App\Http\Controllers\Api\V1\UsersController::class, 'update']);
+    // Удалить запись
+    Route::delete('{id}/destroy', [\App\Http\Controllers\Api\V1\UsersController::class, 'destroy']);
+});
+

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filters\wikipages;
+namespace App\Filters;
 
-class UpdateatSort
+class UpdateAtSort
 {
     public function filter($builder, $value)
     {

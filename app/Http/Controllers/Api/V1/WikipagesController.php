@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\WikiPage\WikiPageResourceCollection;
+use App\Http\Traits\UploadTrait;
 use App\Models\Wikipage;
 use Illuminate\Http\Request;
-use App\Http\Resources\WikiPageResourceCollection;
-use App\Http\Traits\UploadTrait;
 
 class WikipagesController extends Controller
 {
@@ -44,7 +44,13 @@ class WikipagesController extends Controller
      */
     public function store(Request $request)
     {
-        $model = Wikipage::create($request->all());
+        $validate = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'parent_id' => 'numeric|nullable',
+        ]);
+
+        $model = Wikipage::create($validate);
         return $model;
     }
 
@@ -68,8 +74,14 @@ class WikipagesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validate = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'parent_id' => 'numeric|nullable',
+        ]);
+
         $model = Wikipage::findOrFail($id);
-        $model->update($request->all());
+        $model->update($validate);
 
         return $model;
     }

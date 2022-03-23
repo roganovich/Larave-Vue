@@ -13,30 +13,33 @@
                     <form @submit.prevent="onFormSubmit">
                         <div class="row p-1">
                             <h6 class="card-title">Поиск</h6>
-                            <div class="col-md-3 col-g-2">
-                                <label for="inputSearchTitle" class="form-label">Заголовок</label>
-                                <input v-model="wikipagesearch.search.title"
+                            <div class="col-md-2 col-g-2">
+                                <label for="inputSearchName" class="form-label">Имя</label>
+                                <input v-model="usersearch.search.name"
                                        type="text"
                                        class= "form-control form-control-sm"
-                                       id="inputSearchTitle"
-                                       placeholder="Поиск по заголовку">
-                            </div>
-                            <div class="col-md-3 col-g-2">
-                                <label for="inputSearchDescription" class="form-label">В тексте</label>
-                                <input v-model="wikipagesearch.search.description"
-                                       type="text" class= "form-control form-control-sm"
-                                       id="inputSearchDescription"
-                                       placeholder="Поиск в содержимом">
+                                       id="inputSearchName"
+                                       placeholder="Поиск по имени">
                             </div>
 
-                            <div class="col-md-3 col-g-2">
-                                <label for="inputSearchParent" class="form-label">Родитель</label>
-                                <select v-model="wikipagesearch.search.parent"
+                            <div class="col-md-2 col-g-2">
+                                <label for="inputSearchEmail" class="form-label">Email</label>
+                                <input v-model="usersearch.search.email"
+                                       type="text"
+                                       class= "form-control form-control-sm"
+                                       id="inputSearchEmail"
+                                       placeholder="Поиск по Email">
+                            </div>
+
+                            <div class="col-md-2 col-g-2">
+                                <label for="inputSearchVerified" class="form-label">Верифицирован</label>
+                                <select v-model="usersearch.search.email_verified_at"
                                         class= "form-control form-control-sm"
-                                        id="inputSearchParent">
+                                        id="inputSearchVerified">
                                     <option value="">Выбрать</option>
-                                    <option v-for="(item, id) in parents" :value="item.id">
-                                        {{ item.title }}
+                                    <option v-for="(item, id) in {'yes':'Да', 'no': 'Нет'}"
+                                            :value="id">
+                                        {{ item }}
                                     </option>
                                 </select>
                             </div>
@@ -44,10 +47,10 @@
                         <div class="row p-1">
                             <h6 class="card-title">Сортировка</h6>
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSortTitle" class="form-label">Заголовок</label>
-                                <select v-model="wikipagesearch.sort.title"
+                                <label for="inputSortName" class="form-label">Имя</label>
+                                <select v-model="usersearch.sort.name"
                                         class="form-control form-control-sm"
-                                        id="inputSortTitle">
+                                        id="inputSortName">
                                     <option value="">Выбрать</option>
                                     <option v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}"
                                             :value="id">
@@ -56,10 +59,10 @@
                                 </select>
                             </div>
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSortParent" class="form-label">Дата обновления</label>
-                                <select v-model="wikipagesearch.sort.parent"
+                                <label for="inputSortEmail" class="form-label">Email</label>
+                                <select v-model="usersearch.sort.email"
                                         class="form-control form-control-sm"
-                                        id="inputSortParent">
+                                        id="inputSortEmail">
                                     <option value="">Выбрать</option>
                                     <option v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}"
                                             :value="id">
@@ -68,10 +71,22 @@
                                 </select>
                             </div>
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSortUpdated" class="form-label">Дата обновления</label>
-                                <select v-model="wikipagesearch.sort.updated_at"
+                                <label for="inputSortCreadated" class="form-label">Дата создания</label>
+                                <select v-model="usersearch.sort.created_at"
                                         class="form-control form-control-sm"
-                                        id="inputSortUpdated">
+                                        id="inputSortCreadated">
+                                    <option value="">Выбрать</option>
+                                    <option v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}"
+                                            :value="id">
+                                        {{ item }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 col-g-2">
+                                <label for="inputSortVerified" class="form-label">Верификация</label>
+                                <select v-model="usersearch.sort.email_verified_at"
+                                        class="form-control form-control-sm"
+                                        id="inputSortVerified">
                                     <option value="">Выбрать</option>
                                     <option v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}"
                                             :value="id">
@@ -97,29 +112,16 @@
 
 export default {
     props: {
-        wikipagesearch: Object,
+        usersearch: Object,
     },
     data: function () {
         return {
             parents: {}
         }
     },
-    mounted() {
-        this.getParentList()
-    },
     methods: {
-        getParentList: function () {
-            var app = this;
-            axios.get('/api/v1/wikipages/parentlist')
-                .then(function (resp) {
-                    app.parents = resp.data.data;
-                })
-                .catch(function (resp) {
-                    alert("Не смог получить данные");
-                });
-        },
         onFormSubmit: function () {
-            //this.wikipagesearch.search.title = '1234';
+            //this.usersearch.search.title = '1234';
             console.log('search');
             //this.$emit('submit');
         },

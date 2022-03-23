@@ -108,20 +108,20 @@ export default {
         },
         saveForm(e) {
             var app = this;
-            this.validate();
-            console.log(app.errors);
-            if (!Object.keys(app.errors).length) {
-                app.preloader = true;
-                var newModel = app.model;
-                axios.post('/api/v1/wikipages/store', newModel)
-                    .then(function (resp) {
-                        app.$router.push({name: 'wikipages_index'});
-                        app.preloader = false;
-                    })
-                    .catch(function (resp) {
-                        alert("Не смог сохранить форму");
-                    });
-            }
+            app.preloader = true;
+            var newModel = app.model;
+            axios.post('/api/v1/wikipages/store', newModel)
+                .then(function (resp) {
+                    app.$router.push({name: 'wikipages_index'});
+                    app.preloader = false;
+                })
+                .catch(function (resp) {
+                    var errors = resp.response.data.errors;
+                    for (var row in errors) {
+                        app.errors[row] = errors[row][0];
+                    }
+                });
+            app.preloader = false;
         },
         handleImageAdded: function (file, Editor, cursorLocation, resetUploader) {
             var app = this;
@@ -138,16 +138,6 @@ export default {
                 .catch(err => {
                     console.log(err);
                 });
-        },
-        validate: function (e) {
-            var app = this;
-            app.errors = [];
-            if (!app.model.title) {
-                app.errors.title = 'Требуется указать Заголовок.';
-            }
-            if (!app.model.description) {
-                app.errors.description = 'Требуется указать Описание.';
-            }
         }
     }
 }

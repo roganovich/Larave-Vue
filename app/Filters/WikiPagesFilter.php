@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Filters\wikipages;
-
-use App\Filters\AbstractFilter;
+namespace App\Filters;
 
 class WikiPagesFilter extends AbstractFilter
 {
@@ -15,8 +13,6 @@ class WikiPagesFilter extends AbstractFilter
     protected $sortables = [
         'title' => TitleSort::class,
         'parent' => ParentSort::class,
-        'updated_at' => UpdateatSort::class,
+        'updated_at' => UpdateAtSort::class,
     ];
-
-
 }

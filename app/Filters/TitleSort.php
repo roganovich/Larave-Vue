@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filters\wikipages;
+namespace App\Filters;
 
 class TitleSort
 {
