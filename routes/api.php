@@ -36,7 +36,6 @@ Route::group(['prefix' => '/v1/wikipages/'], function(){
     Route::post('addimage', [\App\Http\Controllers\Api\V1\WikipagesController::class, 'addimage']);
 });
 
-
 // Страницы Users
 Route::group(['prefix' => '/v1/users/'], function(){
     // Список, поиск записей
@@ -51,3 +50,12 @@ Route::group(['prefix' => '/v1/users/'], function(){
     Route::delete('{id}/destroy', [\App\Http\Controllers\Api\V1\UsersController::class, 'destroy']);
 });
 
+// Страницы Permissions
+Route::group(['prefix' => '/v1/permissions/'], function(){
+    // Список, поиск записей
+    Route::post('', [\App\Http\Controllers\Api\V1\PermissionsController::class, 'index']);
+    // Получить данные записи
+    Route::get('{id}/get', [\App\Http\Controllers\Api\V1\PermissionsController::class, 'get']);
+    // Обновить запись
+    Route::post('{id}/update', [\App\Http\Controllers\Api\V1\PermissionsController::class, 'update']);
+});

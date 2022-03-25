@@ -5,14 +5,14 @@ namespace App\Filters;
 class WikiPagesFilter extends AbstractFilter
 {
     protected $filters = [
-        'title' => TitleFilter::class,
-        'description' => DescriptionFilter::class,
-        'parent' => ParentFilter::class,
+        'title' => LikeFilter::class,
+        'description' => LikeFilter::class,
+        'parent' => EqualFilter::class,
     ];
 
     protected $sortables = [
-        'title' => TitleSort::class,
+        'title' => DefaultSort::class,
         'parent' => ParentSort::class,
-        'updated_at' => UpdateAtSort::class,
+        'updated_at' => DefaultSort::class,
     ];
 }

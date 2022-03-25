@@ -6,6 +6,11 @@ import UsersIndex from './components/users/UsersIndex.vue';
 import UsersCreate from './components/users/UsersCreate.vue';
 import UsersEdit from './components/users/UsersEdit.vue';
 
+import PermissionsIndex from './components/permissions/PermissionsIndex.vue';
+import PermissionsCreate from './components/permissions/PermissionsCreate.vue';
+import PermissionsEdit from './components/permissions/PermissionsEdit.vue';
+
+
 export const routes = [
     {
         name: 'wikipages_index',
@@ -36,5 +41,15 @@ export const routes = [
         name: 'users_edit',
         path: '/admin/users/edit/:id',
         component: UsersEdit
+    },
+    {
+        name: 'permissions_index',
+        path: '/admin/permissions',
+        component: PermissionsIndex
+    },
+    {
+        name: 'permissions_edit',
+        path: '/admin/permissions/edit/:id',
+        component: PermissionsEdit
     }
 ];

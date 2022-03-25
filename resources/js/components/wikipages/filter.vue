@@ -2,10 +2,10 @@
     <div class="accordion" id="accordionFilter">
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button p-1" type="button" data-bs-toggle="collapse"
+                <a class="accordion-button p-1" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
                     Фильтрация
-                </button>
+                </a>
             </h2>
             <div id="collapseFilter" class="accordion-collapse collapse hide" aria-labelledby="headingOne"
                  data-bs-parent="#accordionFilter">
@@ -15,7 +15,7 @@
                             <h6 class="card-title">Поиск</h6>
                             <div class="col-md-3 col-g-2">
                                 <label for="inputSearchTitle" class="form-label">Заголовок</label>
-                                <input v-model="wikipagesearch.search.title"
+                                <input v-model="itemssearch.search.title"
                                        type="text"
                                        class= "form-control form-control-sm"
                                        id="inputSearchTitle"
@@ -23,7 +23,7 @@
                             </div>
                             <div class="col-md-3 col-g-2">
                                 <label for="inputSearchDescription" class="form-label">В тексте</label>
-                                <input v-model="wikipagesearch.search.description"
+                                <input v-model="itemssearch.search.description"
                                        type="text" class= "form-control form-control-sm"
                                        id="inputSearchDescription"
                                        placeholder="Поиск в содержимом">
@@ -31,7 +31,7 @@
 
                             <div class="col-md-3 col-g-2">
                                 <label for="inputSearchParent" class="form-label">Родитель</label>
-                                <select v-model="wikipagesearch.search.parent"
+                                <select v-model="itemssearch.search.parent"
                                         class= "form-control form-control-sm"
                                         id="inputSearchParent">
                                     <option value="">Выбрать</option>
@@ -45,39 +45,30 @@
                             <h6 class="card-title">Сортировка</h6>
                             <div class="col-md-2 col-g-2">
                                 <label for="inputSortTitle" class="form-label">Заголовок</label>
-                                <select v-model="wikipagesearch.sort.title"
-                                        class="form-control form-control-sm"
-                                        id="inputSortTitle">
-                                    <option value="">Выбрать</option>
-                                    <option v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}"
-                                            :value="id">
+                                <div class="form-check" v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}">
+                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.title" :id="'inputSortTitle' + id" :value="id">
+                                    <label class="form-check-label" :for="'inputSortTitle' + id">
                                         {{ item }}
-                                    </option>
-                                </select>
+                                    </label>
+                                </div>
                             </div>
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSortParent" class="form-label">Дата обновления</label>
-                                <select v-model="wikipagesearch.sort.parent"
-                                        class="form-control form-control-sm"
-                                        id="inputSortParent">
-                                    <option value="">Выбрать</option>
-                                    <option v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}"
-                                            :value="id">
+                                <label for="inputSortParent" class="form-label">Родитель</label>
+                                <div class="form-check" v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}">
+                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.parent" :id="'inputSortParent' + id" :value="id">
+                                    <label class="form-check-label" :for="'inputSortParent' + id">
                                         {{ item }}
-                                    </option>
-                                </select>
+                                    </label>
+                                </div>
                             </div>
                             <div class="col-md-2 col-g-2">
                                 <label for="inputSortUpdated" class="form-label">Дата обновления</label>
-                                <select v-model="wikipagesearch.sort.updated_at"
-                                        class="form-control form-control-sm"
-                                        id="inputSortUpdated">
-                                    <option value="">Выбрать</option>
-                                    <option v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}"
-                                            :value="id">
+                                <div class="form-check" v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}">
+                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.updated_at" :id="'inputSortUpdated' + id" :value="id">
+                                    <label class="form-check-label" :for="'inputSortUpdated' + id">
                                         {{ item }}
-                                    </option>
-                                </select>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div class="row p-1">
@@ -97,7 +88,7 @@
 
 export default {
     props: {
-        wikipagesearch: Object,
+        itemssearch: Object,
     },
     data: function () {
         return {
@@ -119,7 +110,7 @@ export default {
                 });
         },
         onFormSubmit: function () {
-            //this.wikipagesearch.search.title = '1234';
+            //this.itemssearch.search.title = '1234';
             console.log('search');
             //this.$emit('submit');
         },

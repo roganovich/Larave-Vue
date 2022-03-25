@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Users\UsersResource;
 use App\Http\Resources\Users\UsersResourceCollection;
+use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -24,7 +26,6 @@ class UsersController extends Controller
             ->sort($request->sort)
             ->paginate(20);
         return new UsersResourceCollection($query);
-
     }
 
     /**
@@ -42,7 +43,7 @@ class UsersController extends Controller
             'password2' => 'min:6'
         ]);
 
-        if($password = Arr::get($validate,'password'))
+        if ($password = Arr::get($validate, 'password'))
             $validate['password'] = Hash::make($password);
 
         $model = User::create($validate);
@@ -76,7 +77,7 @@ class UsersController extends Controller
             'password2' => 'min:6'
         ]);
 
-        if($password = Arr::get($validate,'password'))
+        if ($password = Arr::get($validate, 'password'))
             $validate['password'] = Hash::make($password);
 
         $model = User::findOrFail($id);

@@ -23,7 +23,7 @@ abstract class AbstractFilter
     public function filter(Builder $builder)
     {
         foreach ($this->getFilters() as $filter => $value) {
-            $this->resolveFilter($filter)->filter($builder, $value);
+            $this->resolveFilter($filter)->filter($builder, $value, $filter);
         }
         return $builder;
     }
@@ -46,7 +46,7 @@ abstract class AbstractFilter
     public function sortable(Builder $builder)
     {
         foreach ($this->getSortables() as $filter => $value) {
-            $this->resolveSort($filter)->filter($builder, $value);
+            $this->resolveSort($filter)->filter($builder, $value, $filter);
         }
         return $builder;
     }

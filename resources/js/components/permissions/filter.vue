@@ -14,70 +14,81 @@
                         <div class="row p-1">
                             <h6 class="card-title">Поиск</h6>
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSearchName" class="form-label">Имя</label>
-                                <input v-model="itemssearch.search.name"
-                                       type="text"
-                                       class= "form-control form-control-sm"
-                                       id="inputSearchName"
-                                       placeholder="Поиск по имени">
-                            </div>
-
-                            <div class="col-md-2 col-g-2">
-                                <label for="inputSearchEmail" class="form-label">Email</label>
-                                <input v-model="itemssearch.search.email"
-                                       type="text"
-                                       class= "form-control form-control-sm"
-                                       id="inputSearchEmail"
-                                       placeholder="Поиск по Email">
-                            </div>
-
-                            <div class="col-md-2 col-g-2">
-                                <label for="inputSearchVerified" class="form-label">Верифицирован</label>
-                                <select v-model="itemssearch.search.email_verified_at"
+                                <label for="inputSearchModule" class="form-label">Модуль</label>
+                                <select v-model="itemssearch.search.module"
                                         class= "form-control form-control-sm"
-                                        id="inputSearchVerified">
+                                        id="inputSearchModule">
                                     <option value="">Выбрать</option>
-                                    <option v-for="(item, id) in {'yes':'Да', 'no': 'Нет'}"
+                                    <option v-for="(item, id) in {'admin':'Админ', 'cabinet': 'Кабинет'}"
                                             :value="id">
                                         {{ item }}
                                     </option>
                                 </select>
                             </div>
+
+                            <div class="col-md-2 col-g-2">
+                                <label for="inputSearchTitle" class="form-label">Описание</label>
+                                <input v-model="itemssearch.search.title"
+                                       type="text"
+                                       class= "form-control form-control-sm"
+                                       id="inputSearchTitle"
+                                       placeholder="Поиск по Описанию">
+                            </div>
+
+                            <div class="col-md-2 col-g-2">
+                                <label for="inputSearchRouteName" class="form-label">Маршрут</label>
+                                <input v-model="itemssearch.search.route_name"
+                                       type="text"
+                                       class= "form-control form-control-sm"
+                                       id="inputSearchRouteName"
+                                       placeholder="Поиск по Маршруту">
+                            </div>
+
+
+                            <div class="col-md-2 col-g-2">
+                                <label for="inputSearchRoutePath" class="form-label">Путь</label>
+                                <input v-model="itemssearch.search.route_path"
+                                       type="text"
+                                       class= "form-control form-control-sm"
+                                       id="inputSearchRoutePath"
+                                       placeholder="Поиск по Пути">
+                            </div>
+
                         </div>
                         <div class="row p-1">
                             <h6 class="card-title">Сортировка</h6>
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSortName" class="form-label">Имя</label>
+                                <label for="inputSortModule" class="form-label">Модуль</label>
                                 <div class="form-check" v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}">
-                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.name" :id="'inputSortName' + id" :value="id">
-                                    <label class="form-check-label" :for="'inputSortName' + id">
+                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.module" :id="'inputSortModule' + id" :value="id">
+                                    <label class="form-check-label" :for="'inputSortModule' + id">
                                         {{ item }}
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSortEmail" class="form-label">Email</label>
+                                <label for="inputSortTitle" class="form-label">Описание</label>
                                 <div class="form-check" v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}">
-                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.email" :id="'inputSortEmail' + id" :value="id">
-                                    <label class="form-check-label" :for="'inputSortEmail' + id">
+                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.title" :id="'inputSortTitle' + id" :value="id">
+                                    <label class="form-check-label" :for="'inputSortTitle' + id">
                                         {{ item }}
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSortCreadated" class="form-label">Дата создания</label>
+                                <label for="inputSortRouteName" class="form-label">Маршрут</label>
                                 <div class="form-check" v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}">
-                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.created_at" :id="'inputSortCreadated' + id" :value="id">
-                                    <label class="form-check-label" :for="'inputSortCreadated' + id">
+                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.route_name" :id="'inputSortRouteName' + id" :value="id">
+                                    <label class="form-check-label" :for="'inputSortRouteName' + id">
                                         {{ item }}
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSortVerified" class="form-label">Верификация</label>
+                                <label for="inputSortRoutePath" class="form-label">Путь</label>
                                 <div class="form-check" v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}">
-                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.email_verified_at" :id="'inputSortVerified' + id" :value="id">
-                                    <label class="form-check-label" :for="'inputSortVerified' + id">
+                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.route_path" :id="'inputSortRoutePath' + id" :value="id">
+                                    <label class="form-check-label" :for="'inputSortRoutePath' + id">
                                         {{ item }}
                                     </label>
                                 </div>

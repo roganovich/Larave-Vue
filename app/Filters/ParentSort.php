@@ -4,7 +4,8 @@ namespace App\Filters;
 
 class ParentSort
 {
-    public function filter($builder, $value)
+    /** TODO. сделать сортировку по title родителя*/
+    public function filter($builder, $value, $filter = null)
     {
         if ($value)
             return $builder->orderBy('parent_id', $value);

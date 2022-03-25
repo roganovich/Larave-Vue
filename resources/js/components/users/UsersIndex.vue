@@ -15,7 +15,7 @@
 
         <div class="mt-1">
             <vue-filter
-                :usersearch="usersearch"
+                :itemssearch="itemssearch"
                 @submit="getResults()"></vue-filter>
         </div>
 
@@ -34,15 +34,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="user, index in users.data">
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ bool_to_text(user.email_verified_at) }}</td>
-                    <td>{{ short_date(user.created_at) }}</td>
+                <tr v-for="item, index in items.data">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ bool_to_text(item.email_verified_at) }}</td>
+                    <td>{{ short_date(item.created_at) }}</td>
                     <td>
                         <router-link
                             title="Редактировать"
-                            :to="{name: 'users_edit', params: {id: user.id}}"
+                            :to="{name: 'users_edit', params: {id: item.id}}"
                             class="btn btn-sm btn-success">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  class="bi bi-pencil" viewBox="0 0 16 16">
@@ -54,7 +54,7 @@
                             title="Удалить"
                             :to="{}"
                             class="btn btn-sm btn-danger"
-                            v-on:click="deleteEntry(user, index)">
+                            v-on:click="deleteEntry(item, index)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  class="bi bi-trash" viewBox="0 0 16 16">
                                 <path
@@ -68,7 +68,7 @@
                 </tbody>
             </table>
 
-            <vue-pagination :pagination="users"
+            <vue-pagination :pagination="items"
                             @paginate="getResults()"
                             :offset="4">
             </vue-pagination>
@@ -88,7 +88,7 @@ export default {
         return {
             preloader: true,
             search: true,
-            users: {
+            items: {
                 meta: {
                     total: 0,
                     per_page: 2,
@@ -98,7 +98,7 @@ export default {
                 }
             },
             offset: 4,
-            usersearch: {
+            itemssearch: {
                 search: {
                     name: '',
                     email: '',
@@ -128,21 +128,21 @@ export default {
             var app = this;
             app.preloader = false;
             app.search = true;
-            this.usersearch.page = this.users.meta.current_page;
-            axios.post('/api/v1/users', this.usersearch)
+            this.itemssearch.page = this.items.meta.current_page;
+            axios.post('/api/v1/users', this.itemssearch)
                 .then(function (resp) {
-                    app.users = resp.data;
+                    app.items = resp.data;
                     app.search = false;
                 })
                 .catch(function (resp) {
                     alert("Не смог получить данные");
                 });
         },
-        deleteEntry: function (user, index) {
-            if (confirm("Вы действительно хотите " + user.title + " запись?")) {
+        deleteEntry: function (item, index) {
+            if (confirm("Вы действительно хотите " + item.title + " запись?")) {
                 var app = this;
                 app.search = true;
-                axios.delete('/api/v1/users/' + user.id + '/destroy')
+                axios.delete('/api/v1/users/' + item.id + '/destroy')
                     .then(function (resp) {
                         app.search = false;
                         app.$router.push({name: 'users_index'});
