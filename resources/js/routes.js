@@ -5,11 +5,15 @@ import WikiPagesEdit from './components/wikipages/WikiPagesEdit.vue';
 import UsersIndex from './components/users/UsersIndex.vue';
 import UsersCreate from './components/users/UsersCreate.vue';
 import UsersEdit from './components/users/UsersEdit.vue';
+import UsersPermissions from './components/users/UsersPermissions.vue';
+
+import UsersRolesIndex from './components/usersroles/UsersRolesIndex.vue';
+import UsersRolesCreate from './components/usersroles/UsersRolesCreate.vue';
+import UsersRolesEdit from './components/usersroles/UsersRolesEdit.vue';
+import UsersRolesPermissions from './components/usersroles/UsersRolesPermissions.vue';
 
 import PermissionsIndex from './components/permissions/PermissionsIndex.vue';
-import PermissionsCreate from './components/permissions/PermissionsCreate.vue';
 import PermissionsEdit from './components/permissions/PermissionsEdit.vue';
-
 
 export const routes = [
     {
@@ -41,6 +45,31 @@ export const routes = [
         name: 'users_edit',
         path: '/admin/users/edit/:id',
         component: UsersEdit
+    },
+    {
+        name: 'users_permission',
+        path: '/admin/users/permission/:id',
+        component: UsersPermissions
+    },
+    {
+        name: 'usersroles_index',
+        path: '/admin/usersroles',
+        component: UsersRolesIndex
+    },
+    {
+        name: 'usersroles_create',
+        path: '/admin/usersroles/create',
+        component: UsersRolesCreate
+    },
+    {
+        name: 'usersroles_edit',
+        path: '/admin/usersroles/edit/:id',
+        component: UsersRolesEdit
+    },
+    {
+        name: 'usersroles_permission',
+        path: '/admin/usersroles/permission/:id',
+        component: UsersRolesPermissions
     },
     {
         name: 'permissions_index',

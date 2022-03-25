@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Permission\PermissionResourceCollection;
+use App\Http\Resources\Permissions\PermissionResourceCollection;
 use App\Models\Permission;
+use App\Models\UsersRole;
 use Illuminate\Http\Request;
+use App\Models\UsersRolesPermission;
 
 class PermissionsController extends Controller
 {
@@ -24,6 +26,25 @@ class PermissionsController extends Controller
             ->paginate(20);
         return new PermissionResourceCollection($query);
 
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list(Request $request)
+    {
+        $items = Permission::all();
+        $list = [];
+        foreach ($items as $item) {
+            $path_data = explode('/', $item->route_path);
+            $path_data = array_diff($path_data, array(''));
+            $module = $item->module;
+            $controller = $path_data[2];
+            $list[$module][$controller][] = $item;
+        }
+        return $list;
     }
 
     /**
@@ -55,4 +76,24 @@ class PermissionsController extends Controller
 
         return $model;
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function saveroles(Request $request, $id)
+    {
+        $role = UsersRole::findOrFail($id);
+        UsersRolesPermission::where(['role_id' => $role->id])->delete();
+        foreach ($request->permissions_ids as $key => $permissions_id) {
+            $item = new UsersRolesPermission();
+            $item->role_id = $role->id;
+            $item->permission_id = $permissions_id;
+            $item->save();
+        }
+    }
+
 }
