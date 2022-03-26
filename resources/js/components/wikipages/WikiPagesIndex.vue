@@ -5,7 +5,7 @@
 
     <div v-else>
         <div class="mt-1">
-            <h5 class="card-title">Список</h5>
+            <h5 class="card-title">{{ pageTitle }}</h5>
         </div>
         <div class="mt-1">
             <div class="form-group">
@@ -84,6 +84,7 @@ import moment from 'moment';
 export default {
     data: function () {
         return {
+            pageTitle: 'Список страниц WIKI',
             preloader: true,
             search: true,
             items: {
