@@ -1,7 +1,7 @@
 <template>
     <div class="p-1">
         <div class="form-group mt-1">
-            <router-link :to="{name: 'users_index'}" class="btn btn-dark btn-sm" title="Назад">Назад</router-link>
+            <router-link :to="{name: 'usersroles_index'}" class="btn btn-dark btn-sm" title="Назад">Назад</router-link>
         </div>
     </div>
     <div v-if="preloader">
@@ -53,7 +53,7 @@ import VuePreloader from '../preloader.vue';
 export default {
     mounted() {
         this.getData(),
-            this.getPermissionsList()
+        this.getPermissionsList()
     },
     components: {
         VuePreloader

@@ -24,7 +24,6 @@ class WikipagesController extends Controller
             ->paginate(20);
 
         return new WikiPageResourceCollection($query);
-
     }
 
     /**
@@ -98,7 +97,6 @@ class WikipagesController extends Controller
     {
         $model = Wikipage::findOrFail($id);
         $model->delete();
-        return '';
     }
 
     public function addimage(Request $request)

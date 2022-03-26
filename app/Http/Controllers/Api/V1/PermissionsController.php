@@ -24,8 +24,8 @@ class PermissionsController extends Controller
             ->filter($request->search)
             ->sort($request->sort)
             ->paginate(20);
-        return new PermissionResourceCollection($query);
 
+        return new PermissionResourceCollection($query);
     }
 
     /**

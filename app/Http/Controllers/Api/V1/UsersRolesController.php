@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UsersRoles\UsersRolesResourceCollection;
 use App\Models\UsersRole;
+use App\Models\UsersRolesPermission;
 use Illuminate\Http\Request;
 
 class UsersRolesController extends Controller
@@ -17,12 +18,21 @@ class UsersRolesController extends Controller
      */
     public function index(Request $request)
     {
-
         $query = UsersRole::filter($request->search)
             ->sort($request->sort)
             ->paginate(20);
-        return new UsersRolesResourceCollection($query);
 
+        return new UsersRolesResourceCollection($query);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list(Request $request)
+    {
+        return UsersRole::all();
     }
 
     /**
@@ -52,6 +62,7 @@ class UsersRolesController extends Controller
         $model = UsersRole::create($validate);
         return $model;
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -81,7 +92,8 @@ class UsersRolesController extends Controller
     public function destroy($id)
     {
         $model = UsersRole::findOrFail($id);
+        // Remove the specified resource from storage.
+        UsersRolesPermission::where(['role_id' => $model->id])->delete();
         $model->delete();
-        return '';
     }
 }

@@ -26,6 +26,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
+                    <th>Роль</th>
                     <th>Имя</th>
                     <th>Email</th>
                     <th>Верифицирован</th>
@@ -35,6 +36,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="item, index in items.data">
+                    <td>{{ item.role }}</td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.email }}</td>
                     <td>{{ bool_to_text(item.email_verified_at) }}</td>

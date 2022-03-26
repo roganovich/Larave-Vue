@@ -23,19 +23,11 @@ class User extends Authenticatable
         'email',
         'email_verified_at',
         'password',
-        'created_at'
+        'created_at',
+        'role_id',
     ];
 
-    // Поиск по полям
-    public function scopeFilter(Builder $builder, $request)
-    {
-        return (new UsersFilter($request))->filter($builder);
-    }
-    // Сортировка по полям
-    public function scopeSort(Builder $builder, $request)
-    {
-        return (new UsersFilter($request))->sortable($builder);
-    }
+    protected $appends = ['permissions_ids'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -55,4 +47,31 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Поиск по полям
+    public function scopeFilter(Builder $builder, $request)
+    {
+        return (new UsersFilter($request))->filter($builder);
+    }
+
+    // Сортировка по полям
+    public function scopeSort(Builder $builder, $request)
+    {
+        return (new UsersFilter($request))->sortable($builder);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(UsersRole::class, 'role_id');
+    }
+
+    public function permissions()
+    {
+        return $this->hasMany(UsersRolesPermission::class, 'role_id', 'role_id');
+    }
+
+    public function getPermissionsIdsAttribute()
+    {
+        return $this->permissions->pluck('permission_id');
+    }
 }

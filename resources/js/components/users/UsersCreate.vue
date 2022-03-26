@@ -13,6 +13,22 @@
             <form v-on:submit.prevent="saveForm()">
                 <div class="row">
                     <div class="col-xs-12 form-group">
+                        <label class="control-label">Роль</label>
+                        <select v-model="model.role_id"
+                                class="form-control"
+                                v-bind:class="{ 'is-invalid': errors.role_id }"
+                                id="UsersRoleId">
+                            <option v-for="(item, id) in roles" :value="item.id">
+                                {{ item.title }}
+                            </option>
+                        </select>
+                        <div class="invalid-feedback" v-if="errors.role_id">
+                            {{ errors.role_id }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 form-group">
                         <label class="control-label">Имя</label>
                         <input type="text"
                                v-model="model.name"
@@ -77,11 +93,15 @@ export default {
     components: {
         VuePreloader,
     },
+    mounted() {
+        this.getRolesList()
+    },
     data: function () {
         return {
             preloader: false,
             errors: {},
             model_id: null,
+            roles: {},
             model: {
                 id: '',
                 name: '',
@@ -92,6 +112,18 @@ export default {
         }
     },
     methods: {
+        getRolesList: function () {
+            var app = this;
+            app.preloader = true;
+            axios.get('/api/v1/usersroles/list')
+                .then(function (resp) {
+                    app.roles = resp.data;
+                    app.preloader = false;
+                })
+                .catch(function (resp) {
+                    alert("Не смог получить данные");
+                });
+        },
         saveForm(e) {
             var app = this;
             app.preloader = true;

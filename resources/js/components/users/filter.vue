@@ -13,6 +13,19 @@
                     <form @submit.prevent="onFormSubmit">
                         <div class="row p-1">
                             <h6 class="card-title">Поиск</h6>
+
+                            <div class="col-md-3 col-g-2">
+                                <label for="inputSearchRoles" class="form-label">Роль</label>
+                                <select v-model="itemssearch.search.role_id"
+                                        class= "form-control form-control-sm"
+                                        id="inputSearchParent">
+                                    <option value="">Выбрать</option>
+                                    <option v-for="(item, id) in roles" :value="item.id">
+                                        {{ item.title }}
+                                    </option>
+                                </select>
+                            </div>
+
                             <div class="col-md-2 col-g-2">
                                 <label for="inputSearchName" class="form-label">Имя</label>
                                 <input v-model="itemssearch.search.name"
@@ -46,6 +59,15 @@
                         </div>
                         <div class="row p-1">
                             <h6 class="card-title">Сортировка</h6>
+                            <div class="col-md-2 col-g-2">
+                                <label for="inputSortRole" class="form-label">Роль</label>
+                                <div class="form-check" v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}">
+                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.role" :id="'inputSortRole' + id" :value="id">
+                                    <label class="form-check-label" :for="'inputSortRole' + id">
+                                        {{ item }}
+                                    </label>
+                                </div>
+                            </div>
                             <div class="col-md-2 col-g-2">
                                 <label for="inputSortName" class="form-label">Имя</label>
                                 <div class="form-check" v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}">
@@ -104,10 +126,25 @@ export default {
     },
     data: function () {
         return {
-            parents: {}
+            roles: {}
         }
     },
+    mounted() {
+        this.getRolesList()
+    },
     methods: {
+        getRolesList: function () {
+            var app = this;
+            app.preloader = true;
+            axios.get('/api/v1/usersroles/list')
+                .then(function (resp) {
+                    app.roles = resp.data;
+                    app.preloader = false;
+                })
+                .catch(function (resp) {
+                    alert("Не смог получить данные");
+                });
+        },
         onFormSubmit: function () {
             //this.itemssearch.search.title = '1234';
             console.log('search');

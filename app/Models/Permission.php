@@ -30,6 +30,7 @@ class Permission extends Model
     {
         return (new PermissionsFilter($request))->filter($builder);
     }
+
     // Сортировка по полям
     public function scopeSort(Builder $builder, $request)
     {

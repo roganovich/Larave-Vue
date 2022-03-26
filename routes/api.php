@@ -75,6 +75,8 @@ Route::group(['prefix' => '/v1/usersroles/'], function () {
     Route::get('{id}/get', [\App\Http\Controllers\Api\V1\UsersRolesController::class, 'get']);
     // Обновить запись
     Route::post('{id}/update', [\App\Http\Controllers\Api\V1\UsersRolesController::class, 'update']);
+    // Полный список
+    Route::get('list', [\App\Http\Controllers\Api\V1\UsersRolesController::class, 'list']);
     // Удалить запись
     Route::delete('{id}/destroy', [\App\Http\Controllers\Api\V1\UsersRolesController::class, 'destroy']);
 });

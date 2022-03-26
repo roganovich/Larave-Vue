@@ -9,6 +9,7 @@ class UsersFilter extends AbstractFilter
         'email' => LikeFilter::class,
         'email_verified_at' => EmailVerifiedFilter::class,
         'created_at' => EqualFilter::class,
+        'role_id' => EqualFilter::class,
     ];
 
     protected $sortables = [
@@ -16,5 +17,6 @@ class UsersFilter extends AbstractFilter
         'email' => DefaultSort::class,
         'email_verified_at' => DefaultSort::class,
         'created_at' => DefaultSort::class,
+        'role' => ParentSort::class,
     ];
 }

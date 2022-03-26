@@ -21,6 +21,7 @@ class Wikipage extends Model
     {
         return (new WikiPagesFilter($request))->filter($builder);
     }
+
     // Сортировка по полям
     public function scopeSort(Builder $builder, $request)
     {
@@ -29,6 +30,6 @@ class Wikipage extends Model
 
     public function parent()
     {
-        return $this->belongsTo('App\Models\Wikipage', 'parent_id');
+        return $this->belongsTo(Wikipage::class, 'parent_id');
     }
 }
