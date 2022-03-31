@@ -27,7 +27,7 @@ class User extends Authenticatable
         'role_id',
     ];
 
-    protected $appends = ['permissions_ids'];
+    protected $appends = ['permissions_ids', 'permissions_allow_routes'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -73,5 +73,10 @@ class User extends Authenticatable
     public function getPermissionsIdsAttribute()
     {
         return $this->permissions->pluck('permission_id');
+    }
+
+    public function getPermissionsAllowRoutesAttribute()
+    {
+        return $this->permissions->pluck('permission.route_name');
     }
 }

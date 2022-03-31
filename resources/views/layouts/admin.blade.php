@@ -28,10 +28,48 @@
             </button>
             <div class="navbar-nav">
                 <div class="nav-item text-nowrap">
-                    <a class="nav-link px-3" href="#">Sign out</a>
+                    <span class="px-1 text-white">
+                        {{ Auth::user()->name }}
+                    </span>
+                    <span class="px-1 text-white">
+                        {{ Auth::user()->email }}
+                    </span>
+                    <span class="px-1 text-white">
+                        {{ Auth::user()->role->title }}
+                    </span>
+                    <span class="px-1 text-white">
+                        |
+                    </span>
+                    <a class="ps-1 pe-3 text-white"  href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                        {{ __('auth.logout') }}
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+
                 </div>
             </div>
         </header>
+        @if (Auth::check())
+            @php
+                $user_auth_data = [
+                    'isLoggedin' => true,
+                    'user' =>  Auth::user()
+                ];
+            @endphp
+        @else
+            @php
+                $user_auth_data = [
+                    'isLoggedin' => false
+                ];
+            @endphp
+        @endif
+        <script>
+            window.Laravel = JSON.parse(atob('{{ base64_encode(json_encode($user_auth_data)) }}'));
+        </script>
 
         <div id="admin" class="container-fluid">
             @yield('content')

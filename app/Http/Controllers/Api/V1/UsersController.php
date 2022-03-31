@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
@@ -8,10 +7,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -57,6 +56,17 @@ class UsersController extends Controller
      */
     public function get($id)
     {
+        return User::with('role')->findOrFail($id);
+    }
+
+    /**
+     * Display the curent user.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function curent(Request $request)
+    {
+        $id = auth()->id();
         return User::with('role')->findOrFail($id);
     }
 

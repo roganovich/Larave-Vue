@@ -141,6 +141,7 @@ export default {
     methods: {
         getResults: function () {
             var app = this;
+            console.log(app.auth);
             app.preloader = false;
             app.search = true;
             this.itemssearch.page = this.items.meta.current_page;

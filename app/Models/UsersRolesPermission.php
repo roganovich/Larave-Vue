@@ -18,6 +18,11 @@ class UsersRolesPermission extends Model
      */
     protected $fillable = [
         'role_id',
-        'permission_id',
+        'permission_id'
     ];
+
+    public function permission()
+    {
+        return $this->belongsTo(Permission::class, 'permission_id');
+    }
 }

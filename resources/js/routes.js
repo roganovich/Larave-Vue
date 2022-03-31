@@ -1,4 +1,6 @@
-import WikiPagesIndex from './components/wikipages/WikiPagesIndex.vue';
+import Nopermission from './components/Nopermission.vue';
+
+import WikiPagesIndex from './components/wikipages/WikiPagesIndex.vue'
 import WikiPagesCreate from './components/wikipages/WikiPagesCreate.vue';
 import WikiPagesEdit from './components/wikipages/WikiPagesEdit.vue';
 
@@ -15,70 +17,104 @@ import UsersRolesPermissions from './components/usersroles/UsersRolesPermissions
 import PermissionsIndex from './components/permissions/PermissionsIndex.vue';
 import PermissionsEdit from './components/permissions/PermissionsEdit.vue';
 
+function requireAuth(to, from, next) {
+    var auth = window.Laravel.user;
+    var isLoggedin = window.Laravel.isLoggedin;
+
+    if (isLoggedin) {
+        if (auth.permissions_allow_routes.includes(to.name)) {
+            next();
+        } else {
+            next({name: 'nopermission'});
+        }
+    } else {
+        next({name: 'nopermission'});
+    }
+
+};
+
 export const routes = [
+    {
+        name: 'nopermission',
+        path: '/admin/nopermission',
+        component: Nopermission,
+    },
     {
         name: 'wikipages_index',
         path: '/admin/wikipages',
-        component: WikiPagesIndex
+        component: WikiPagesIndex,
+        beforeEnter: requireAuth,
     },
     {
         name: 'wikipages_create',
         path: '/admin/wikipages/create',
-        component: WikiPagesCreate
+        component: WikiPagesCreate,
+        beforeEnter: requireAuth,
     },
     {
         name: 'wikipages_edit',
         path: '/admin/wikipages/edit/:id',
-        component: WikiPagesEdit
+        component: WikiPagesEdit,
+        beforeEnter: requireAuth,
     },
     {
         name: 'users_index',
         path: '/admin/users',
-        component: UsersIndex
+        component: UsersIndex,
+        beforeEnter: requireAuth,
     },
     {
         name: 'users_create',
         path: '/admin/users/create',
-        component: UsersCreate
+        component: UsersCreate,
+        beforeEnter: requireAuth,
     },
     {
         name: 'users_edit',
         path: '/admin/users/edit/:id',
-        component: UsersEdit
+        component: UsersEdit,
+        beforeEnter: requireAuth,
     },
     {
         name: 'users_permission',
         path: '/admin/users/permission/:id',
-        component: UsersPermissions
+        component: UsersPermissions,
+        beforeEnter: requireAuth,
     },
     {
         name: 'usersroles_index',
         path: '/admin/usersroles',
-        component: UsersRolesIndex
+        component: UsersRolesIndex,
+        beforeEnter: requireAuth,
     },
     {
         name: 'usersroles_create',
         path: '/admin/usersroles/create',
-        component: UsersRolesCreate
+        component: UsersRolesCreate,
+        beforeEnter: requireAuth,
     },
     {
         name: 'usersroles_edit',
         path: '/admin/usersroles/edit/:id',
-        component: UsersRolesEdit
+        component: UsersRolesEdit,
+        beforeEnter: requireAuth,
     },
     {
         name: 'usersroles_permission',
         path: '/admin/usersroles/permission/:id',
-        component: UsersRolesPermissions
+        component: UsersRolesPermissions,
+        beforeEnter: requireAuth,
     },
     {
         name: 'permissions_index',
         path: '/admin/permissions',
-        component: PermissionsIndex
+        component: PermissionsIndex,
+        beforeEnter: requireAuth,
     },
     {
         name: 'permissions_edit',
         path: '/admin/permissions/edit/:id',
-        component: PermissionsEdit
+        component: PermissionsEdit,
+        beforeEnter: requireAuth,
     }
 ];

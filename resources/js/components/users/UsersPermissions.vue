@@ -51,7 +51,7 @@ import VuePreloader from '../preloader.vue';
 export default {
     mounted() {
         this.getData(),
-            this.getPermissionsList()
+        this.getPermissionsList()
     },
     components: {
         VuePreloader

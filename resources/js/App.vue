@@ -1,7 +1,6 @@
 <template>
-
         <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" v-if="isLoggedin">
                 <div class="position-sticky pt-3">
                     <div class="position-sticky pt-3">
                         <ul class="nav flex-column">
@@ -13,7 +12,7 @@
                                     Wiki
                                 </span>
                             </h5>
-                            <li class="nav-item">
+                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('wikipages_index')">
                                 <router-link :to="{name:'wikipages_index'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
                                         <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
@@ -22,8 +21,7 @@
                                     Список
                                 </router-link>
                             </li>
-                            <li class="nav-item">
-
+                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('wikipages_create')">
                                 <router-link :to="{name:'wikipages_create'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -43,7 +41,7 @@
                                     Пользователи
                                 </span>
                             </h5>
-                            <li class="nav-item">
+                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('users_index')">
                                 <router-link :to="{name:'users_index'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
                                         <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
@@ -52,8 +50,7 @@
                                     Список
                                 </router-link>
                             </li>
-                            <li class="nav-item">
-
+                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('users_create')">
                                 <router-link :to="{name:'users_create'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -74,7 +71,7 @@
                                     Роли
                                 </span>
                             </h5>
-                            <li class="nav-item">
+                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('usersroles_index')">
                                 <router-link :to="{name:'usersroles_index'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
                                         <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
@@ -83,8 +80,7 @@
                                     Список
                                 </router-link>
                             </li>
-                            <li class="nav-item">
-
+                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('usersroles_create')">
                                 <router-link :to="{name:'usersroles_create'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -105,7 +101,7 @@
                                     Права
                                 </span>
                             </h5>
-                            <li class="nav-item">
+                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('permissions_index')">
                                 <router-link :to="{name:'permissions_index'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
                                         <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
@@ -122,9 +118,17 @@
                 <router-view></router-view>
             </main>
         </div>
-
 </template>
 
 <script>
-export default {}
+export default {
+    provide:{
+        auth: {},
+        isLoggedin: false,
+    },
+    created() {
+        this.auth = window.Laravel.user;
+        this.isLoggedin = window.Laravel.isLoggedin;
+    }
+}
 </script>
