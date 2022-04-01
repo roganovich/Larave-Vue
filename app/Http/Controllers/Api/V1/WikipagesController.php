@@ -33,7 +33,7 @@ class WikipagesController extends Controller
      */
     public function parentlist()
     {
-        return new WikiPageResourceCollection(Wikipage::orderBy('title', 'ASC')->get());
+        return new WikiPageResourceCollection(Wikipage::select('id', 'title')->orderBy('title', 'ASC')->get());
     }
 
 

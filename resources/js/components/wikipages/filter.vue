@@ -31,7 +31,7 @@
 
                             <div class="col-md-3 col-g-2">
                                 <label for="inputSearchParent" class="form-label">Родитель</label>
-                                <select v-model="itemssearch.search.parent"
+                                <select v-model="itemssearch.search.parent_id"
                                         class= "form-control form-control-sm"
                                         id="inputSearchParent">
                                     <option value="">Выбрать</option>
@@ -55,7 +55,7 @@
                             <div class="col-md-2 col-g-2">
                                 <label for="inputSortParent" class="form-label">Родитель</label>
                                 <div class="form-check" v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}">
-                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.parent" :id="'inputSortParent' + id" :value="id">
+                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.parent_id" :id="'inputSortParent' + id" :value="id">
                                     <label class="form-check-label" :for="'inputSortParent' + id">
                                         {{ item }}
                                     </label>
