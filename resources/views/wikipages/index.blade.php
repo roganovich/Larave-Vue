@@ -6,6 +6,19 @@
 
         <div class="row">
             <h1>{{ __('wikipages.index') }} {{ ($parent) ? $parent->title : '' }}</h1>
+
+            <div class="btn-group d-inline p-0" role="group" aria-label="Basic example">
+                <a class="btn btn-outline-primary" href="{{ route('wikipages.index') }}">
+                    {{ __('default.all') }} <span class="badge bg-primary">{{ $total }}</span>
+                </a>
+                @foreach ($parentsFilter as $link)
+                    <a class="btn btn-outline-primary" href="{{ route('wikipages.parent', ['id' => $link->id]) }}">
+                        {{ $link->title }} <span class="badge bg-primary">{{ $link->count }}</span>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+        <div class="row mt-2">
             @foreach ($items as $item)
                 <div class="card col-md-4 col-lg-3 p-2">
                     <div class="card-body">
@@ -26,11 +39,10 @@
                     </div>
                 </div>
             @endforeach
+        </div>
 
-
-            <div class="mt-4">
-                {{ $items->links('pagination')}}
-            </div>
+        <div class="mt-2">
+            {{ $items->links('pagination')}}
         </div>
     </div>
 @endsection

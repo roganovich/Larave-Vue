@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\WikiPage\WikiPageResourceCollection;
+use App\Http\Resources\WikiPage\WikiParentResourceCollection;
 use App\Models\Wikipage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WikipagesController extends Controller
 {
@@ -19,7 +21,7 @@ class WikipagesController extends Controller
         $parent = null;
         if ($parent_id) {
             $parent = Wikipage::findOrFail($parent_id);
-            $search['parent_id'] =  $parent->id;
+            $search['parent_id'] = $parent->id;
         }
         $sort = [
             'title' => 'ASC',
@@ -30,20 +32,9 @@ class WikipagesController extends Controller
             ->paginate(12);
 
         $items = new WikiPageResourceCollection($query);
-
-        return view('wikipages.index', ['items' => $items, 'parent' => $parent]);
+        $total = Wikipage::count();
+        return view('wikipages.index', ['items' => $items, 'total' => $total, 'parent' => $parent, 'parentsFilter' => $this->getAllParrents()]);
     }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function parentlist()
-    {
-        return new WikiPageResourceCollection(Wikipage::select('id', 'title')->orderBy('title', 'ASC')->get());
-    }
-
 
     /**
      * Display the specified resource.
@@ -55,5 +46,17 @@ class WikipagesController extends Controller
     {
         $item = Wikipage::select('id', 'title', 'parent_id', 'description')->findOrFail($id);
         return view('wikipages.show', ['item' => $item]);
+    }
+
+    public function getAllParrents()
+    {
+        $query_parents = DB::table('wikipages as t')
+            ->join('wikipages as p', 'p.id', '=', 't.parent_id')
+            ->select('p.id', 'p.title', DB::raw('count(t.id) as count'))
+            ->whereNull('t.deleted_at')
+            ->groupBy('p.id', 'p.title')
+            ->having(DB::raw('count(t.parent_id)'), '>', 0)
+            ->get();
+        return new WikiParentResourceCollection($query_parents);
     }
 }

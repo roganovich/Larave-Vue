@@ -32,10 +32,4 @@ class Wikipage extends Model
     {
         return $this->belongsTo(Wikipage::class, 'parent_id');
     }
-
-    public function getParentList(){
-        $sql = "SELECT t.parent_id, p.title  FROM `wikipages` as t
-join wikipages as p on p.id = t.parent_id
-WHERE 1 group by t.parent_id having count(t.parent_id) > 0;";
-    }
 }
