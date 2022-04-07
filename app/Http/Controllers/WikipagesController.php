@@ -6,10 +6,44 @@ use App\Http\Resources\WikiPage\WikiPageResourceCollection;
 use App\Http\Resources\WikiPage\WikiParentResourceCollection;
 use App\Models\Wikipage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class WikipagesController extends Controller
 {
+
+    /**
+     * Родительская категория
+     */
+    private $parent = null;
+
+    /**
+     * Параметры поиска
+     */
+    private $search = [];
+
+    /**
+     * Параметры сортировки
+     */
+    private $sort = [
+        'title' => 'ASC',
+        'updated_at' => 'ASC'
+    ];
+
+    /**
+     * @return mixed
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @param mixed $parent
+     */
+    public function setParent($parent): void
+    {
+        $this->parent = $parent;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,23 +51,23 @@ class WikipagesController extends Controller
      */
     public function index(Request $request, $parent_id = null)
     {
-        $search = [];
-        $parent = null;
         if ($parent_id) {
-            $parent = Wikipage::findOrFail($parent_id);
-            $search['parent_id'] = $parent->id;
+            $this->setParent(Wikipage::findOrFail($parent_id));
+            $this->search['parent_id'] = $this->getParent()->id;
         }
-        $sort = [
-            'title' => 'ASC',
-            'updated_at' => 'ASC'
-        ];
-        $query = Wikipage::filter($search)
-            ->sort($sort)
+
+        $query = Wikipage::filter($this->search)
+            ->sort($this->sort)
             ->paginate(12);
 
         $items = new WikiPageResourceCollection($query);
-        $total = Wikipage::count();
-        return view('wikipages.index', ['items' => $items, 'total' => $total, 'parent' => $parent, 'parentsFilter' => $this->getAllParrents()]);
+
+        return view('wikipages.index',
+            [
+                'items' => $items,
+                'parent' => $this->getParent(),
+                'parentsNav' => $this->getParentsFilter()
+            ]);
     }
 
     /**
@@ -45,18 +79,47 @@ class WikipagesController extends Controller
     public function show($id)
     {
         $item = Wikipage::select('id', 'title', 'parent_id', 'description')->findOrFail($id);
-        return view('wikipages.show', ['item' => $item]);
+
+        $allParentsCollection = $this->getAllParrents();
+        if ($allParentsCollection->where('id', $item->id)->count() > 0) {
+            $this->setParent($item);
+        } else {
+            if ($item->parent) {
+                $this->setParent($item->parent);
+            }
+        }
+
+        return view('wikipages.show', ['item' => $item, 'parentsNav' => $this->getParentsFilter($item)]);
     }
 
+    /**
+     * Строим навигацию по родительским категориям
+     * @return string
+     */
+    public function getParentsFilter()
+    {
+        return (string)view('wikipages.parents', [
+            'parent' => $this->getParent(),
+            'allParents' => $this->getAllParrents(),
+            'total' => $this->getTotal()
+        ]);
+    }
+
+    /**
+     * Количество записей в базе
+     * @return int
+     */
+    public function getTotal()
+    {
+        return (int)Wikipage::count();
+    }
+
+    /**
+     * Список родительских категорий
+     * @return WikiParentResourceCollection
+     */
     public function getAllParrents()
     {
-        $query_parents = DB::table('wikipages as t')
-            ->join('wikipages as p', 'p.id', '=', 't.parent_id')
-            ->select('p.id', 'p.title', DB::raw('count(t.id) as count'))
-            ->whereNull('t.deleted_at')
-            ->groupBy('p.id', 'p.title')
-            ->having(DB::raw('count(t.parent_id)'), '>', 0)
-            ->get();
-        return new WikiParentResourceCollection($query_parents);
+        return new WikiParentResourceCollection(Wikipage::parents()->get());
     }
 }

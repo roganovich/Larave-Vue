@@ -4,29 +4,30 @@
     <div class="container">
         {{ Breadcrumbs::render('wikipages.index', $parent) }}
 
-        <div class="row">
-            <h1>{{ __('wikipages.index') }} {{ ($parent) ? $parent->title : '' }}</h1>
+        {!! $parentsNav !!}
 
-            <div class="btn-group d-inline p-0" role="group" aria-label="Basic example">
-                <a class="btn btn-outline-primary" href="{{ route('wikipages.index') }}">
-                    {{ __('default.all') }} <span class="badge bg-primary">{{ $total }}</span>
-                </a>
-                @foreach ($parentsFilter as $link)
-                    <a class="btn btn-outline-primary" href="{{ route('wikipages.parent', ['id' => $link->id]) }}">
-                        {{ $link->title }} <span class="badge bg-primary">{{ $link->count }}</span>
-                    </a>
-                @endforeach
+
+        <h1 class="mt-2">{{ __('wikipages.index') }} {{ ($parent) ? $parent->title : '' }}</h1>
+
+        @if($parent)
+            <div class="row mt-2 justify-content-center">
+                <div class="card col-md-12 col-lg-12 p-2">
+                    <div class="card-body">
+                        <p class="card-text">{!! $parent->description !!}</p>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row mt-2">
+        @endif
+
+        <div class="row mt-2 justify-content-left">
             @foreach ($items as $item)
                 <div class="card col-md-4 col-lg-3 p-2">
                     <div class="card-body">
-                        <h2 class="card-title"><a href="{{ route('wikipages.show', ['id' => $item->id]) }}"
+                        <h3 class="card-title"><a href="{{ route('wikipages.show', ['id' => $item->id]) }}"
                            class="">{{ $item->title }}</a>
-                        </h2>
+                        </h3>
                         @if ($item->parent)
-                                <a class="fw-bold text-success" href="{{ route('wikipages.parent', ['id' => $item->parent->id]) }}">
+                                <a class="fw-bold text-success" href="{{ route('wikipages.show', ['id' => $item->parent->id]) }}">
                                     {{ $item->parent->title }}
                                 </a>
                         @endif
