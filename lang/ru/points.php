@@ -12,5 +12,16 @@
 */
 
 return [
-    'index'   => 'Статьи',
+    'index' => 'Подразделения',
+    'country' => 'Страна',
+    'city' => 'Город',
+    'type' => 'Тип',
+    'address' => 'Адресс',
+    'title' => 'Название',
+    'description' => 'Описание',
+    'map_longitude' => 'Longitude',
+    'map_latitude' => 'Latitude',
+    'map_zoom' => 'Zoom',
+    'area' => 'Площадь',
+    'days' => 'Дней',
 ];

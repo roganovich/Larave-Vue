@@ -84,4 +84,21 @@ Route::group([
         // Удалить запись
         Route::delete('{id}/destroy', [\App\Http\Controllers\Api\V1\UsersRolesController::class, 'destroy']);
     });
+
+    // Страницы Points
+    Route::group(['prefix' => 'points'], function () {
+        // Список, поиск записей
+        Route::post('', [\App\Http\Controllers\Api\V1\PointsController::class, 'index']);
+        // Создание новой записи
+        Route::post('store', [\App\Http\Controllers\Api\V1\PointsController::class, 'store']);
+        // Получить данные записи
+        Route::get('{id}/get', [\App\Http\Controllers\Api\V1\PointsController::class, 'get']);
+        // Обновить запись
+        Route::post('{id}/update', [\App\Http\Controllers\Api\V1\PointsController::class, 'update']);
+        // Удалить запись
+        Route::delete('{id}/destroy', [\App\Http\Controllers\Api\V1\PointsController::class, 'destroy']);
+        // Пролучить типы
+        Route::get('typeslist', [\App\Http\Controllers\Api\V1\PointsController::class, 'typeslist']);
+    });
+
 });

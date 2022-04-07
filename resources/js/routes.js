@@ -17,6 +17,11 @@ import UsersRolesPermissions from './components/usersroles/UsersRolesPermissions
 import PermissionsIndex from './components/permissions/PermissionsIndex.vue';
 import PermissionsEdit from './components/permissions/PermissionsEdit.vue';
 
+import PointsIndex from './components/points/PointsIndex.vue';
+import PointsCreate from './components/points/PointsCreate.vue';
+import PointsEdit from './components/points/PointsEdit.vue';
+
+
 function requireAuth(to, from, next) {
     var auth = window.Laravel.user;
     var isLoggedin = window.Laravel.isLoggedin;
@@ -116,5 +121,23 @@ export const routes = [
         path: '/admin/permissions/edit/:id',
         component: PermissionsEdit,
         beforeEnter: requireAuth,
-    }
+    },
+    {
+        name: 'points_index',
+        path: '/admin/points',
+        component: PointsIndex,
+        beforeEnter: requireAuth,
+    },
+    {
+        name: 'points_create',
+        path: '/admin/points/create',
+        component: PointsCreate,
+        beforeEnter: requireAuth,
+    },
+    {
+        name: 'points_edit',
+        path: '/admin/points/edit/:id',
+        component: PointsEdit,
+        beforeEnter: requireAuth,
+    },
 ];

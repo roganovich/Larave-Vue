@@ -15,14 +15,14 @@ class CreatePermissions extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'command:CreatePermissions';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Обновление всех номых маршрутов для раздачи прав доступа';
 
     /**
      * Create a new command instance.

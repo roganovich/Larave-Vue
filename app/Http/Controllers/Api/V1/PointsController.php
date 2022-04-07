@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\WikiPage\PointResourceCollection;
+use App\Http\Resources\Point\PointResourceCollection;
 use App\Http\Traits\UploadTrait;
-use App\Models\Wikipage;
+use App\Models\Point;
+use App\Models\PointsType;
 use Illuminate\Http\Request;
 
-class WikipagesController extends Controller
+class PointsController extends Controller
 {
     use UploadTrait;
 
@@ -19,7 +20,7 @@ class WikipagesController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Wikipage::filter($request->search)
+        $query = Point::filter($request->search)
             ->sort($request->sort)
             ->paginate(20);
 
@@ -31,9 +32,9 @@ class WikipagesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function parentlist()
+    public function typeslist()
     {
-        return new PointResourceCollection(Wikipage::select('id', 'title')->orderBy('title', 'ASC')->get());
+        return PointsType::select('id', 'title')->orderBy('title', 'ASC')->get();
     }
 
 
@@ -48,10 +49,17 @@ class WikipagesController extends Controller
         $validate = $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
-            'parent_id' => 'numeric|nullable',
+            'country' => 'required',
+            'city' => 'required',
+            'address' => 'required',
+            'map_longitude' => 'required',
+            'map_latitude' => 'required',
+            'type_id' => 'numeric|nullable',
+            'area' => 'numeric|nullable',
+            'days' => 'numeric|nullable',
         ]);
 
-        $model = Wikipage::create($validate);
+        $model = Point::create($validate);
         return $model;
     }
 
@@ -63,7 +71,7 @@ class WikipagesController extends Controller
      */
     public function get($id)
     {
-        return Wikipage::select('id', 'title', 'parent_id', 'description')->findOrFail($id);
+        return Point::findOrFail($id);
     }
 
     /**
@@ -78,10 +86,17 @@ class WikipagesController extends Controller
         $validate = $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
-            'parent_id' => 'numeric|nullable',
+            'country' => 'required',
+            'city' => 'required',
+            'address' => 'required',
+            'map_longitude' => 'required',
+            'map_latitude' => 'required',
+            'type_id' => 'numeric|nullable',
+            'area' => 'numeric|nullable',
+            'days' => 'numeric|nullable',
         ]);
 
-        $model = Wikipage::findOrFail($id);
+        $model = Point::findOrFail($id);
         $model->update($validate);
 
         return $model;
@@ -95,7 +110,7 @@ class WikipagesController extends Controller
      */
     public function destroy($id)
     {
-        $model = Wikipage::findOrFail($id);
+        $model = Point::findOrFail($id);
         $model->delete();
     }
 
@@ -113,7 +128,7 @@ class WikipagesController extends Controller
             // Make a image name based on user name and current timestamp
             $name = md5(time());
             // Define folder path
-            $folder = '/uploads/images/wikipages/';
+            $folder = '/uploads/images/points/';
             // Make a file path where image will be stored [ folder path + file name + file extension]
             $filePath = $folder . $name . '.' . $image->getClientOriginalExtension();
             // Upload image
