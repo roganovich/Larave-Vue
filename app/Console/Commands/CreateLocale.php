@@ -20,6 +20,8 @@ class CreateLocale extends Command
      */
     protected $description = 'Перенос локализации из php в json';
 
+
+    protected $export = [];
     /**
      * Create a new command instance.
      *
@@ -62,8 +64,16 @@ class CreateLocale extends Command
                     if (is_file($attibute_path) && !in_array($attribute_file, ['.', '..'])) {
                         // Записываем данные файла в массив
                         $source = include($attibute_path);
+                        $data = [];
+                        // Перебираем все параметры массива
+                        foreach ($source as $key => $value) {
+                            $data = $this->get_data($key, $value, $data);
+                        }
                         $file_info = pathinfo($attibute_path);
-                        $return[$file_info['filename']] = $source;
+                        if ($data) {
+                            $return[$file_info['filename']] = $data;
+                        }
+
                     }
                 }
                 // Сохраняем файл
@@ -74,5 +84,34 @@ class CreateLocale extends Command
             }
         }
         echo 'End' . PHP_EOL;
+    }
+
+    /**
+     * @param string $key
+     * @param string $value
+     * @return array $return
+     */
+    function get_data($key, $value, $data)
+    {
+        if (is_array($value)) {
+            foreach ($value as $key2 => $value2) {
+                $data[$key] = $this->get_data($key2, $value2, $data);
+                return $data;
+            }
+        } else {
+            //$value = 'The :attribute must have between :min and :max items.';
+            // Находим по шаблону доп параметры строк
+            $patterns = '/\:[a-zA-Z]*/';
+            if (preg_match_all($patterns, $value, $rows)) {
+                // Перебираем все доп параметры
+                foreach ($rows[0] as $row) {
+                    // Заменяем передаваемый параметар на формат json :title => {title}
+                    $value = str_replace($row, '{' . str_replace(':', '', $row) . '}', $value);
+                }
+            }
+            $data[$key] = $value;
+        }
+
+        return $data;
     }
 }

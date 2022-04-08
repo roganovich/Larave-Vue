@@ -5,11 +5,11 @@
 
     <div v-else>
         <div class="mt-1">
-            <h5 class="card-title">{{ pageTitle }}</h5>
+            <h5 class="card-title">{{ $t('wikipages.index') }}</h5>
         </div>
         <div class="mt-1">
             <div class="form-group">
-                <router-link :to="{name: 'wikipages_create'}" class="btn btn-success">Создать</router-link>
+                <router-link :to="{name: 'wikipages_create'}" class="btn btn-success">{{ $t('default.created') }}</router-link>
             </div>
         </div>
 
@@ -26,9 +26,9 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>Заголовок</th>
-                    <th>Родитель</th>
-                    <th>Обновлен</th>
+                    <th>{{ $t('wikipages.title') }}</th>
+                    <th>{{ $t('wikipages.parent') }}</th>
+                    <th>{{ $t('default.updated_at') }}</th>
                     <th>&nbsp;</th>
                 </tr>
                 </thead>
@@ -84,7 +84,6 @@ import moment from 'moment';
 export default {
     data: function () {
         return {
-            pageTitle: 'Список страниц WIKI',
             preloader: true,
             search: true,
             items: {
@@ -132,11 +131,11 @@ export default {
                     app.search = false;
                 })
                 .catch(function (resp) {
-                    alert("Не смог получить данные");
+                    alert(app.$t('alert.cannot_load_data'));
                 });
         },
         deleteEntry: function (item, index) {
-            if (confirm("Вы действительно хотите " + item.title + " запись?")) {
+            if (confirm(this.$t('alert.confirm_delete', {title:item.title}))) {
                 var app = this;
                 app.search = true;
                 axios.delete('/api/v1/wikipages/' + item.id + '/destroy')
@@ -145,7 +144,7 @@ export default {
                         app.$router.push({name: 'wikipages_index'});
                     })
                     .catch(function (resp) {
-                        alert("Не смог удалить данные");
+                        alert(app.$t('alert.cannot_delete_data'));
                     });
                 this.getResults();
             }

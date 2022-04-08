@@ -21,3 +21,19 @@ Breadcrumbs::for('wikipages.show', function ($trail, $item) {
 
     $trail->push($item->title, route('wikipages.show', ['id' => $item->id]));
 });
+
+Breadcrumbs::for('points.index', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('points.index'), route('points.index'));
+});
+
+Breadcrumbs::for('points.show', function ($trail, $item) {
+    $trail->parent('home');
+    $trail->push(__('points.index'), route('points.index'));
+
+    if($item->type){
+        $trail->push($item->type->title, route('points.index', ['type_id' => $item->type->id]));
+    }
+
+    $trail->push($item->title, route('points.show', ['id' => $item->id]));
+});

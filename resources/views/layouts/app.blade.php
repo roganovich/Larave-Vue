@@ -43,6 +43,11 @@
                                 {{ __('wikipages.index') }}
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link"  href="{{ route('points.index') }}">
+                                {{ __('points.index') }}
+                            </a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

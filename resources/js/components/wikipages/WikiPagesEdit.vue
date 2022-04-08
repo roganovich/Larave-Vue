@@ -8,12 +8,12 @@
         <vue-preloader></vue-preloader>
     </div>
     <div v-else class=" mt-1">
-        <div class="card-title mt-1">Редактируем {{ model.title }}</div>
+        <div class="card-title mt-1">{{ $t('default.edit') }}  {{ model.title }}</div>
         <div class="p-1">
             <form v-on:submit.prevent="saveForm()">
                 <div class="row">
                     <div class="col-xs-12 form-group">
-                        <label class="control-label">Заголовок</label>
+                        <label class="control-label">{{ $t('wikipages.title') }}</label>
                         <input type="text"
                                v-model="model.title"
                                class="form-control"
@@ -25,7 +25,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12 form-group">
-                        <label class="control-label">Родитель</label>
+                        <label class="control-label">{{ $t('wikipages.parent') }}</label>
                         <select v-model="model.parent_id"
                                 class="form-control"
                                 v-bind:class="{ 'is-invalid': errors.parent_id }"
@@ -42,7 +42,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12 form-group">
-                        <label class="control-label">Описание</label>
+                        <label class="control-label">{{ $t('wikipages.description') }}</label>
 
                         <vue-editor
                             id="editor"
@@ -61,7 +61,7 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-xs-12 form-group">
-                        <button class="btn btn-success">Сохранить</button>
+                        <button class="btn btn-success">{{ $t('default.save') }}</button>
                     </div>
                 </div>
             </form>
@@ -108,7 +108,7 @@ export default {
                     app.preloader = false;
                 })
                 .catch(function () {
-                    alert("Не смог получить данные")
+                    alert(this.$t('alert.cannot_load_data'))
                 });
         },
         getParentList: function () {
@@ -120,7 +120,7 @@ export default {
                     app.preloader = false;
                 })
                 .catch(function (resp) {
-                    alert("Не смог получить данные");
+                    alert(this.$t('alert.cannot_load_data'));
                 });
         },
         saveForm(e) {

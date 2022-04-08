@@ -145,7 +145,7 @@ export default {
                     app.search = false;
                 })
                 .catch(function (resp) {
-                    alert("Не смог получить данные");
+                    alert($t('alert.cannot_load_data'));
                 });
         },
         deleteEntry: function (item, index) {
@@ -158,7 +158,7 @@ export default {
                         app.$router.push({name: 'points_index'});
                     })
                     .catch(function (resp) {
-                        alert("Не смог удалить данные");
+                        alert($t('alert.cannot_delete_data'));
                     });
                 this.getResults();
             }

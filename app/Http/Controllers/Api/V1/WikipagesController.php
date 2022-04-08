@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\WikiPage\PointResourceCollection;
+use App\Http\Resources\WikiPage\WikiPageResourceCollection;
 use App\Http\Traits\UploadTrait;
 use App\Models\Wikipage;
 use Illuminate\Http\Request;
@@ -21,9 +21,9 @@ class WikipagesController extends Controller
     {
         $query = Wikipage::filter($request->search)
             ->sort($request->sort)
-            ->paginate(20);
+            ->paginate(10);
 
-        return new PointResourceCollection($query);
+        return new WikiPageResourceCollection($query);
     }
 
     /**
@@ -33,7 +33,7 @@ class WikipagesController extends Controller
      */
     public function parentlist()
     {
-        return new PointResourceCollection(Wikipage::select('id', 'title')->orderBy('title', 'ASC')->get());
+        return new WikiPageResourceCollection(Wikipage::select('id', 'title')->orderBy('title', 'ASC')->get());
     }
 
 

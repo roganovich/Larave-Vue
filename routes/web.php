@@ -19,9 +19,11 @@ Route::middleware('auth')->get('/admin', [App\Http\Controllers\AdminController::
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/wikipages', [App\Http\Controllers\WikipagesController::class, 'index'])->name('wikipages.index');
-Route::get('/wikipages/{id}/parent', [App\Http\Controllers\WikipagesController::class, 'index'])->name('wikipages.parent');
 Route::get('/wikipages/{id}/view', [App\Http\Controllers\WikipagesController::class, 'show'])->name('wikipages.show');
 
+
+Route::get('/points', [App\Http\Controllers\PointsController::class, 'index'])->name('points.index');
+Route::get('/points/{id}/view', [App\Http\Controllers\PointsController::class, 'show'])->name('points.show');
 
 Route::middleware('auth')->get('/admin{any}', function () {
     return view('layouts.admin');

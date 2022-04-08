@@ -6,10 +6,13 @@ use App\Filters\PointsFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Point extends Model
 {
     use HasFactory;
+
+    protected $table = 'points';
 
     /**
      * The attributes that are mass assignable.
@@ -46,5 +49,17 @@ class Point extends Model
     public function type()
     {
         return $this->belongsTo(PointsType::class, 'type_id');
+    }
+
+
+    // Только родители
+    public function scopeTypes($query)
+    {
+        return $query
+            ->select('p.id', 'p.title', DB::raw("count({$this->table}.id) as count"))
+            ->join('points_types as p', 'p.id', '=', "{$this->table}.type_id")
+            ->whereNull("{$this->table}.deleted_at")
+            ->groupBy('p.id', 'p.title')
+            ->having(DB::raw("count({$this->table}.type_id)"), '>', 0);
     }
 }
