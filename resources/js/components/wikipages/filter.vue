@@ -106,7 +106,7 @@ export default {
                     app.parents = resp.data.data;
                 })
                 .catch(function (resp) {
-                    alert("Не смог получить данные");
+                    alert($t('alert.cannot_load_data'));
                 });
         },
         onFormSubmit: function () {

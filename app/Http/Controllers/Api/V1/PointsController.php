@@ -13,6 +13,8 @@ class PointsController extends Controller
 {
     use UploadTrait;
 
+    private $file_folder = '/uploads/images/points/';
+
     /**
      * Display a listing of the resource.
      *
@@ -57,7 +59,11 @@ class PointsController extends Controller
             'type_id' => 'numeric|nullable',
             'area' => 'numeric|nullable',
             'days' => 'numeric|nullable',
+            'thumb' => '',
+            'images' => '',
         ]);
+        // Массив картинок превращаем в json
+        $validate['images'] = ($validate['images'])?json_encode($validate['images']):'';
 
         $model = Point::create($validate);
         return $model;
@@ -94,6 +100,8 @@ class PointsController extends Controller
             'type_id' => 'numeric|nullable',
             'area' => 'numeric|nullable',
             'days' => 'numeric|nullable',
+            'thumb' => '',
+            'images' => '',
         ]);
 
         $model = Point::findOrFail($id);
@@ -114,28 +122,43 @@ class PointsController extends Controller
         $model->delete();
     }
 
-    public function addimage(Request $request)
+    /**
+     * Выполняем загрузку файла
+     * @param Illuminate\Http\UploadedFile $file
+     * @return string $filePath -путь хранения файла
+     */
+    public function upload($file)
     {
-        // Form validation
+        // Генерируем имя файла
+        $name = md5(time() . $file->getClientOriginalName());
+        // Указываем каталог для хранения
+        $directory = $this->file_folder . date('Ymd') . '/';
+        // Полное имя файла с каталогом
+        $filePath = $directory . $name . '.' . $file->getClientOriginalExtension();
+        // Загружаем файл
+        $this->uploadOne($file, $directory, 'public', $name);
+
+        return $filePath;
+    }
+
+    /**
+     * Загрузка файла
+    */
+    public function add_images(Request $request)
+    {
+        $urls = [];
+        // Валидация формы
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
-
-        // Check if a profile image has been uploaded
-        if ($request->has('image')) {
-            // Get image file
-            $image = $request->file('image');
-            // Make a image name based on user name and current timestamp
-            $name = md5(time());
-            // Define folder path
-            $folder = '/uploads/images/points/';
-            // Make a file path where image will be stored [ folder path + file name + file extension]
-            $filePath = $folder . $name . '.' . $image->getClientOriginalExtension();
-            // Upload image
-            $this->uploadOne($image, $folder, 'public', $name);
-
-            return json_encode(['url' => $filePath]);
+        // Перебираем все полученные файлы
+        if ($request->hasFile('images')) {
+            foreach ($request->images as $file) {
+                // Заполняем массив с загруженными файлами
+                $urls[] = $this->upload($file);
+            }
         }
-
+        // Позвращаем список сохраненных файлов
+        return json_encode(['urls' => $urls]);
     }
 }

@@ -140,11 +140,11 @@ export default {
                     app.search = false;
                 })
                 .catch(function (resp) {
-                    alert("Не смог получить данные");
+                    alert($t('alert.cannot_load_data'));
                 });
         },
         deleteEntry: function (item, index) {
-            if (confirm("Вы действительно хотите " + item.title + " запись?")) {
+            if (confirm(this.$t('alert.confirm_delete', {title:item.title}))) {
                 var app = this;
                 app.search = true;
                 axios.delete('/api/v1/usersroles/' + item.id + '/destroy')
@@ -153,7 +153,7 @@ export default {
                         app.$router.push({name: 'usersroles_index'});
                     })
                     .catch(function (resp) {
-                        alert("Не смог удалить данные");
+                        alert($t('alert.cannot_delete_data'));
                     });
                 this.getResults();
             }

@@ -4,7 +4,7 @@
     <div class="container">
         {{ Breadcrumbs::render('points.index') }}
 
-        {!! $typesNav !!}
+        {!! $navFilter !!}
 
         <h1 class="mt-2">{{ __('points.index') }}</h1>
 
@@ -13,12 +13,30 @@
                 <div class="card col-md-4 col-lg-3 p-2">
                     <div class="card-body">
                         <h3 class="card-title"><a href="{{ route('points.show', ['id' => $item->id]) }}"
-                           class="">{{ $item->title }}</a>
+                                                  class="">{{ $item->title }}</a>
                         </h3>
+
                         @if ($item->type)
-                                <a class="fw-bold text-success" href="{{ route('points.index', ['type_id' => $item->type_id]) }}">
+                            <div class="card-address fw-bold text-success">
+                                <a class="fw-bold text-success"
+                                   href="{{ route('points.index', ['city' => $item->city]) }}">
+                                    {{ $item->city }}
+                                </a>
+                            </div>
+                        @endif
+
+                        @if ($item->type)
+                            <div class="point_type_block">
+                                <a class="fw-bold text-success"
+                                   href="{{ route('points.index', ['type' => $item->type->title]) }}">
                                     {{ $item->type->title }}
                                 </a>
+                            </div>
+                        @endif
+
+                        @if ($item->thumb)
+                            <img class="thumb m-1" src="{{URL::asset($item->thumb)}}" title="{{ $item->title }}"
+                                 alt="{{ $item->title }}"/>
                         @endif
                         <a href="{{ route('points.show', ['id' => $item->id]) }}"
                            class="btn btn-primary position-absolute bottom-0 end-0 m-2">{{ __('default.follow') }}</a>

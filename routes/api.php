@@ -34,7 +34,7 @@ Route::group([
         Route::delete('{id}/destroy', [\App\Http\Controllers\Api\V1\WikipagesController::class, 'destroy']);
         // Пролучить категории
         Route::get('parentlist', [\App\Http\Controllers\Api\V1\WikipagesController::class, 'parentlist']);
-        // Пролучить категории
+        // Загрузить изображение
         Route::post('addimage', [\App\Http\Controllers\Api\V1\WikipagesController::class, 'addimage']);
     });
 
@@ -99,6 +99,8 @@ Route::group([
         Route::delete('{id}/destroy', [\App\Http\Controllers\Api\V1\PointsController::class, 'destroy']);
         // Пролучить типы
         Route::get('typeslist', [\App\Http\Controllers\Api\V1\PointsController::class, 'typeslist']);
+        // Загрузить изображение
+        Route::post('addimages', [\App\Http\Controllers\Api\V1\PointsController::class, 'add_images']);
     });
 
 });

@@ -29,6 +29,7 @@
                     <th>{{ $t('points.country') }}</th>
                     <th>{{ $t('points.city') }}</th>
                     <th>{{ $t('points.type') }}</th>
+                    <th>{{ $t('points.thumb') }}</th>
                     <th>{{ $t('points.title') }}</th>
                     <th>{{ $t('points.area') }}</th>
                     <th>{{ $t('points.days') }}</th>
@@ -41,6 +42,7 @@
                     <td>{{ item.country }}</td>
                     <td>{{ item.city }}</td>
                     <td>{{ item.type }}</td>
+                    <td><img class="mini_thumb" v-bind:src="item.thumb"/></td>
                     <td>{{ item.title }}</td>
                     <td>{{ item.area }}</td>
                     <td>{{ item.days }}</td>
@@ -149,7 +151,7 @@ export default {
                 });
         },
         deleteEntry: function (item, index) {
-            if (confirm("Вы действительно хотите " + item.title + " запись?")) {
+            if (confirm(this.$t('alert.confirm_delete', {title:item.title}))) {
                 var app = this;
                 app.search = true;
                 axios.delete('/api/v1/points/' + item.id + '/destroy')

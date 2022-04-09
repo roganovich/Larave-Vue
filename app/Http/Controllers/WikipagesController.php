@@ -66,7 +66,7 @@ class WikipagesController extends Controller
             [
                 'items' => $items,
                 'parent' => $this->getParent(),
-                'parentsNav' => $this->getParentsFilter()
+                'navFilter' => $this->getNavFilter()
             ]);
     }
 
@@ -89,16 +89,19 @@ class WikipagesController extends Controller
             }
         }
 
-        return view('wikipages.show', ['item' => $item, 'parentsNav' => $this->getParentsFilter($item)]);
+        return view('wikipages.show', [
+            'item' => $item,
+            'navFilter' => $this->getNavFilter()
+        ]);
     }
 
     /**
      * Строим навигацию по родительским категориям
      * @return string
      */
-    public function getParentsFilter()
+    public function getNavFilter()
     {
-        return (string)view('wikipages.parents', [
+        return (string)view('wikipages.nav', [
             'parent' => $this->getParent(),
             'allParents' => $this->getAllParrents(),
             'total' => $this->getTotal()

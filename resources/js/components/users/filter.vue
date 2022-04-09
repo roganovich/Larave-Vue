@@ -142,7 +142,7 @@ export default {
                     app.preloader = false;
                 })
                 .catch(function (resp) {
-                    alert("Не смог получить данные");
+                    alert($t('alert.cannot_load_data'));
                 });
         },
         onFormSubmit: function () {

@@ -11342,3 +11342,10 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.form_thumb img.thumb, .card-body img.thumb {
+  height: 100px;
+}
+
+.table img.mini_thumb {
+  height: 40px;
+}

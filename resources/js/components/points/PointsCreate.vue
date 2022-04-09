@@ -10,10 +10,10 @@
     <div v-else class=" mt-1">
         <div class="card-title mt-1">{{ $t('default.created') }}</div>
         <div class="p-1">
-            <form v-on:submit.prevent="saveForm()">
+            <form v-on:submit.prevent="saveForm()" enctype="multipart/form-data">
 
                 <div class="row">
-                    <div class="col-xs-12 form-group">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-2 form-group">
                         <label class="control-label">{{ $t('points.type') }}</label>
                         <select v-model="model.type_id"
                                 class="form-control"
@@ -29,9 +29,8 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
-                    <div class="col-xs-12 form-group">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-2 form-group">
                         <label class="control-label">{{ $t('points.country') }}</label>
                         <input type="text"
                                v-model="model.country"
@@ -42,9 +41,8 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
-                    <div class="col-xs-12 form-group">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-2 form-group">
                         <label class="control-label">{{ $t('points.city') }}</label>
                         <input type="text"
                                v-model="model.city"
@@ -56,9 +54,8 @@
                     </div>
                 </div>
 
-
                 <div class="row">
-                    <div class="col-xs-12 form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group">
                         <label class="control-label">{{ $t('points.address') }}</label>
                         <input type="text"
                                v-model="model.address"
@@ -69,9 +66,8 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
-                    <div class="col-xs-12 form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group">
                         <label class="control-label">{{ $t('points.title') }}</label>
                         <input type="text"
                                v-model="model.title"
@@ -82,6 +78,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-xs-12 form-group">
                         <label class="control-label">{{ $t('points.description') }}</label>
@@ -102,9 +99,8 @@
                     </div>
                 </div>
 
-
                 <div class="row">
-                    <div class="col-xs-12 form-group">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-2 form-group">
                         <label class="control-label">{{ $t('points.map_longitude') }}</label>
                         <input type="text"
                                v-model="model.map_longitude"
@@ -115,9 +111,8 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
-                    <div class="col-xs-12 form-group">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-2 form-group">
                         <label class="control-label">{{ $t('points.map_latitude') }}</label>
                         <input type="text"
                                v-model="model.map_latitude"
@@ -128,10 +123,8 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="row">
-                    <div class="col-xs-12 form-group">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-2 form-group">
                         <label class="control-label">{{ $t('points.map_zoom') }}</label>
                         <input type="text"
                                v-model="model.map_zoom"
@@ -142,8 +135,9 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
-                    <div class="col-xs-12 form-group">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-2 form-group">
                         <label class="control-label">{{ $t('points.area') }}</label>
                         <input type="text"
                                v-model="model.area"
@@ -154,9 +148,8 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
-                    <div class="col-xs-12 form-group">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-2 form-group">
                         <label class="control-label">{{ $t('points.days') }}</label>
                         <input type="text"
                                v-model="model.days"
@@ -164,6 +157,27 @@
                                v-bind:class="{ 'is-invalid': errors.days }">
                         <div class="invalid-feedback" v-if="errors.days">
                             {{ errors.days }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-2 form-group">
+                        <label class="control-label">{{ $t('points.thumb') }}</label>
+                        <input class="form-control mt-1" type="file" accept="image/*" @change="uploadThumb($event)"
+                               id="thumb-input">
+                        <div class="form_thumb" v-if="model.thumb">
+                            <img class="thumb mt-1" v-bind:src="model.thumb" v-bind:alt="model.title"/>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-8 col-lg-10 form-group">
+                        <label class="control-label">{{ $t('points.images') }}</label>
+                        <input class="form-control mt-1" type="file" accept="image/*" @change="uploadImages($event)"
+                               id="images-input" multiple>
+                        <div class="form_thumb d-flex flex-row" v-if="model.images">
+                            <div class="p-2" v-for="image, index in model.images">
+                                <img class="thumb mt-1" v-bind:src="image" v-bind:alt="model.title"/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -197,12 +211,13 @@ export default {
             types: {},
             model_id: null,
             model: {
-                id: '',
                 country: '',
                 city: '',
                 address: '',
                 title: '',
                 type: '',
+                thumb: '',
+                images: {},
                 description: '',
                 map_longitude: '',
                 map_latitude: '',
@@ -222,7 +237,7 @@ export default {
                     app.preloader = false;
                 })
                 .catch(function (resp) {
-                    alert("Не смог получить данные");
+                    alert($t('alert.cannot_load_data'));
                 });
         },
         saveForm(e) {
@@ -242,17 +257,47 @@ export default {
                 });
             app.preloader = false;
         },
+        uploadImages: function (event) {
+            var app = this;
+            var formData = new FormData();
+            for (const i of Object.keys(event.target.files)) {
+                formData.append('images[]', event.target.files[i])
+            }
+            axios.post('/api/v1/points/addimages', formData)
+                .then(function (resp) {
+                    const urls = resp.data.urls;
+                    app.model.images = urls;
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
+        uploadThumb: function (event) {
+            var app = this;
+            var formData = new FormData();
+            formData.append('images[]', event.target.files[0]);
+            axios.post('/api/v1/points/addimages', formData)
+                .then(function (resp) {
+                    const url = resp.data.urls;
+                    if (url) {
+                        app.model.thumb = url[0];
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
         handleImageAdded: function (file, Editor, cursorLocation, resetUploader) {
             var app = this;
-
             var formData = new FormData();
-            formData.append("image", file);
-
-            axios.post('/api/v1/points/addimage', formData)
+            formData.append("images[]", file);
+            axios.post('/api/v1/points/addimages', formData)
                 .then(function (resp) {
-                    const url = resp.data.url; // Get url from response
-                    Editor.insertEmbed(cursorLocation, "image", url);
-                    resetUploader();
+                    const url = resp.data.urls;
+                    if (url) {
+                        Editor.insertEmbed(cursorLocation, "image", url[0]);
+                        resetUploader();
+                    }
                 })
                 .catch(err => {
                     console.log(err);

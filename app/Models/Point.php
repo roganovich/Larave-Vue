@@ -31,7 +31,8 @@ class Point extends Model
         'map_longitude',
         'map_latitude',
         'map_zoom',
-
+        'thumb',
+        'images',
     ];
 
     // Поиск по полям
@@ -51,8 +52,12 @@ class Point extends Model
         return $this->belongsTo(PointsType::class, 'type_id');
     }
 
+    public function getImagesListAttribute()
+    {
+        return $this->images ? json_decode($this->images, true) : [];
+    }
 
-    // Только родители
+    // Группировка типов
     public function scopeTypes($query)
     {
         return $query
@@ -61,5 +66,15 @@ class Point extends Model
             ->whereNull("{$this->table}.deleted_at")
             ->groupBy('p.id', 'p.title')
             ->having(DB::raw("count({$this->table}.type_id)"), '>', 0);
+    }
+
+    // Группировка городов
+    public function scopeCityes($query)
+    {
+        return $query
+            ->select('id', 'city as title', DB::raw("count(id) as count"))
+            ->whereNull("{$this->table}.deleted_at")
+            ->groupBy('id', 'city')
+            ->having(DB::raw("count(city)"), '>', 0);
     }
 }

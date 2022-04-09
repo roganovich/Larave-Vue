@@ -146,7 +146,7 @@ export default {
                     app.types = resp.data;
                 })
                 .catch(function (resp) {
-                    alert("Не смог получить данные");
+                    alert($t('alert.cannot_load_data'));
                 });
         },
         onFormSubmit: function () {

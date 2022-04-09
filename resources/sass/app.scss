@@ -9,3 +9,17 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+
+.form_thumb, .card-body{
+    img.thumb{
+        height: 100px;
+    }
+}
+
+
+.table {
+    img.mini_thumb{
+       height: 40px;
+    }
+}

@@ -22,7 +22,10 @@ class PointsController extends Controller
         'updated_at' => 'ASC'
     ];
 
+    /** Фильтр по типам */
     protected $type;
+    /** Фильтр по городам */
+    protected $city;
 
     /**
      * @return mixed
@@ -33,11 +36,27 @@ class PointsController extends Controller
     }
 
     /**
-     * @param mixed $type
+     * @param PointsType $type
      */
-    public function setType($type): void
+    public function setType(PointsType $type): void
     {
         $this->type = $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param string $city
+     */
+    public function setCity(string $city): void
+    {
+        $this->city = $city;
     }
 
     /**
@@ -47,10 +66,17 @@ class PointsController extends Controller
      */
     public function index(Request $request)
     {
-        if ($type_id = $request->get('type_id')) {
-            $this->search['type_id'] = $type_id;
-            $type = PointsType::findOrFail($type_id);
+        if ($type = $request->get('type')) {
+            $type = PointsType::where(['title' => $type])->first();
+            if (!$type) {
+                return 404;
+            }
+            $this->search['type_id'] = $type->id;
             $this->setType($type);
+        }
+        if ($city = $request->get('city')) {
+            $this->search['city'] = $city;
+            $this->setCity($city);
         }
         $query = Point::filter($this->search)
             ->sort($this->sort)
@@ -58,7 +84,11 @@ class PointsController extends Controller
 
         $items = new PointResourceCollection($query);
 
-        return view('points.index', ['items' => $items, 'typesNav' => $this->getTypesNav()]);
+        return view('points.index', [
+            'items' => $items,
+            'navFilter' => $this->getNav(),
+            ]
+        );
     }
 
     /**
@@ -70,15 +100,26 @@ class PointsController extends Controller
     public function show($id)
     {
         $item = Point::findOrFail($id);
+
         $this->setType($item->type);
-        return view('points.show', ['item' => $item, 'typesNav' => $this->getTypesNav()]);
+        $this->setCity($item->city);
+
+        return view('points.show', [
+            'item' => $item,
+            'navFilter' => $this->getNav(),
+        ]);
     }
 
-    public function getTypesNav(){
-        $items = PointsType::orderBy('title');
-        return (string)view('points.types', [
-            'type' => $this->type,
-            'items' => $this->getAllPoints(),
+    /**
+     * Навигации по типам
+    */
+    public function getNav()
+    {
+        return (string)view('points.nav', [
+            'type' => $this->getType(),
+            'city' => $this->getCity(),
+            'types' => $this->getAllTypes(),
+            'cityes' => $this->getAllCityes(),
             'total' => $this->getTotal()
         ]);
     }
@@ -93,11 +134,20 @@ class PointsController extends Controller
     }
 
     /**
-     * Список родительских категорий
+     * Список типов
      * @return PointResourceCollection
      */
-    public function getAllPoints()
+    public function getAllTypes()
     {
         return new PointResourceCollection(Point::types()->get());
+    }
+
+    /**
+     * Список городов
+     * @return PointResourceCollection
+     */
+    public function getAllCityes()
+    {
+        return new PointResourceCollection(Point::cityes()->get());
     }
 }

@@ -4,7 +4,7 @@
     <div class="container">
         {{ Breadcrumbs::render('wikipages.show', $item) }}
 
-        {!! $parentsNav !!}
+        {!! $navFilter !!}
 
         <div class="row mt-2 justify-content-center">
             <div class="card col-md-12 col-lg-12 p-2">
@@ -25,7 +25,7 @@
                         </h3>
                         @if ($item->parent)
                             <a class="fw-bold text-success"
-                               href="{{ route('wikipages.parent', ['id' => $item->parent->id]) }}">
+                               href="{{ route('wikipages.show', ['id' => $item->parent->id]) }}">
                                 {{ $item->parent->title }}
                             </a>
                         @endif

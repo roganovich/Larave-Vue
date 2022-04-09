@@ -39,12 +39,12 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link"  href="{{ route('wikipages.index') }}">
+                            <a class="nav-link {{ Request::routeIs('wikipages.*') ? 'active' : '' }}" href="{{ route('wikipages.index') }}">
                                 {{ __('wikipages.index') }}
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link"  href="{{ route('points.index') }}">
+                            <a class="nav-link {{ Request::routeIs('points.*') ? 'active' : '' }}"  href="{{ route('points.index') }}">
                                 {{ __('points.index') }}
                             </a>
                         </li>
