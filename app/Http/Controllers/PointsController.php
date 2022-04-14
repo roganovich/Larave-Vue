@@ -84,8 +84,14 @@ class PointsController extends Controller
 
         $items = new PointResourceCollection($query);
 
+        /** Данные для построеник карточек магазинов*/
+        $map_point = $items->map(function ($item, $key) {
+            return [$item->map_longitude, $item->map_latitude];
+        });
+
         return view('points.index', [
             'items' => $items,
+            'map_point' => $map_point,
             'navFilter' => $this->getNav(),
             ]
         );

@@ -19,8 +19,8 @@
                         {!! $item->description !!}
                     </div>
 
-                    <div class="card-images mt-3" id="points-lightbox">
-                        @if($item->imagesList)
+                    @if($item->imagesList)
+                        <div class="card-images mt-3" id="points-lightbox">
                             <h3 class="my-2">{{ __('points.images') }}</h3>
                             @foreach($item->imagesList as $image)
                                 <a href="{{URL::asset($image)}}" data-toggle="lightbox" data-gallery="points-gallery">
@@ -31,19 +31,19 @@
                                     >
                                 </a>
                             @endforeach
-                        @endif
-                    </div>
+                        </div>
+                    @endif
 
-                    <div class="card-map mt-3">
-                        @if($item->map_longitude)
-                            <h3 class="my-2">{{ __('points.map') }}</h3>
+                    @if($item->map_longitude)
+                        <div class="card-map mt-3">
                             <div id="map"
                                  data-longitude="{{ $item->map_longitude }}"
                                  data-latitude="{{ $item->map_latitude }}"
                                  data-zoom="{{ $item->map_zoom }}"
-                                 style="width: 100%; height: 400px"></div>
+                                 style="width: 100%; height: 400px">
                             </div>
-                        @endif
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
