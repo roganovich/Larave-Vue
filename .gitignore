@@ -74,7 +74,7 @@ Homestead.json
 .phpunit.result.cache#Laravel Specific files
 /vendor
 /node_modules
-/bootstrap
+/bootstrap/cache
 .env
 /public/.htaccess
 /public/uploads
