@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Wikipage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -18,9 +19,9 @@ class WikipageFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->name(),
+            'title' => $this->faker->company(),
             'parent_id' => $this->faker->randomDigit(),
-            'description' => $this->faker->paragraph(4) ,
+            'description' => $this->faker->paragraph(4),
         ];
     }
 }
