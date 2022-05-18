@@ -40,6 +40,7 @@
                                  data-longitude="{{ $item->map_longitude }}"
                                  data-latitude="{{ $item->map_latitude }}"
                                  data-zoom="{{ $item->map_zoom }}"
+                                 data-points="{{ $map_point }}"
                                  style="width: 100%; height: 400px">
                             </div>
                         </div>

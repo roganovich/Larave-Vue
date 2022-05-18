@@ -1,6 +1,5 @@
 import 'bs5-lightbox'
 
-
 ymaps.ready(init);
 
 var points = document.getElementById("map");

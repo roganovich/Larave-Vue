@@ -13,8 +13,6 @@ class PointsController extends Controller
 {
     use UploadTrait;
 
-    private $file_folder = '/uploads/images/points/';
-
     /**
      * Display a listing of the resource.
      *
@@ -120,45 +118,5 @@ class PointsController extends Controller
     {
         $model = Point::findOrFail($id);
         $model->delete();
-    }
-
-    /**
-     * Выполняем загрузку файла
-     * @param Illuminate\Http\UploadedFile $file
-     * @return string $filePath -путь хранения файла
-     */
-    public function upload($file)
-    {
-        // Генерируем имя файла
-        $name = md5(time() . $file->getClientOriginalName());
-        // Указываем каталог для хранения
-        $directory = $this->file_folder . date('Ymd') . '/';
-        // Полное имя файла с каталогом
-        $filePath = $directory . $name . '.' . $file->getClientOriginalExtension();
-        // Загружаем файл
-        $this->uploadOne($file, $directory, 'public', $name);
-
-        return $filePath;
-    }
-
-    /**
-     * Загрузка файла
-    */
-    public function add_images(Request $request)
-    {
-        $urls = [];
-        // Валидация формы
-        $request->validate([
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ]);
-        // Перебираем все полученные файлы
-        if ($request->hasFile('images')) {
-            foreach ($request->images as $file) {
-                // Заполняем массив с загруженными файлами
-                $urls[] = $this->upload($file);
-            }
-        }
-        // Позвращаем список сохраненных файлов
-        return json_encode(['urls' => $urls]);
     }
 }

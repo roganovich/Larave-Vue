@@ -6,6 +6,7 @@ use App\Http\Resources\Point\PointResourceCollection;
 use App\Models\Point;
 use App\Models\PointsType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class PointsController extends Controller
 {
@@ -90,9 +91,9 @@ class PointsController extends Controller
         });
 
         return view('points.index', [
-            'items' => $items,
-            'map_point' => $map_point,
-            'navFilter' => $this->getNav(),
+                'items' => $items,
+                'map_point' => $map_point,
+                'navFilter' => $this->getNav(),
             ]
         );
     }
@@ -110,15 +111,23 @@ class PointsController extends Controller
         $this->setType($item->type);
         $this->setCity($item->city);
 
+        $items = new Collection();
+        $items->add($item);
+        /** Данные для построеник карточек магазинов*/
+        $map_point = $items->map(function ($item, $key) {
+            return [$item->map_longitude, $item->map_latitude];
+        });
+
         return view('points.show', [
             'item' => $item,
+            'map_point' => $map_point,
             'navFilter' => $this->getNav(),
         ]);
     }
 
     /**
      * Навигации по типам
-    */
+     */
     public function getNav()
     {
         return (string)view('points.nav', [

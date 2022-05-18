@@ -9,9 +9,9 @@ require('./bootstrap');
 import { createApp,h } from "vue";
 
 import { createRouter, createWebHistory } from 'vue-router';
-import App from './App.vue';
+import App from '../../vue/App.vue';
 import { createI18n, useI18n } from 'vue-i18n'
-import {routes} from './routes';
+import {routes} from '../../vue/routes';
 
 const i18n = createI18n({
     legacy: false,

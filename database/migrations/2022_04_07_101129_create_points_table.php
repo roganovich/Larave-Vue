@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('type_id')->default(1); ;
             $table->string('title');
+            $table->string('slug');
             $table->longText('description');
             $table->string('thumb')->nullable();
             $table->longText('images')->nullable();

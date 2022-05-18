@@ -103,4 +103,38 @@ Route::group([
         Route::post('addimages', [\App\Http\Controllers\Api\V1\PointsController::class, 'add_images']);
     });
 
+    // Страницы ProductsBrands
+    Route::group(['prefix' => 'products_brands'], function () {
+        // Список, поиск записей
+        Route::post('', [\App\Http\Controllers\Api\V1\ProductsBrandsController::class, 'index']);
+        // Создание новой записи
+        Route::post('store', [\App\Http\Controllers\Api\V1\ProductsBrandsController::class, 'store']);
+        // Получить данные записи
+        Route::get('{id}/get', [\App\Http\Controllers\Api\V1\ProductsBrandsController::class, 'get']);
+        // Обновить запись
+        Route::post('{id}/update', [\App\Http\Controllers\Api\V1\ProductsBrandsController::class, 'update']);
+        // Удалить запись
+        Route::delete('{id}/destroy', [\App\Http\Controllers\Api\V1\ProductsBrandsController::class, 'destroy']);
+        // Загрузить изображение
+        Route::post('addimages', [\App\Http\Controllers\Api\V1\ProductsBrandsController::class, 'add_images']);
+    });
+
+
+    // Страницы ProductsBrands
+    Route::group(['prefix' => 'products_categories'], function () {
+        // Список, поиск записей
+        Route::post('', [\App\Http\Controllers\Api\V1\ProductsCategoriesController::class, 'index']);
+        // Создание новой записи
+        Route::post('store', [\App\Http\Controllers\Api\V1\ProductsCategoriesController::class, 'store']);
+        // Получить данные записи
+        Route::get('{id}/get', [\App\Http\Controllers\Api\V1\ProductsCategoriesController::class, 'get']);
+        // Обновить запись
+        Route::post('{id}/update', [\App\Http\Controllers\Api\V1\ProductsCategoriesController::class, 'update']);
+        // Удалить запись
+        Route::delete('{id}/destroy', [\App\Http\Controllers\Api\V1\ProductsCategoriesController::class, 'destroy']);
+        // Загрузить изображение
+        Route::post('addimages', [\App\Http\Controllers\Api\V1\ProductsCategoriesController::class, 'add_images']);
+    });
+
+
 });

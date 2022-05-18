@@ -18,6 +18,8 @@ return [
     'name' => env('APP_NAME', 'Laravel'),
 
     'yandex_map_api' => '97f02216-27b5-45c5-aa29-6b23e9fc1b41',
+
+    'images' => '/uploads/images/',
     /*
     |--------------------------------------------------------------------------
     | Application Environment

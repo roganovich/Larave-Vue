@@ -24,6 +24,7 @@ class Point extends Model
         'city',
         'address',
         'title',
+        'slug',
         'type_id',
         'description',
         'area',
