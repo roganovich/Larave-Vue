@@ -48,6 +48,11 @@
                                 {{ __('points.index') }}
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::routeIs('products.*') ? 'active' : '' }}"  href="{{ route('products.index') }}">
+                                {{ __('products.index') }}
+                            </a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

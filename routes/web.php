@@ -25,6 +25,10 @@ Route::get('/wikipages/{id}/view', [App\Http\Controllers\WikipagesController::cl
 Route::get('/points', [App\Http\Controllers\PointsController::class, 'index'])->name('points.index');
 Route::get('/points/{id}/view', [App\Http\Controllers\PointsController::class, 'show'])->name('points.show');
 
+Route::get('/products', [App\Http\Controllers\ProductsController::class, 'index'])->name('products.index');
+Route::get('/products/{id}/view', [App\Http\Controllers\ProductsController::class, 'show'])->name('products.show');
+
+
 Route::middleware('auth')->get('/admin{any}', function () {
     return view('layouts.admin');
 })->where('any', '.*');

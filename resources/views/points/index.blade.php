@@ -48,5 +48,24 @@
         <div class="mt-2">
             {{ $items->links('pagination')}}
         </div>
+
+        @if(isset($item) && $item->map_longitude)
+            <div class="card-map mt-3">
+                <hr>
+                <div id="map"
+                     data-longitude="{{ $item->map_longitude }}"
+                     data-latitude="{{ $item->map_latitude }}"
+                     data-zoom="{{ $item->map_zoom }}"
+                     data-points="{{ $map_point  }}"
+                     style="width: 100%; height: 400px">
+                </div>
+            </div>
+        @endif
+
     </div>
+
+    <script src="https://api-maps.yandex.ru/2.1/?apikey={{ config('app.yandex_map_api')  }}&lang=ru_RU" type="text/javascript">
+    </script>
+    <script src="{{ asset('js/points.js')}}"></script>
+
 @endsection
