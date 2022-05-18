@@ -31,5 +31,8 @@ RUN chmod +x /usr/local/bin/composer
 COPY composer.json composer.lock ./
 RUN composer install
 
-RUN npm install --production && npm run build:production && rm -rf node_module
-
+# Cборка
+#RUN npm install
+#RUN npm install laravel-mix@latest
+#RUN npm audit fix
+#RUN npm run prod

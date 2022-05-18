@@ -103,7 +103,6 @@ class CreatePermissions extends Command
                 $model->route_component = $data['route_component'];
                 $model->save();
             }
-
         }
     }
 }

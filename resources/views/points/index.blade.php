@@ -49,7 +49,7 @@
             {{ $items->links('pagination')}}
         </div>
 
-        @if($item->map_longitude)
+        @if(isset($item) && $item->map_longitude)
             <div class="card-map mt-3">
                 <hr>
                 <div id="map"

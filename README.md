@@ -38,3 +38,13 @@ php artisan command:CreateLocale
 php artisan command:CreatePermissions
 Сканирует файл маршрутизации и записывает в базу возможные rout для создания прав доступа
 
+##Запуск контейнера
+ - docker-compose build
+ - docker-compose up
+ - docker exec -it larave-vue_fpm_1 bash
+ - php artisan migrate
+ - mkdir public/uploads
+ - mkdir public/uploads/images
+ - php artisan db:seed
+ - localhost:8098 
+

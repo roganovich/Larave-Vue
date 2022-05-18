@@ -1,15 +1,18 @@
 FROM node:17
 WORKDIR /var/www
-
-COPY package*.json ./
-COPY webpack*.mix ./
-# Продакшн-сборка
+# Копирование установочных файлов
+COPY . /var/www
+# Cборка
 RUN npm install
-RUN npm run development
-COPY . .
+RUN npm run dev
+
+#RUN npm run development
+# Копирование сборки обратно
 # Удаление папки с npm-модулями
-RUN rm -rf node_modules
+#RUN rm -rf node_modules
 # Уведомление о порте, который будет прослушивать работающее приложение
 EXPOSE 3000
 # Запуск проекта
-CMD ["npm", "start"]
+ENTRYPOINT ["npm", "run"]
+
+

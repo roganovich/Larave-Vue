@@ -25,20 +25,21 @@ class ProductFactory extends Factory
             rand(1, $max_categories),
         ];
 
+        $root = '/var/www/';
         $public = 'public';
         $base_dir = '/uploads/images/products/';
         $product_path = $base_dir . date('Ymd') . '/';
-        if (!file_exists($public.$base_dir)) {
-            mkdir($public.$base_dir);
-            if (!file_exists($public.$product_path)) {
-                mkdir($public.$product_path);
+        if (!file_exists($root . $public . $base_dir)) {
+            mkdir($root . $public . $base_dir);
+            if (!file_exists($root . $public . $product_path)) {
+                mkdir($root . $public . $product_path);
             }
         }
-        $thumb = $product_path . $this->faker->image($public . $product_path, 640, 480, null, false);
+        $thumb = $product_path . $this->faker->image($root . $public . $product_path, 640, 480, null, false);
 
         $images = [];
         for ($i = 0; $i <= rand(1, 5); $i++) {
-            $images[] = $product_path . $this->faker->image($public . $product_path, 640, 480, null, false);
+            $images[] = $product_path . $this->faker->image($root . $public . $product_path, 640, 480, null, false);
         }
 
         $code = rand(111111, 999999);

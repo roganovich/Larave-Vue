@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         //\App\Models\Wikipage::factory(100)->create();
         /** Типы точек */
         //DB::table('points_types')->insert([['title' => 'Магазин'], ['title' => 'Склад']]);
-        \App\Models\Point::factory(10)->create();
+        //\App\Models\Point::factory(10)->create();
         //\App\Models\ProductsBrand::factory(10)->create();
         //\App\Models\ProductsCategory::factory(5)->create();
         //\App\Models\Product::factory(50)->create();
