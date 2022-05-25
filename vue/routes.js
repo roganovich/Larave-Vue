@@ -37,9 +37,8 @@ import ProductsCategoryEdit from './components/products_categories/ProductsCateg
 function requireAuth(to, from, next) {
     var auth = window.Laravel.user;
     var isLoggedin = window.Laravel.isLoggedin;
-
     if (isLoggedin) {
-        if (auth.permissions_allow_routes.includes(to.name)) {
+        if (auth.permissions_allow_routes.includes(to.name) || auth.role.is_root) {
             next();
         } else {
             next({name: 'nopermission'});

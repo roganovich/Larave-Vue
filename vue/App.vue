@@ -12,7 +12,7 @@
                                     {{ $t('wikipages.index') }}
                                 </span>
                             </h5>
-                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('wikipages_index')">
+                            <li class="nav-item" v-if="checkRules('wikipages_index')">
                                 <router-link :to="{name:'wikipages_index'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
                                         <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
@@ -21,7 +21,7 @@
                                     {{ $t('default.list') }}
                                 </router-link>
                             </li>
-                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('wikipages_create')">
+                            <li class="nav-item" v-if="checkRules('wikipages_create')">
                                 <router-link :to="{name:'wikipages_create'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -41,7 +41,7 @@
                                     {{ $t('products.shop') }}
                                 </span>
                             </h5>
-                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('products_index')">
+                            <li class="nav-item" v-if="checkRules('products_index')">
                                 <router-link :to="{name:'products_index'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upc-scan" viewBox="0 0 16 16">
                                         <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5zM3 4.5a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7zm2 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7zm2 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7zm2 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-7zm3 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7z"/>
@@ -49,7 +49,7 @@
                                     {{ $t('products.index') }}
                                 </router-link>
                             </li>
-                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('products_brand_index')">
+                            <li class="nav-item" v-if="checkRules('products_brand_index')">
                                 <router-link :to="{name:'products_brand_index'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-handbag" viewBox="0 0 16 16">
                                         <path d="M8 1a2 2 0 0 1 2 2v2H6V3a2 2 0 0 1 2-2zm3 4V3a3 3 0 1 0-6 0v2H3.36a1.5 1.5 0 0 0-1.483 1.277L.85 13.13A2.5 2.5 0 0 0 3.322 16h9.355a2.5 2.5 0 0 0 2.473-2.87l-1.028-6.853A1.5 1.5 0 0 0 12.64 5H11zm-1 1v1.5a.5.5 0 0 0 1 0V6h1.639a.5.5 0 0 1 .494.426l1.028 6.851A1.5 1.5 0 0 1 12.678 15H3.322a1.5 1.5 0 0 1-1.483-1.723l1.028-6.851A.5.5 0 0 1 3.36 6H5v1.5a.5.5 0 1 0 1 0V6h4z"/>
@@ -57,7 +57,7 @@
                                     {{ $t('products.brand', 2) }}
                                 </router-link>
                             </li>
-                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('products_category_index')">
+                            <li class="nav-item" v-if="checkRules('products_category_index')">
                                 <router-link :to="{name:'products_category_index'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-layers" viewBox="0 0 16 16">
                                         <path d="M8.235 1.559a.5.5 0 0 0-.47 0l-7.5 4a.5.5 0 0 0 0 .882L3.188 8 .264 9.559a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882L12.813 8l2.922-1.559a.5.5 0 0 0 0-.882l-7.5-4zm3.515 7.008L14.438 10 8 13.433 1.562 10 4.25 8.567l3.515 1.874a.5.5 0 0 0 .47 0l3.515-1.874zM8 9.433 1.562 6 8 2.567 14.438 6 8 9.433z"/>
@@ -77,7 +77,7 @@
                                     {{ $t('points.index') }}
                                 </span>
                             </h5>
-                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('points_index')">
+                            <li class="nav-item" v-if="checkRules('points_index')">
                                 <router-link :to="{name:'points_index'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
                                         <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
@@ -86,7 +86,7 @@
                                     {{ $t('default.list') }}
                                 </router-link>
                             </li>
-                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('points_create')">
+                            <li class="nav-item" v-if="checkRules('points_create')">
                                 <router-link :to="{name:'points_create'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -106,7 +106,7 @@
                                     {{ $t('users.index') }}
                                 </span>
                             </h5>
-                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('users_index')">
+                            <li class="nav-item" v-if="checkRules('users_index')">
                                 <router-link :to="{name:'users_index'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
                                         <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
@@ -115,7 +115,7 @@
                                     {{ $t('default.list') }}
                                 </router-link>
                             </li>
-                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('users_create')">
+                            <li class="nav-item" v-if="checkRules('users_create')">
                                 <router-link :to="{name:'users_create'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -136,7 +136,7 @@
                                     {{ $t('roles.index') }}
                                 </span>
                             </h5>
-                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('usersroles_index')">
+                            <li class="nav-item" v-if="checkRules('usersroles_index')">
                                 <router-link :to="{name:'usersroles_index'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
                                         <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
@@ -145,7 +145,7 @@
                                     {{ $t('default.list') }}
                                 </router-link>
                             </li>
-                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('usersroles_create')">
+                            <li class="nav-item" v-if="checkRules('usersroles_create')">
                                 <router-link :to="{name:'usersroles_create'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -166,7 +166,7 @@
                                     {{ $t('permissions.index') }}
                                 </span>
                             </h5>
-                            <li class="nav-item" v-if="auth.permissions_allow_routes.includes('permissions_index')">
+                            <li class="nav-item" v-if="checkRules('permissions_index')">
                                 <router-link :to="{name:'permissions_index'}" class="nav-link active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
                                         <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
@@ -194,6 +194,11 @@ export default {
     created() {
         this.auth = window.Laravel.user;
         this.isLoggedin = window.Laravel.isLoggedin;
+    },
+    methods: {
+        checkRules(path) {
+            return (this.auth.permissions_allow_routes.includes(path) || this.auth.role.is_root);
+        }
     }
 }
 </script>

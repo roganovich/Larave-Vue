@@ -32,7 +32,7 @@ COPY composer.json composer.lock ./
 RUN composer install
 
 # Cборка
-#RUN npm install
-#RUN npm install laravel-mix@latest
-#RUN npm audit fix
-#RUN npm run prod
+RUN npm install
+RUN npm install laravel-mix@latest
+RUN npm audit fix
+RUN npm run prod
