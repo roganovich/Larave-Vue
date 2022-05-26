@@ -8,6 +8,7 @@ use App\Models\ProductsBrand;
 use App\Models\ProductsCategory;
 use App\Models\ProductsType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class ProductsController extends Controller
 {
@@ -62,20 +63,39 @@ class ProductsController extends Controller
     }
 
     /**
+     * @param ProductsCategory $category
+     */
+    public function setCategory(ProductsCategory $category): void
+    {
+        $this->category = $category;
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        if ($brand = $request->get('brand')) {
-            $brand = ProductsBrand::where(['slug' => $brand])->first();
+        $get = $request->get('Product');
+        if ($brand = Arr::get($get,'brand')) {
+            $brand = ProductsBrand::select(['id', 'slug'])->where(['slug' => $brand])->first();
             if (!$brand) {
                 return 404;
             }
             $this->search['brand_id'] = $brand->id;
             $this->setBrand($brand);
         }
+
+        if ($category = Arr::get($get,'category')) {
+            $category = ProductsCategory::select(['id', 'slug'])->where(['slug' => $category])->first();
+            if (!$category) {
+                return 404;
+            }
+            $this->search['categories'] = $category->id;
+            $this->setCategory($category);
+        }
+
         $query = Product::filter($this->search)
             ->sort($this->sort)
             ->paginate(12);
@@ -115,6 +135,7 @@ class ProductsController extends Controller
         return (string)view('products.nav', [
             'brand' => $this->getBrand(),
             'brands' => $this->getAllBrands(),
+            'caregories' => $this->getAllCategories(),
             'category' => $this->getCategory(),
             'total' => $this->getTotal()
         ]);
@@ -126,8 +147,20 @@ class ProductsController extends Controller
      */
     public function getAllBrands()
     {
-        return new ProductResourceCollection(Product::brands()->get());
+        //return new ProductResourceCollection(Product::brands()->get());
+        return ProductsBrand::select(['id', 'title', 'slug'])->get();
     }
+
+    /**
+     * Список категорий
+     * @return ProductResourceCollection
+     */
+    public function getAllCategories()
+    {
+        return ProductsCategory::select(['id', 'title', 'slug'])->get();
+    }
+
+
 
     /**
      * Количество записей в базе

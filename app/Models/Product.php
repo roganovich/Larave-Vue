@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 class Product extends Model
 {
     use HasFactory;
+    use \Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
 
     protected $table = 'products';
     /**
@@ -33,6 +34,10 @@ class Product extends Model
         'updated_at',
     ];
 
+    protected $casts = [
+        'categories' => 'json'
+    ];
+
     // Поиск по полям
     public function scopeFilter(Builder $builder, $request)
     {
@@ -50,6 +55,12 @@ class Product extends Model
         return $this->belongsTo(ProductsBrand::class, 'brand_id');
     }
 
+    public function categoriesList()
+    {
+        return $this->belongsToJson(ProductsCategory::class, 'categories', 'id');
+    }
+
+
     public function getImagesListAttribute()
     {
         return $this->images ? json_decode($this->images, true) : [];
@@ -65,8 +76,11 @@ class Product extends Model
         return implode(' ', $data);
     }
 
-    // Группировка брендов
-    public function scopeBrands($query)
+   /**
+    * Группировка брендов
+    * Получить все товары по брендам
+    */
+    /*public function scopeBrands($query)
     {
         return $query
             ->select('p.id', 'p.title', 'p.slug', DB::raw("count({$this->table}.id) as count"))
@@ -74,5 +88,19 @@ class Product extends Model
             ->whereNull("{$this->table}.deleted_at")
             ->groupBy('p.id', 'p.title', 'p.slug')
             ->having(DB::raw("count({$this->table}.brand_id)"), '>', 0);
-    }
+    }*/
+
+    /**
+     * Группировка категорий
+     * Получить все товары по категорииям
+     */
+    /*public function scopeCategories($query)
+   {
+       return $query
+           ->select('p.id', 'p.title', 'p.slug', DB::raw("count({$this->table}.id) as count"))
+           ->join('product_caregories as p', 'p.id', '=', "{$this->table}.brand_id")
+           ->whereNull("{$this->table}.deleted_at")
+           ->groupBy('p.id', 'p.title', 'p.slug')
+           ->having(DB::raw("count({$this->table}.brand_id)"), '>', 0);
+   }*/
 }

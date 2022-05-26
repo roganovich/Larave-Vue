@@ -9,7 +9,7 @@ class ProductsFilter extends AbstractFilter
         'brand_id' => EqualFilter::class,
         'title' => LikeFilter::class,
         'description' => LikeFilter::class,
-        'categories' => EqualFilter::class,
+        'categories' => LikeFilter::class,
         'attributes' => EqualFilter::class,
         'visible' => EqualFilter::class,
         'created_at' => EqualFilter::class,

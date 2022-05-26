@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4108ca30a86f6d08d5f48c51d9491cda",
+    "content-hash": "8954ca07bf11d063682e80884badf131",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3037,6 +3037,56 @@
                 }
             ],
             "time": "2022-03-27T21:42:02+00:00"
+        },
+        {
+            "name": "staudenmeir/eloquent-json-relations",
+            "version": "v1.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/staudenmeir/eloquent-json-relations.git",
+                "reference": "863d5255934e9b1c91232724d1e80301dfa87b5f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/staudenmeir/eloquent-json-relations/zipball/863d5255934e9b1c91232724d1e80301dfa87b5f",
+                "reference": "863d5255934e9b1c91232724d1e80301dfa87b5f",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^9.0",
+                "php": "^8.0.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Staudenmeir\\EloquentJsonRelations\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonas Staudenmeir",
+                    "email": "mail@jonas-staudenmeir.de"
+                }
+            ],
+            "description": "Laravel Eloquent relationships with JSON keys",
+            "support": {
+                "issues": "https://github.com/staudenmeir/eloquent-json-relations/issues",
+                "source": "https://github.com/staudenmeir/eloquent-json-relations/tree/v1.6.1"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/JonasStaudenmeir",
+                    "type": "custom"
+                }
+            ],
+            "time": "2022-03-26T22:05:44+00:00"
         },
         {
             "name": "symfony/console",
