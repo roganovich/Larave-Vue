@@ -4,12 +4,30 @@
     <div class="container">
         {{ Breadcrumbs::render('products.show', $item) }}
 
-        {!! $navFilter !!}
-
         <div class="row mt-2 justify-content-center">
             <div class="card col-md-12 col-lg-12 p-2">
                 <div class="card-body">
                     <h1>{{ $item->text }}</h1>
+
+                    @if ($item->brand)
+                        <div class="card-address fw-bold text-success">
+                            <a class="fw-bold text-success"
+                               href="{{ route('products.index', ['Product[brand]' => $item->brand->slug]) }}">
+                                {{ $item->brand->title }}
+                            </a>
+                        </div>
+                    @endif
+
+                    @if ($item->categoriesList)
+                        @foreach ($item->categoriesList as $category)
+                            <div class="card-address fw-bold text-success">
+                                <a class="fw-bold text-info"
+                                   href="{{ route('products.index', ['Product[category]' =>$category->slug]) }}">
+                                    {{ $category->title }}
+                                </a>
+                            </div>
+                        @endforeach
+                    @endif
 
                     <div class="card-text mt-2">
                         {!! $item->description !!}

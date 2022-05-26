@@ -12,7 +12,7 @@
             <div class="col-md-9 col-lg-10">
                 <div class="row mt-2 justify-content-left">
                     @foreach ($items as $item)
-                        <div class="card col-md-4 col-lg-3 p-2">
+                        <div class="card col-md-6 col-lg-4 p-2">
                             <div class="card-body">
                                 <h3 class="card-title"><a href="{{ route('products.show', ['id' => $item->id]) }}"
                                                           class="">{{ $item->text }} </a>
