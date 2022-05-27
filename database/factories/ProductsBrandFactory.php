@@ -17,7 +17,8 @@ class ProductsBrandFactory extends Factory
      */
     public function definition()
     {
-        $root = '/var/www/';
+        $thumb = '';
+        /*$root = '/var/www/';
         $public = 'public';
         $base_dir = '/uploads/images/products_brand/';
         $product_path = $base_dir . date('Ymd') . '/';
@@ -26,8 +27,8 @@ class ProductsBrandFactory extends Factory
             if (!file_exists($root . $public . $product_path)) {
                 mkdir($root . $public . $product_path);
             }
-        }
-        $thumb = $product_path . $this->faker->image($root . $public . $product_path, 640, 480, null, false);
+        }*/
+        //$thumb = $product_path . $this->faker->image($root . $public . $product_path, 640, 480, null, false);
 
         $title = $this->faker->company;
         $slug = Str::slug($title, '_');

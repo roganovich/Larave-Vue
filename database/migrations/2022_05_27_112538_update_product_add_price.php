@@ -12,8 +12,8 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('role_id')->default(0);
+        Schema::table('products', function (Blueprint $table) {
+            $table->integer('price')->default(0);
         });
     }
 
@@ -24,8 +24,8 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::table('articles', function ($table) {
-            $table->integer('role_id');
+        Schema::table('products', function ($table) {
+            $table->integer('price');
         });
     }
 };

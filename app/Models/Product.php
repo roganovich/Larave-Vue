@@ -30,6 +30,7 @@ class Product extends Model
         'attributes',
         'visible',
         'views',
+        'price',
         'created_at',
         'updated_at',
     ];

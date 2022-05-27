@@ -17,6 +17,7 @@ class PointFactory extends Factory
      */
     public function definition()
     {
+        $thumb = '';
         $public = 'public';
         $base_dir = '/uploads/images/points/';
         $product_path = $base_dir . date('Ymd') . '/';
@@ -26,11 +27,11 @@ class PointFactory extends Factory
                 mkdir($public . $product_path);
             }
         }
-        $thumb = $product_path . $this->faker->image($public . $product_path, 640, 480, null, false);
+        //$thumb = $product_path . $this->faker->image($public . $product_path, 640, 480, null, false);
 
         $images = [];
         for ($i = 0; $i <= rand(1, 5); $i++) {
-            $images[] = $product_path . $this->faker->image($public . $product_path, 640, 480, null, false);
+            //$images[] = $product_path . $this->faker->image($public . $product_path, 640, 480, null, false);
         }
 
         $country = "Россия";

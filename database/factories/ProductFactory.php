@@ -17,6 +17,7 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
+        $thumb = '';
         $max_categories = 5;
         $max_brands = 10;
         $categories = [
@@ -25,7 +26,7 @@ class ProductFactory extends Factory
             rand(1, $max_categories),
         ];
 
-        $root = '/var/www/';
+        /*$root = '/var/www/';
         $public = 'public';
         $base_dir = '/uploads/images/products/';
         $product_path = $base_dir . date('Ymd') . '/';
@@ -34,12 +35,12 @@ class ProductFactory extends Factory
             if (!file_exists($root . $public . $product_path)) {
                 mkdir($root . $public . $product_path);
             }
-        }
-        $thumb = $product_path . $this->faker->image($root . $public . $product_path, 640, 480, null, false);
+        }*/
+        //$thumb = $product_path . $this->faker->image($root . $public . $product_path, 640, 480, null, false);
 
         $images = [];
         for ($i = 0; $i <= rand(1, 5); $i++) {
-            $images[] = $product_path . $this->faker->image($root . $public . $product_path, 640, 480, null, false);
+            //$images[] = $product_path . $this->faker->image($root . $public . $product_path, 640, 480, null, false);
         }
 
         $code = rand(111111, 999999);
@@ -47,7 +48,7 @@ class ProductFactory extends Factory
         $title = Str::ucfirst($this->faker->words(2, true));
         $description = $this->faker->paragraph(4);
         $categories = json_encode(array_values(array_unique($categories)));
-
+        $price = rand(99, 9999);
         return [
             'code' => $code,
             'brand_id' => $brand_id,
@@ -56,6 +57,7 @@ class ProductFactory extends Factory
             'categories' => $categories,
             'thumb' => $thumb,
             'images' => json_encode($images),
+            'price' => $price,
         ];
     }
 }

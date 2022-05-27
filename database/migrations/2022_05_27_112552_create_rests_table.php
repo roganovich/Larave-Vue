@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,8 +13,12 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('role_id')->default(0);
+        Schema::create('rests', function (Blueprint $table) {
+            $table->id();
+            $table->integer('product_id');
+            $table->integer('point_id');
+            $table->integer('qty')->default(0);
+            $table->timestamps();
         });
     }
 
@@ -24,8 +29,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::table('articles', function ($table) {
-            $table->integer('role_id');
-        });
+        Schema::dropIfExists('rests');
     }
 };
