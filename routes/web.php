@@ -26,7 +26,7 @@ Route::get('/points', [App\Http\Controllers\PointsController::class, 'index'])->
 Route::get('/points/{id}/view', [App\Http\Controllers\PointsController::class, 'show'])->name('points.show');
 
 Route::get('/products', [App\Http\Controllers\ProductsController::class, 'index'])->name('products.index');
-Route::get('/products/{id}/view', [App\Http\Controllers\ProductsController::class, 'show'])->name('products.show');
+Route::get('/products/{brand_slug}/{product_slug}', [App\Http\Controllers\ProductsController::class, 'show'])->name('products.show');
 
 
 Route::middleware('auth')->get('/admin{any}', function () {

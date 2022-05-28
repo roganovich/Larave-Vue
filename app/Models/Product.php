@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class Product extends Model
 {
     use HasFactory;
-    use \Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
+    //use \Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
 
     protected $table = 'products';
     /**
@@ -56,18 +56,29 @@ class Product extends Model
         return $this->belongsTo(ProductsBrand::class, 'brand_id');
     }
 
-    public function categoriesList()
+    public function getCategoriesListAttribute()
     {
-        return $this->belongsToJson(ProductsCategory::class, 'categories', 'id');
+        return collect(json_decode($this->categories))->map(function ($id) {
+            return ProductsCategory::find($id);
+        });
     }
 
+    public function restList()
+    {
+        return $this->hasMany(Rest::class, 'product_id');
+    }
+
+    public function getProductThumbAttribute()
+    {
+        return (!empty($this->thumb)) ? $this->thumb : '/uploads/images/noimage.png';
+    }
 
     public function getImagesListAttribute()
     {
         return $this->images ? json_decode($this->images, true) : [];
     }
 
-    public function getTextAttribute()
+    public function getFullTitleAttribute()
     {
         $data = [
             $this->brand->title,
@@ -77,10 +88,10 @@ class Product extends Model
         return implode(' ', $data);
     }
 
-   /**
-    * Группировка брендов
-    * Получить все товары по брендам
-    */
+    /**
+     * Группировка брендов
+     * Получить все товары по брендам
+     */
     /*public function scopeBrands($query)
     {
         return $query

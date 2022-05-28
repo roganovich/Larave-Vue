@@ -112,14 +112,21 @@ class ProductsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param string $brand_slug
+     * @param string $product_slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($brand_slug, $product_slug)
     {
-        $item = Product::findOrFail($id);
-
-        $this->setBrand($item->brand);
+        $brand = ProductsBrand::where(['slug'=>$brand_slug])->first();
+        if(!$brand){
+            abort(404, 'Oops...Not brand!');
+        }
+        $item = Product::where(['slug'=>$product_slug])->first();
+        if(!$item){
+            abort(404, 'Oops...Not product!');
+        }
+        $this->setBrand($brand);
 
         return view('products.show', [
             'item' => $item,

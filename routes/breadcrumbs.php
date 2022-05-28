@@ -54,5 +54,5 @@ Breadcrumbs::for('products.show', function ($trail, $item) {
         $trail->push($item->brand->title, route('products.index', ['brand' => $item->brand->slug]));
     }
 
-    $trail->push($item->title, route('products.show', ['id' => $item->id]));
+    $trail->push($item->title, route('products.show', ['brand_slug'=>$item->brand->slug,'product_slug' => $item->slug]));
 });

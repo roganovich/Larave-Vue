@@ -49,6 +49,8 @@ class ProductFactory extends Factory
         $description = $this->faker->paragraph(4);
         $categories = json_encode(array_values(array_unique($categories)));
         $price = rand(99, 9999);
+        $slug = Str::slug($title, '_');
+
         return [
             'code' => $code,
             'brand_id' => $brand_id,
@@ -58,6 +60,7 @@ class ProductFactory extends Factory
             'thumb' => $thumb,
             'images' => json_encode($images),
             'price' => $price,
+            'slug' => $slug,
         ];
     }
 }

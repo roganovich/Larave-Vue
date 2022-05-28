@@ -13,9 +13,10 @@
                 <div class="row mt-2 justify-content-left">
                     @foreach ($items as $item)
                         <div class="card col-md-6 col-lg-4 p-2">
+                            <img src="{{ $item->productThumb }}" class="card-img-top" title="{{ $item->fullTitle }}" alt="{{ $item->fullTitle }}">
                             <div class="card-body">
-                                <h3 class="card-title"><a href="{{ route('products.show', ['id' => $item->id]) }}"
-                                                          class="">{{ $item->text }} </a>
+                                <h3 class="card-title"><a href="{{ route('products.show', ['brand_slug'=>$item->brand->slug,'product_slug' => $item->slug]) }}"
+                                                          class="">{{ $item->fullTitle }} </a>
                                 </h3>
 
                                 @if ($item->brand)
@@ -38,15 +39,12 @@
                                     @endforeach
                                 @endif
 
-                                @if ($item->thumb)
-                                    <img class="thumb m-1" src="{{URL::asset($item->thumb)}}" title="{{ $item->text }}"
-                                         alt="{{ $item->text }}"/>
-                                @endif
                                 <div>
 
                                 </div>
-                                <a href="{{ route('products.show', ['id' => $item->id]) }}" title="{{ __('default.follow') }}"
-                                   class="btn btn-primary position-absolute bottom-0 end-0 m-2">{{ $item->price }}</a>
+                                <a href="{{ route('products.show', ['brand_slug'=>$item->brand->slug,'product_slug' => $item->slug]) }}" title="{{ __('default.follow') }}"
+                                   class="btn btn-primary position-absolute bottom-0 end-0 m-2">
+                                    {{ __('default.price') }} {{ $item->price }} {{ __('default.rub') }} </a>
                             </div>
                         </div>
                     @endforeach
