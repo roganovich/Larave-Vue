@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\Point\PointResourceCollection;
 use App\Models\Point;
 use App\Models\PointsType;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -101,13 +102,15 @@ class PointsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param int $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $item = Point::findOrFail($id);
-
+        $item = Point::where(['slug' => $slug])->first();
+        if (!$item) {
+            throw (new ModelNotFoundException)->setModel(Point::class, $slug);
+        }
         $this->setType($item->type);
         $this->setCity($item->city);
 

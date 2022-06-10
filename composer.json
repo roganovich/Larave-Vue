@@ -13,6 +13,7 @@
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
+        "lenius/laravel-basket": "^4.0",
         "staudenmeir/eloquent-json-relations": "^1.6"
     },
     "require-dev": {

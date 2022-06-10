@@ -37,7 +37,7 @@ Breadcrumbs::for('points.show', function ($trail, $item) {
         $trail->push($item->type->title, route('points.index', ['type_id' => $item->type->id]));
     }
 
-    $trail->push($item->title, route('points.show', ['id' => $item->id]));
+    $trail->push($item->title, route('points.show', ['slug' => $item->slug]));
 });
 
 /** Продукты */
@@ -55,4 +55,10 @@ Breadcrumbs::for('products.show', function ($trail, $item) {
     }
 
     $trail->push($item->title, route('products.show', ['brand_slug'=>$item->brand->slug,'product_slug' => $item->slug]));
+});
+
+/** Корзина */
+Breadcrumbs::for('basket.index', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('basket.index'), route('basket.index'));
 });

@@ -36,4 +36,7 @@ return [
     'price' => 'Цена',
     'rub' => 'руб.',
     'addtobasket' => 'Добавить в корзину',
+    'warhouse' => 'Склад',
+    'delivery' => 'Доставка',
+    'term ' => 'Срок',
 ];
