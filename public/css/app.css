@@ -11346,6 +11346,32 @@ textarea.form-control-lg {
   height: 100px;
 }
 
+a {
+  text-decoration: none;
+}
+
+h3.card-title a, .card-title.h3 a {
+  color: #930b44;
+}
+
+a.text-info {
+  color: #d9a408 !important;
+}
+
+a.text-info:hover {
+  color: white !important;
+  background-color: #f7d77b !important;
+}
+
+a.text-success {
+  color: #128412 !important;
+}
+
+a.text-success:hover {
+  color: white !important;
+  background-color: #c2ddb8 !important;
+}
+
 .table img.mini_thumb {
   height: 40px;
 }
@@ -11353,4 +11379,7 @@ textarea.form-control-lg {
 .basket-body .basket-pills {
   width: 31px;
   height: 31px;
+}
+.basket-body .product-thumb {
+  width: 50px;
 }

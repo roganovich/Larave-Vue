@@ -45,6 +45,7 @@ php artisan command:CreatePermissions
  - php artisan migrate
  - mkdir public/uploads
  - mkdir public/uploads/images
+ - chmod -R 777 /var/www/storage
  - php artisan db:seed
  - localhost:8098 
 

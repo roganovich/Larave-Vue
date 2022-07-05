@@ -35,4 +35,4 @@ RUN composer install
 RUN npm install
 RUN npm install laravel-mix@latest
 RUN npm audit fix
-RUN npm run prod
+#RUN npm run prod

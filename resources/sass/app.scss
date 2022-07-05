@@ -10,13 +10,36 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-
 .form_thumb, .card-body{
     img.thumb{
         height: 100px;
     }
 }
 
+a{
+    text-decoration: none;
+}
+
+h3.card-title a{
+    color: $red-color;
+
+}
+
+a.text-info{
+    color: $yelow-color !important;
+}
+a.text-info:hover {
+    color:white !important;
+    background-color: $yelow-light-color !important;
+}
+
+a.text-success{
+    color: $green-color !important;
+}
+a.text-success:hover {
+    color:white !important;
+    background-color: $green-light-color !important;
+}
 
 .table {
     img.mini_thumb{
@@ -28,5 +51,8 @@
     .basket-pills{
         width: 31px;
         height: 31px;
+    }
+    .product-thumb{
+        width: 50px;
     }
 }

@@ -53,14 +53,20 @@
                                 {{ __('products.index') }}
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('basket.index') }}">{{ __('basket.index') }}
+                                @if ($app->basket->total() > 0)
+                                    <span class="badge bg-danger" title="{{ number_format($app->basket->total(), 2, '.', ' ') }}">
+                                        {{ count($app->basket->contents()) }}
+                                    </span>
+                                @endif
+                            </a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('basket.index') }}">{{ __('basket.index') }}</a>
-                        </li>
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
@@ -108,6 +114,84 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>{{ __('points.index') }}</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2">
+                            <a class="nav-link p-0 text-muted" href="{{ route('wikipages.index') }}">
+                                {{ __('wikipages.index') }}
+                            </a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link p-0 text-muted"  href="{{ route('points.index') }}">
+                                {{ __('points.index') }}
+                            </a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link p-0 text-muted"  href="{{ route('products.index') }}">
+                                {{ __('products.index') }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>{{ trans_choice('points.city', 2) }}</h5>
+                    <ul class="nav flex-column">
+                        @foreach ($app->pointsCities as $link)
+                            <li class="nav-item mb-2"><a class="nav-link p-0 text-muted" href="{{ route('points.index', ['city' => $link->title]) }}">
+                                {{ $link->title }}</span>
+                            </a></li>
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>{{ trans_choice('points.type', 2) }}</h5>
+                    <ul class="nav flex-column">
+                        @foreach ($app->pointsTypes as $link)
+                            <li class="nav-item mb-2"><a class="nav-link p-0 text-muted" href="{{ route('points.index', ['type' => $link->title]) }}">
+                                {{ $link->title }} </span>
+                            </a></li>
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>{{ trans_choice('products.category', 2) }}</h5>
+                    <ul class="nav flex-column">
+                        @foreach ($app->productsCategories as $link)
+                            <li class="nav-item mb-2"><a class="nav-link p-0 text-muted" href="{{ route('products.index', ['Product[category]' =>$link->slug]) }}">
+                                #{{ $link->title }}
+                            </a></li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-4 mb-3">
+                    <form>
+                        <h5>{{ __('alert.subscribe') }}</h5>
+                        <p>{{ __('alert.digest') }}.</p>
+                        <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                            <label for="newsletter1" class="visually-hidden">Email address</label>
+                            <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
+                            <button class="btn btn-primary" type="button">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between py-4 mt-4 border-top">
+                <p>© {{ date('Y') }} R/R Company, Inc. All rights reserved.</p>
+                <ul class="list-unstyled d-flex">
+                    <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
+                    <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
+                    <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+                </ul>
+                <div></div>
+            </div>
+        </div>
+
     </div>
 </body>
 </html>

@@ -6,10 +6,9 @@ use App\Models\Point;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use \Illuminate\Contracts\Foundation\Application;
 
 use Lenius\Basket\Basket;
-use Lenius\Basket\Storage\Session;
-use Lenius\Basket\Identifier\Cookie;
 use Lenius\Basket\Item;
 
 class BasketController extends Controller
@@ -24,9 +23,9 @@ class BasketController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Application $app)
     {
-        $this->_basket = new Basket(new Session, new Cookie);
+        $this->_basket = $app->basket;
     }
 
     /**
@@ -36,10 +35,7 @@ class BasketController extends Controller
      */
     public function index(Request $request)
     {
-        return view('basket.index', [
-                'basket' => $this->_basket,
-            ]
-        );
+        return view('basket.index');
     }
 
     /**

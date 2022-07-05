@@ -12,6 +12,8 @@
             @foreach ($items as $item)
                 <div class="card col-md-4 col-lg-3 p-2">
                     <div class="card-body">
+                        <img src="{{ $item->pointThumb }}" class="card-img-top" title="{{ $item->title }}" alt="{{ $item->title }}">
+
                         <h3 class="card-title"><a href="{{ route('points.show', ['slug' => $item->slug]) }}"
                                                   class="">{{ $item->title }}</a>
                         </h3>
@@ -50,8 +52,8 @@
         </div>
 
         @if(isset($item) && $item->map_longitude)
-            <div class="card-map mt-3">
-                <hr>
+            <div class="card-map py-4 mt-4">
+
                 <div id="map"
                      data-longitude="{{ $item->map_longitude }}"
                      data-latitude="{{ $item->map_latitude }}"

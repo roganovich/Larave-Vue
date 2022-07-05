@@ -18,33 +18,37 @@
                                 <h3 class="card-title"><a href="{{ route('products.show', ['brand_slug'=>$item->brand->slug,'product_slug' => $item->slug]) }}"
                                                           class="">{{ $item->fullTitle }} </a>
                                 </h3>
+                                <div class="row">
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                        <div class="card-address fw-bold">
+                                            @if ($item->brand)
 
-                                @if ($item->brand)
-                                    <div class="card-address fw-bold text-success">
-                                        <a class="fw-bold text-success"
-                                           href="{{ route('products.index', ['Product[brand]' => $item->brand->slug]) }}">
-                                            {{ $item->brand->title }}
-                                        </a>
-                                    </div>
-                                @endif
+                                                <a class="fw-bold text-success"
+                                                   href="{{ route('products.index', ['Product[brand]' => $item->brand->slug]) }}">
+                                                    #{{ $item->brand->title }}
+                                                </a>
 
-                                @if ($item->categoriesList)
-                                    @foreach ($item->categoriesList as $category)
-                                        <div class="card-address fw-bold text-success">
-                                            <a class="fw-bold text-info"
-                                               href="{{ route('products.index', ['Product[category]' =>$category->slug]) }}">
-                                                {{ $category->title }}
-                                            </a>
+                                            @endif
                                         </div>
-                                    @endforeach
-                                @endif
+                                        <div class="card-address fw-bold">
+                                            @if ($item->categoriesList)
+                                                @foreach ($item->categoriesList as $category)
 
-                                <div>
+                                                    <a class="fw-bold text-info"
+                                                       href="{{ route('products.index', ['Product[category]' =>$category->slug]) }}">
+                                                        #{{ $category->title }}
+                                                    </a>
 
+                                                @endforeach
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <a href="{{ route('products.show', ['brand_slug'=>$item->brand->slug,'product_slug' => $item->slug]) }}" title="{{ __('default.follow') }}"
+                                           class="btn btn-success position-absolute bottom-0 end-0 m-2">
+                                            {{ __('default.price') }} {{ $item->price }} {{ __('default.rub') }} </a>
+                                    </div>
                                 </div>
-                                <a href="{{ route('products.show', ['brand_slug'=>$item->brand->slug,'product_slug' => $item->slug]) }}" title="{{ __('default.follow') }}"
-                                   class="btn btn-primary position-absolute bottom-0 end-0 m-2">
-                                    {{ __('default.price') }} {{ $item->price }} {{ __('default.rub') }} </a>
                             </div>
                         </div>
                     @endforeach

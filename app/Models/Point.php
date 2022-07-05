@@ -58,6 +58,11 @@ class Point extends Model
         return $this->images ? json_decode($this->images, true) : [];
     }
 
+    public function getPointThumbAttribute()
+    {
+        return (!empty($this->thumb)) ? $this->thumb : '/uploads/images/noimage.png';
+    }
+
     // Группировка типов
     public function scopeTypes($query)
     {

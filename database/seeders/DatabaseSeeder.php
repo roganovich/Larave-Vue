@@ -24,35 +24,36 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         /** Пользователи */
-        //\App\Models\User::factory(self::COUNT_USERS)->create();
+        \App\Models\User::factory(self::COUNT_USERS)->create();
 
+        // admin@test.te password
         /** Создаем права доступа */
-        /* DB::table('users_roles')->insert([
+        DB::table('users_roles')->insert([
              ['title' => 'Администратор', 'is_root' => 1],
              ['title' => 'Менеджер', 'is_root' => 0],
              ['title' => 'Контент', 'is_root' => 0],
-         ]);*/
+         ]);
 
         /** Назначаем администратора */
-        //DB::table('users')->where('id', '=', 1)->update(array('role_id' => 1));
+        DB::table('users')->where('id', '=', 1)->update(array('role_id' => 1));
 
         /** Текстовые страницы */
-        //\App\Models\Wikipage::factory(self::COUNT_WIKIPAGES)->create();
+        \App\Models\Wikipage::factory(self::COUNT_WIKIPAGES)->create();
 
         /** Производители товаров */
-        //\App\Models\ProductsBrand::factory(self::COUNT_PRODUCT_BRANDS)->create();
+        \App\Models\ProductsBrand::factory(self::COUNT_PRODUCT_BRANDS)->create();
 
         /** Категории товаров */
-        //\App\Models\ProductsCategory::factory(self::COUNT_PRODUCTS_CATEGORIES)->create();
+        \App\Models\ProductsCategory::factory(self::COUNT_PRODUCTS_CATEGORIES)->create();
 
         /** Товары */
         \App\Models\Product::factory(self::COUNT_PRODUCTS)->create();
 
         /** Типы точек */
-        //DB::table('points_types')->insert([['title' => 'Магазин'], ['title' => 'Склад']]);
+        DB::table('points_types')->insert([['title' => 'Магазин'], ['title' => 'Склад']]);
 
         /** Точки выдачи товаров */
-        //\App\Models\Point::factory(self::COUNT_POINTS)->create();
+        \App\Models\Point::factory(self::COUNT_POINTS)->create();
 
         /** Остатки товаров на каждоой точке */
         $datetime = date("Y-m-d H:i:s");
@@ -69,6 +70,6 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        //DB::table('rests')->insert($rest_insert_data);
+        DB::table('rests')->insert($rest_insert_data);
     }
 }
