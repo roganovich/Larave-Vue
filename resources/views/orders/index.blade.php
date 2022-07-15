@@ -36,7 +36,7 @@
                                         <td>{{ $item->status }}</td>
                                         <td>{{ $item->amount }}</td>
                                         <td>{{ $item->manager_id }}</td>
-                                        <td>
+                                        <td class="text-end">
                                             <div class="btn-group">
                                                 <a class="btn btn-outline-secondary"
                                                    href="{{ route('order.show', ['order'=>$item]) }}"

@@ -81,13 +81,14 @@ class OrderController extends Controller
                     'product' => $item->product,
                 ],
             ];
+
             // Массив картинок превращаем в json
-            $dataItem['param'] = json_encode($dataItem['param']);
+            //$dataItem['param'] = json_encode($dataItem['param']);
             // Создание позиции заказа
             OrdersItem::create($dataItem);
         }
         // Все товары из корзины переносим в заказ, корзину очищаем
-        $app->basket->destroy();
+       // $app->basket->destroy();
 
         return redirect()->route('order.index');
     }

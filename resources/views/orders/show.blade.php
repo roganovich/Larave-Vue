@@ -73,7 +73,11 @@
                                         @endphp
                                         @foreach($order->items as $item)
                                             <tr>
-                                                <td>{{ $i++ }}
+                                                <td>
+                                                    <a href="{{ route('products.show', ['brand_slug'=>$item->product->brand->slug,'product_slug' => $item->product->slug]) }}"
+                                                       title="{{ __('default.follow') }}">
+                                                        {{ $i++ }}
+                                                    </a>
                                                 </td>
                                                 <td>
                                                     <img src="{{ $item->product->productThumb }}" class="product-thumb"
@@ -81,7 +85,7 @@
                                                          alt="{{ $item->product->fullTitle }}">
                                                 </td>
                                                 <td>
-                                                    {{ $item->name }}
+                                                    {{ $item->product->fullTitle  }}
                                                     <div>
                                                         <small>
                                                             {{ __('points.index') }}:

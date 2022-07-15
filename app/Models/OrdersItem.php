@@ -24,20 +24,23 @@ class OrdersItem extends Model
     ];
 
     protected $casts = [
-        'param' => 'array',
+        'param' => 'object',
     ];
 
+    // Товар на момент оформления заказа
     public function getProductAttribute()
     {
-        $product = Product::findOrFail($this->product_id);
-        // Определяем цену которая была в корзине
-        $product->price = $this->param['product']['price'];
+        $id = $this->param->product->id;
+        $product = Product::findOrFail($id);
+        // В заказе цена должна быть на момент оформления заказа
+        $product->price = $this->param->product->price;
 
         return $product;
     }
 
-    public function point()
+    // Склад на момент оформления заказа
+    public function getPointAttribute()
     {
-        return $this->belongsTo(Point::class, 'point_id');
+        return $this->param->point;
     }
 }
