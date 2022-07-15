@@ -9,24 +9,26 @@
                 <div class="card-body">
                     <h1>{{ $item->fullTitle }}</h1>
 
-                    <div class="card-address fw-bold text-success">
-                        @if ($item->brand)
-                                <a class="fw-bold text-success"
-                                   href="{{ route('products.index', ['Product[brand]' => $item->brand->slug]) }}">
-                                    #{{ $item->brand->title }}
+                    @if ($item->brand)
+                        <div class="card-address fw-bold text-success">
+                            <a class="fw-bold text-success"
+                               href="{{ route('products.index', ['Product[brand]' => $item->brand->slug]) }}">
+                                {{ $item->brand->title }}
+                            </a>
+                        </div>
+                    @endif
+
+                    @if ($item->categoriesList)
+                        @foreach ($item->categoriesList as $category)
+                            <div class="card-address fw-bold text-success">
+                                <a class="fw-bold text-info"
+                                   href="{{ route('products.index', ['Product[category]' =>$category->slug]) }}">
+                                    {{ $category->title }}
                                 </a>
-                        @endif
-                    </div>
-                    <div class="card-address fw-bold text-success">
-                        @if ($item->categoriesList)
-                            @foreach ($item->categoriesList as $category)
-                                    <a class="fw-bold text-info"
-                                       href="{{ route('products.index', ['Product[category]' =>$category->slug]) }}">
-                                        #{{ $category->title }}
-                                    </a>
-                            @endforeach
-                        @endif
-                    </div>
+                            </div>
+                        @endforeach
+                    @endif
+
                     <div class="card-text mt-2">
                         {!! $item->description !!}
                     </div>
@@ -53,8 +55,6 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Город</th>
-                                        <th>Время доставки</th>
                                         <th>Склад</th>
                                         <th>Остатки</th>
                                         <th>Цена</th>
@@ -64,8 +64,6 @@
                                     @foreach($item->restList as $i=>$rest)
                                         <tr>
                                             <td>{{ $i+1 }}</td>
-                                            <td>{{ $rest->point->city }}</td>
-                                            <td>{{ $rest->point->days }}</td>
                                             <td>{{ $rest->point->title }}</td>
                                             <td>{{ $rest->qty }}</td>
                                             <td>

@@ -70,4 +70,9 @@ class Wikipage extends Model
 
         return $this->parent->prepareTree($tree);
     }
+
+    public function getPageThumbAttribute()
+    {
+        return (!empty($this->thumb)) ? $this->thumb : '/uploads/images/noimage.png';
+    }
 }

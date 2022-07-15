@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Point;
 use App\Models\Product;
+use App\Models\Rest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use \Illuminate\Contracts\Foundation\Application;
@@ -35,7 +36,20 @@ class BasketController extends Controller
      */
     public function index(Request $request)
     {
-        return view('basket.index');
+        $items = $this->_basket->contents();
+
+        return view('basket.index', ['items' => $items]);
+    }
+
+    /**
+     * Clear basket
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function clear()
+    {
+        $this->_basket->destroy();
+        return redirect()->route('basket.index');
     }
 
     /**
@@ -47,9 +61,17 @@ class BasketController extends Controller
      */
     public function add(Product $product, Point $point)
     {
-        //Format array of required info for item to be added to basket...
+        $identifier = implode('_', [$product->id, $point->id]);
+
+        // Прайсы могут меняться в течении дня. И нужно получать актуальную информацию
+        $rest = Rest::where(['product_id' => $product->id, 'point_id' => $point->id])->first();
+
+        if (!$rest) {
+            throw (new ModelNotFoundException)->setModel(Rest::class, $identifier);
+        }
+
         $item = array(
-            'id' => $product->id,
+            'id' => $identifier,
             'name' => $product->fullTitle,
             'price' => $product->price,
             'quantity' => 1,
@@ -57,7 +79,13 @@ class BasketController extends Controller
             'point' => $point,
             'product' => $product,
         );
-        $this->_basket->insert(new Item($item));
+        $newIdentifier = $this->_basket->insert(new Item($item));
+
+        // Проверяем наличие товара на складе
+        $newItem = $this->_basket->item($newIdentifier);
+        if ($newItem->quantity > $rest->qty) {
+            $newItem->update('quantity', $rest->qty);
+        }
 
         return redirect()->route('basket.index');
     }
@@ -71,10 +99,19 @@ class BasketController extends Controller
     public function plus($identifier)
     {
         $item = $this->_basket->item($identifier);
+
         if (!$item) {
             throw (new ModelNotFoundException)->setModel(Item::class, $identifier);
         }
-        $new_quantity = $item->quantity + 1;
+
+        // Прайсы могут меняться в течении дня. И нужно получать актуальную информацию
+        $rest = Rest::where(['product_id' => $item->product->id, 'point_id' => $item->point->id])->first();
+        if (!$rest) {
+            throw (new ModelNotFoundException)->setModel(Rest::class, $identifier);
+        }
+
+        // Проверяем наличие товара на складе
+        $new_quantity = ($item->quantity < $rest->qty) ? $item->quantity + 1 : $item->quantity;
         $item->update('quantity', $new_quantity);
 
         return redirect()->route('basket.index');

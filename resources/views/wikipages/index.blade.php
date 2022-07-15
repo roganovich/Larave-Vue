@@ -21,6 +21,7 @@
         <div class="row mt-2 justify-content-left">
             @foreach ($items as $item)
                 <div class="card col-md-4 col-lg-3 p-2">
+                    <img src="{{ $item->pageThumb }}" class="card-img-top" title="{{ $item->title }}" alt="{{ $item->title }}">
                     <div class="card-body">
                         <h3 class="card-title"><a href="{{ route('wikipages.show', ['id' => $item->id]) }}"
                            class="">{{ $item->title }}</a>

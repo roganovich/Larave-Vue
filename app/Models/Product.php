@@ -36,7 +36,7 @@ class Product extends Model
     ];
 
     protected $casts = [
-        'categories' => 'json'
+        'categories' => 'json',
     ];
 
     // Поиск по полям

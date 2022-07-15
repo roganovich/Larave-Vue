@@ -53,19 +53,13 @@
                                 {{ __('products.index') }}
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('basket.index') }}">{{ __('basket.index') }}
-                                @if ($app->basket->total() > 0)
-                                    <span class="badge bg-danger" title="{{ number_format($app->basket->total(), 2, '.', ' ') }}">
-                                        {{ count($app->basket->contents()) }}
-                                    </span>
-                                @endif
-                            </a>
-                        </li>
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
+
+
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -93,6 +87,9 @@
                                 <span class="px-1">
                                     |
                                 </span>
+
+                                <a class="ps-1 pe-3" href="{{ route('order.index') }}">{{ __('order.index') }}</a>
+
                                 <a class="ps-1 pe-3"  href="{{ route('admin') }}">
                                     {{ __('auth.admin') }}
                                 </a>
@@ -106,6 +103,17 @@
                                 </form>
                             </li>
                         @endguest
+
+                        <span class="px-1">
+                                    |
+                                </span>
+                            <a class="ps-1 pe-3" href="{{ route('basket.index') }}">{{ __('basket.index') }}
+                                @if ($app->basket->total() > 0)
+                                    <span class="badge bg-danger" title="{{ number_format($app->basket->total(), 2, '.', ' ') }}">
+                                        {{ count($app->basket->contents()) }}
+                                    </span>
+                                @endif
+                            </a>
                     </ul>
                 </div>
             </div>

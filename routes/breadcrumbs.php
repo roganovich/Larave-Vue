@@ -62,3 +62,9 @@ Breadcrumbs::for('basket.index', function ($trail) {
     $trail->parent('home');
     $trail->push(__('basket.index'), route('basket.index'));
 });
+
+/** Заказы */
+Breadcrumbs::for('order.index', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('order.index'), route('order.index'));
+});

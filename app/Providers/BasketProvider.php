@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Lenius\Basket\Basket;
+use App\Services\BasketService;
 use Lenius\Basket\Identifier\Cookie;
 use Lenius\Basket\Storage\Session;
 
@@ -17,7 +17,7 @@ class BasketProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('basket', function ($app) {
-            return new Basket(new Session, new Cookie);
+            return new BasketService(new Session, new Cookie);
         });
     }
 

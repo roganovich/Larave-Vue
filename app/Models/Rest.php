@@ -13,4 +13,9 @@ class Rest extends Model
     {
         return $this->belongsTo(Point::class, 'point_id');
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 }

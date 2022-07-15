@@ -28,10 +28,16 @@ Route::get('/products', [App\Http\Controllers\ProductsController::class, 'index'
 Route::get('/products/{brand_slug}/{product_slug}', [App\Http\Controllers\ProductsController::class, 'show'])->name('products.show');
 
 Route::get('/basket', [App\Http\Controllers\BasketController::class, 'index'])->name('basket.index');
+Route::get('/basket/clear', [App\Http\Controllers\BasketController::class, 'clear'])->name('basket.clear');
 Route::get('/basket/{product}/{point}/add', [App\Http\Controllers\BasketController::class, 'add'])->name('basket.add');
 Route::get('/basket/{identifier}/plus', [App\Http\Controllers\BasketController::class, 'plus'])->name('basket.plus');
 Route::get('/basket/{identifier}/minus', [App\Http\Controllers\BasketController::class, 'minus'])->name('basket.minus');
 Route::get('/basket/{identifier}/delete', [App\Http\Controllers\BasketController::class, 'delete'])->name('basket.delete');
+
+Route::get('/order/index', [App\Http\Controllers\OrderController::class, 'index'])->name('order.index');
+Route::get('/order/create', [App\Http\Controllers\OrderController::class, 'create'])->name('order.create');
+Route::get('/order/{order}/show', [App\Http\Controllers\OrderController::class, 'show'])->name('order.show');
+Route::get('/order/{order}/delete', [App\Http\Controllers\OrderController::class, 'delete'])->name('order.delete');
 
 Route::middleware('auth')->get('/admin{any}', function () {
     return view('layouts.admin');
