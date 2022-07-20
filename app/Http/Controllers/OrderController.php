@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrdersItem;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
-use Lenius\Basket\Basket;
+use Illuminate\Contracts\Foundation\Application;
 
 class OrderController extends Controller
 {
@@ -57,12 +56,49 @@ class OrderController extends Controller
             return redirect()->route('login');
         }
 
+        // Корзина
+        $basket = $app->basket;
+        // Точки выдачи товаров
+        $points = $app->basket->points();
+
+        /** Данные для построеник карточек магазинов*/
+        $map_point = $points->map(function ($item, $key) {
+            return [$item->map_longitude, $item->map_latitude];
+        });
+
+        return view('orders.create', [
+                'basket' => $basket,
+                'points' => $points,
+                'map_point' => $map_point
+            ]
+        );
+    }
+
+    /**
+     * Сохранение нового заказа
+     *
+     * @return void
+     */
+    public function store(Application $app, Request $request)
+    {
+        $validated = $request->validate([
+            'point_id' => 'numeric|required',
+            'comment' => '',
+        ]);
+
+        // Оформить заказ может только авторизованный пользователь
+        if (!auth()->id()) {
+            return redirect()->route('login');
+        }
+
         // Все товары в корзине
         $items = $app->basket->contents();
 
         $dataOrder = [
             'amount' => $app->basket->total(),
             'user_id' => auth()->id(),
+            'point_id' => $validated['point_id'],
+            'comment' => $validated['comment'],
         ];
 
         // Создание заказа

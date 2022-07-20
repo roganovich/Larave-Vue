@@ -68,3 +68,8 @@ Breadcrumbs::for('order.index', function ($trail) {
     $trail->parent('home');
     $trail->push(__('order.index'), route('order.index'));
 });
+Breadcrumbs::for('order.create', function ($trail) {
+    $trail->parent('home');
+    $trail->push(__('order.index'), route('order.index'));
+    $trail->push(__('order.create'), route('order.create'));
+});

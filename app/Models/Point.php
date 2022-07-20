@@ -75,7 +75,7 @@ class Point extends Model
     }
 
     // Группировка городов
-    public function scopeCityes($query)
+    public function scopeCities($query)
     {
         return $query
             ->select('id', 'city as title', DB::raw("count(id) as count"))

@@ -137,7 +137,7 @@ class PointsController extends Controller
             'type' => $this->getType(),
             'city' => $this->getCity(),
             'types' => $this->getAllTypes(),
-            'cityes' => $this->getAllCityes(),
+            'cities' => $this->getAllCities(),
             'total' => $this->getTotal()
         ]);
     }
@@ -164,8 +164,8 @@ class PointsController extends Controller
      * Список городов
      * @return PointResourceCollection
      */
-    public function getAllCityes()
+    public function getAllCities()
     {
-        return new PointResourceCollection(Point::cityes()->get());
+        return new PointResourceCollection(Point::cities()->get());
     }
 }

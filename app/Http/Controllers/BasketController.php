@@ -36,9 +36,10 @@ class BasketController extends Controller
      */
     public function index(Request $request)
     {
-        $items = $this->_basket->contents();
+        // Корзина
+        $basket = $this->_basket;
 
-        return view('basket.index', ['items' => $items]);
+        return view('basket.index', ['basket' => $basket]);
     }
 
     /**

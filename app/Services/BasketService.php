@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\Product;
+use App\Http\Resources\Point\PointResourceCollection;
+use App\Models\Point;
 use Lenius\Basket\Basket;
 use Lenius\Basket\Item;
 
@@ -11,24 +12,21 @@ use Lenius\Basket\Item;
  */
 class BasketService extends Basket
 {
+    private $_points;
+
     /**
-     * The total number of items in the basket.
+     * @param mixed $points
      *
-     * @param bool $unique Just return unique items?
-     *
-     * @return int Total number of items
+     * @return BasketService
      */
-    public function totalItems($unique = false): int
+    public function setPoints(Point $points)
     {
-        $total = 0;
-
-        /** @var Item $item */
-        foreach ($this->contents() as $item) {
-            // Считаем текущую стоимость продукта
-            $total += round($item->product->price * $item->quantity, 2);
+        if (empty($this->_points)) {
+            $this->_points = collect();
         }
+        $this->_points->push($points);
 
-        return $total;
+        return $this;
     }
 
     /**
@@ -45,9 +43,27 @@ class BasketService extends Basket
         /** @var Item $item */
         foreach ($this->contents() as $item) {
             // Считаем текущую стоимость продукта
-            $total += $item->product->price;
+            $total += round($item->product->price * $item->quantity, 2);
         }
 
         return (float) $total;
+    }
+
+    /**
+     * Возвращаем точки хранения товаров в корзине
+     *
+     * @return mixed
+     */
+    public function points()
+    {
+        foreach ($this->contents() as $item) {
+            $this->setPoints($item->point);
+        }
+        // Сортировка коллекции по городу
+        $this->_points = $this->_points->sortBy([
+            fn ($a, $b) => $a->city <=> $b->city
+        ]);
+
+        return $this->_points;
     }
 }

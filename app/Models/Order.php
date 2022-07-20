@@ -14,10 +14,38 @@ class Order extends Model
     protected $fillable = [
         'amount',
         'user_id',
+        'point_id',
+        'comment',
+        'manager_id'
     ];
 
     public function items()
     {
         return $this->hasMany(OrdersItem::class, 'order_id', 'id');
+    }
+
+    public function point()
+    {
+        return $this->belongsTo(Point::class, 'point_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'manager_id');
+    }
+
+    /**
+     * Точки нахождения товаров заказа
+    */
+    public function getMapPointAttribute()
+    {
+        return $this->items->map(function ($item, $key) {
+            return [$item->point->map_longitude, $item->point->map_latitude];
+        });
     }
 }

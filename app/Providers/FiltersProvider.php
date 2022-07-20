@@ -17,7 +17,7 @@ class FiltersProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('pointsCities', function ($app) {
-            return new PointResourceCollection(Point::cityes()->get());
+            return new PointResourceCollection(Point::cities()->get());
         });
         $this->app->singleton('pointsTypes', function ($app) {
             return new PointResourceCollection(Point::types()->get());

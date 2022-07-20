@@ -8,7 +8,7 @@
             <div class="card col-md-12 col-lg-12 p-2">
                 <div class="card-body">
                     <h1 class="my-2">{{ __('basket.index') }}</h1>
-                    @if($items)
+                    @if($basket->contents())
                         <div class="card-images mt-3" id="products-lightbox">
                             <table class="table table-responsive">
                                 <thead>
@@ -33,7 +33,7 @@
                                 @php
                                     $i = 1
                                 @endphp
-                                @foreach($items as $item)
+                                @foreach($basket->contents() as $item)
                                     <tr>
                                         <td>
                                             <a href="{{ route('products.show', ['brand_slug'=>$item->product->brand->slug,'product_slug' => $item->product->slug]) }}"
@@ -93,8 +93,8 @@
                                 <tr>
                                     <th colspan="3"></th>
                                     <th class="text-end">{{ __('basket.total') }}:</th>
-                                    <th>{{ $app->basket->totalItems() }}</th>
-                                    <th>{{ number_format($app->basket->total(), 2, '.', ' ') }}</th>
+                                    <th>{{ $basket->totalItems() }}</th>
+                                    <th>{{ number_format($basket->total(), 2, '.', ' ') }}</th>
                                     <th></th>
                                 </tr>
                                 <tr>

@@ -13,7 +13,7 @@
     </div>
 
     <div class="btn-group d-inline p-0" role="group" aria-label="Basic example">
-        @foreach ($cityes as $link)
+        @foreach ($cities as $link)
             <a class="btn btn-outline-success btn-sm mt-1 {{ (!empty($city) && $city == $link->title) ? 'active' : '' }}" href="{{ route('points.index', ['city' => $link->title]) }}">
                 {{ $link->title }} <span class="badge bg-success">{{ $link->count }}</span>
             </a>

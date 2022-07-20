@@ -119,5 +119,19 @@
                 </div>
             </div>
         </div>
+        <div class="card-map mt-3">
+            <div id="map"
+                 data-longitude="{{ $order->point->map_longitude }}"
+                 data-latitude="{{ $order->point->map_latitude }}"
+                 data-zoom="{{ $order->point->map_zoom }}"
+                 data-points="{{ $order->mapPoint }}"
+                 style="width: 100%; height: 400px">
+            </div>
+        </div>
+
+        <script src="https://api-maps.yandex.ru/2.1/?apikey={{ config('app.yandex_map_api')  }}&lang=ru_RU"
+                type="text/javascript">
+        </script>
+        <script src="{{ asset('js/order.js')}}"></script>
     </div>
 @endsection
