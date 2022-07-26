@@ -88,6 +88,7 @@ class BasketController extends Controller
             $newItem->update('quantity', $rest->qty);
         }
 
+
         return redirect()->route('basket.index');
     }
 
