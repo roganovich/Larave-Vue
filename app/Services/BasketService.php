@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Http\Resources\Point\PointResourceCollection;
 use App\Models\Point;
 use Lenius\Basket\Basket;
 use Lenius\Basket\Item;

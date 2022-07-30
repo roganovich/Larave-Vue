@@ -32,7 +32,9 @@ import ProductsBrandEdit from './components/products_brands/ProductsBrandEdit.vu
 import ProductsCategoryIndex from './components/products_categories/ProductsCategoryIndex.vue';
 import ProductsCategoryCreate from './components/products_categories/ProductsCategoryCreate.vue';
 import ProductsCategoryEdit from './components/products_categories/ProductsCategoryEdit.vue';
-
+/** Заказы */
+import OrdersIndex from './components/orders/OrdersIndex.vue';
+import OrdersEdit from './components/orders/OrdersEdit.vue';
 
 function requireAuth(to, from, next) {
     var auth = window.Laravel.user;
@@ -204,6 +206,19 @@ export const routes = [
         name: 'products_category_edit',
         path: '/admin/products_category/edit/:id',
         component: ProductsCategoryEdit,
+        beforeEnter: requireAuth,
+    },
+    /** Orders */
+    {
+        name: 'orders_index',
+        path: '/admin/orders',
+        component: OrdersIndex,
+        beforeEnter: requireAuth,
+    },
+    {
+        name: 'orders_edit',
+        path: '/admin/orders/edit/:id',
+        component: OrdersEdit,
         beforeEnter: requireAuth,
     },
 ];

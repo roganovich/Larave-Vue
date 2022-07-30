@@ -20,7 +20,7 @@ return new class extends Migration
             $table->longText('params')->nullable();
             $table->integer('user_id');
             $table->integer('manager_id')->nullable();
-            $table->integer('status')->default(0);
+            $table->integer('status')->default(1);
             $table->dateTime('payment_at', $precision = 0)->nullable();
             $table->softDeletes();
             $table->timestamps();

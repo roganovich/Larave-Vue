@@ -7,7 +7,7 @@
         <div class="row mt-2 justify-content-center basket-body">
             <div class="card col-md-12 col-lg-12 p-2">
                 <div class="card-body">
-                    <h1 class="my-2">{{ __('order.create') }}</h1>
+                    <h1 class="my-2">{{ __('orders.create') }}</h1>
                     @if($basket->contents())
                         <div class="card-images mt-3" id="products-lightbox">
                             <table class="table table-responsive">
@@ -63,7 +63,7 @@
                                 <tfoot>
                                 <tr>
                                     <th colspan="3"></th>
-                                    <th class="text-end">{{ __('order.amount') }}:</th>
+                                    <th class="text-end">{{ __('orders.amount') }}:</th>
                                     <th>{{ $basket->totalItems() }}</th>
                                     <th>{{ number_format($basket->total(), 2, '.', ' ') }}</th>
                                     <th></th>
@@ -76,7 +76,7 @@
                     <form name="OrderForm" action="{{ route('order.store') }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label for="orderPointId" class="form-label">{{ __('order.point_id') }}</label>
+                            <label for="orderPointId" class="form-label">{{ __('orders.point_id') }}</label>
                             @foreach($points as $point)
                                 <div class="form-check">
                                     <input class="form-check-input select_point"
@@ -96,7 +96,7 @@
                             @endforeach
                         </div>
                         <div class="mb-3">
-                            <label for="orderComment" class="form-label">{{ __('order.comment') }}</label>
+                            <label for="orderComment" class="form-label">{{ __('orders.comment') }}</label>
                             <textarea class="form-control" id="orderComment" rows="3" name="comment"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">{{ __('default.save') }}</button>

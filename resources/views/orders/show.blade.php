@@ -7,44 +7,44 @@
         <div class="row mt-2 justify-content-center basket-body">
             <div class="card col-md-12 col-lg-12 p-2">
                 <div class="card-body">
-                    <h1 class="my-2">{{ __('order.show') }} #{{ $order->id }}</h1>
+                    <h1 class="my-2">{{ __('orders.show') }} #{{ $order->id }}</h1>
                     <div class="row">
                         <div class="col-4">
-                            <div class="fw-bold">{{ __('order.info') }}</div>
+                            <div class="fw-bold">{{ __('orders.info') }}</div>
                             <ol class="list-group list-group-flush">
                                 <li class="list-group-item border-0">
                                     <div class="ms-2 me-auto">
-                                        <span class="fw-bold">{{ __('order.id') }}:</span>
+                                        <span class="fw-bold">{{ __('orders.id') }}:</span>
                                         {{ $order->id }}
                                     </div>
                                 </li>
                                 <li class="list-group-item border-0">
                                     <div class="ms-2 me-auto">
-                                        <span class="fw-bold">{{ __('order.created_at') }}:</span>
+                                        <span class="fw-bold">{{ __('orders.created_at') }}:</span>
                                         {{ $order->created_at }}
                                     </div>
                                 </li>
                                 <li class="list-group-item border-0">
                                     <div class="ms-2 me-auto">
-                                        <span class="fw-bold">{{ __('order.status') }}:</span>
+                                        <span class="fw-bold">{{ __('orders.status') }}:</span>
                                         {{ $order->statusName }}
                                     </div>
                                 </li>
                                 <li class="list-group-item border-0">
                                     <div class="ms-2 me-auto">
-                                        <span class="fw-bold">{{ __('order.amount') }}:</span>
+                                        <span class="fw-bold">{{ __('orders.amount') }}:</span>
                                         {{ $order->amount }}
                                     </div>
                                 </li>
                                 <li class="list-group-item border-0">
                                     <div class="ms-2 me-auto">
-                                        <span class="fw-bold">{{ __('order.manager') }}:</span>
+                                        <span class="fw-bold">{{ __('orders.manager') }}:</span>
                                         {{ $order->manager_id }}
                                     </div>
                                 </li>
                                 <li class="list-group-item border-0">
                                     <div class="ms-2 me-auto">
-                                        <span class="fw-bold">{{ __('order.address') }}:</span>
+                                        <span class="fw-bold">{{ __('orders.address') }}:</span>
                                         {{ $order->point->address }}
                                     </div>
                                 </li>
@@ -53,7 +53,7 @@
                         </div>
                         <div class="col-8">
                             @if($order->items)
-                                <div class="fw-bold">{{ __('order.items') }}</div>
+                                <div class="fw-bold">{{ __('orders.items') }}</div>
                                 <div class="card-images mt-3" id="products-lightbox">
                                     <table class="table table-responsive">
                                         <thead>

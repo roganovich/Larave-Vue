@@ -88,7 +88,7 @@
                                     |
                                 </span>
 
-                                <a class="ps-1 pe-3" href="{{ route('order.index') }}">{{ __('order.index') }}</a>
+                                <a class="ps-1 pe-3" href="{{ route('order.index') }}">{{ __('orders.index') }}</a>
 
                                 <a class="ps-1 pe-3"  href="{{ route('admin') }}">
                                     {{ __('auth.admin') }}

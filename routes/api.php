@@ -136,5 +136,21 @@ Route::group([
         Route::post('addimages', [\App\Http\Controllers\Api\V1\ProductsCategoriesController::class, 'add_images']);
     });
 
+    // Страницы Orders
+    Route::group(['prefix' => 'orders'], function () {
+        // Список, поиск записей
+        Route::post('', [\App\Http\Controllers\Api\V1\OrdersController::class, 'index']);
+        // Получить данные записи
+        Route::get('{id}/get', [\App\Http\Controllers\Api\V1\OrdersController::class, 'get']);
+        // Обновить запись
+        Route::post('{id}/update', [\App\Http\Controllers\Api\V1\OrdersController::class, 'update']);
+        // Удалить запись
+        Route::delete('{id}/destroy', [\App\Http\Controllers\Api\V1\OrdersController::class, 'destroy']);
+        // Пролучить статусы
+        Route::get('statuseslist', [\App\Http\Controllers\Api\V1\OrdersController::class, 'statuseslist']);
+        // Загрузить менеджеров
+        Route::get('mangerslist', [\App\Http\Controllers\Api\V1\OrdersController::class, 'mangerslist']);
+    });
+
 
 });

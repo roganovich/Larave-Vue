@@ -87,7 +87,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSortCreadated" class="form-label">Дата создания</label>
+                                <label for="inputSortCreadated" class="form-label">{{ $t('default.created_at') }}</label>
                                 <div class="form-check" v-for="(item, id) in {'ASC':'По возрастанию', 'DESC': 'По убыванию'}">
                                     <input class="form-check-input" type="radio" v-model="itemssearch.sort.created_at" :id="'inputSortCreadated' + id" :value="id">
                                     <label class="form-check-label" :for="'inputSortCreadated' + id">

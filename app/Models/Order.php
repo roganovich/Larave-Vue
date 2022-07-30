@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Filters\OrdersFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,15 +13,21 @@ class Order extends Model
     use HasFactory;
     use SoftDeletes;
 
-    const STATUS_NEW = 0;
-    const STATUS_CONFIRM = 1;
+    const STATUS_NEW = 1;
+    const STATUS_CONFIRM = 2;
 
-    private function getStatuses()
+    public static function getStatuses()
     {
-        return [
-            self::STATUS_NEW => __('order.statuses.new'),
-            self::STATUS_CONFIRM => __('order.statuses.confirm'),
-        ];
+        return collect([
+            [
+                'id' => self::STATUS_NEW,
+                'title' => __('orders.statuses.new'),
+            ],
+            [
+                'id' => self::STATUS_CONFIRM,
+                'title' => __('orders.statuses.confirm'),
+            ],
+        ]);
     }
 
     protected $fillable = [
@@ -27,8 +35,21 @@ class Order extends Model
         'user_id',
         'point_id',
         'comment',
-        'manager_id'
+        'manager_id',
+        'status'
     ];
+
+    // Поиск по полям
+    public function scopeFilter(Builder $builder, $request)
+    {
+        return (new OrdersFilter($request))->filter($builder);
+    }
+
+    // Сортировка по полям
+    public function scopeSort(Builder $builder, $request)
+    {
+        return (new OrdersFilter($request))->sortable($builder);
+    }
 
     public function items()
     {
@@ -65,6 +86,6 @@ class Order extends Model
      */
     public function getStatusNameAttribute()
     {
-        return $this->getStatuses()[$this->status];
+        return self::getStatuses()->where('id', $this->status)->pluck('title')->first();
     }
 }
