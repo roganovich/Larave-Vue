@@ -11,6 +11,17 @@ class Order extends Model
     use HasFactory;
     use SoftDeletes;
 
+    const STATUS_NEW = 0;
+    const STATUS_CONFIRM = 1;
+
+    private function getStatuses()
+    {
+        return [
+            self::STATUS_NEW => __('order.statuses.new'),
+            self::STATUS_CONFIRM => __('order.statuses.confirm'),
+        ];
+    }
+
     protected $fillable = [
         'amount',
         'user_id',
@@ -41,11 +52,19 @@ class Order extends Model
 
     /**
      * Точки нахождения товаров заказа
-    */
+     */
     public function getMapPointAttribute()
     {
         return $this->items->map(function ($item, $key) {
             return [$item->point->map_longitude, $item->point->map_latitude];
         });
+    }
+
+    /**
+     * Имя статуса заказа
+     */
+    public function getStatusNameAttribute()
+    {
+        return $this->getStatuses()[$this->status];
     }
 }

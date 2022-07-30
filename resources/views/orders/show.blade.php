@@ -27,7 +27,7 @@
                                 <li class="list-group-item border-0">
                                     <div class="ms-2 me-auto">
                                         <span class="fw-bold">{{ __('order.status') }}:</span>
-                                        {{ $order->status }}
+                                        {{ $order->statusName }}
                                     </div>
                                 </li>
                                 <li class="list-group-item border-0">
@@ -42,6 +42,13 @@
                                         {{ $order->manager_id }}
                                     </div>
                                 </li>
+                                <li class="list-group-item border-0">
+                                    <div class="ms-2 me-auto">
+                                        <span class="fw-bold">{{ __('order.address') }}:</span>
+                                        {{ $order->point->address }}
+                                    </div>
+                                </li>
+
                             </ol>
                         </div>
                         <div class="col-8">

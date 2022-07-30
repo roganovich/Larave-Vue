@@ -33,7 +33,7 @@
                                                title="{{ __('order.show')}}">{{ $i++ }}</a>
                                         </td>
                                         <td>{{ $item->created_at }}</td>
-                                        <td>{{ $item->status }}</td>
+                                        <td>{{ $item->statusName }}</td>
                                         <td>{{ $item->amount }}</td>
                                         <td>{{ $item->manager_id }}</td>
                                         <td class="text-end">
