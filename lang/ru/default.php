@@ -23,6 +23,7 @@ return [
     'list'   => 'Список',
     'search'   => 'Поиск',
     'find'   => 'Искать',
+    'id' => '#',
     'created_at' => 'Создан',
     'updated_at' => 'Обновлен',
     'search_asc' => 'По возрастанию',

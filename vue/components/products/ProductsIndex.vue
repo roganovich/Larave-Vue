@@ -5,11 +5,11 @@
 
     <div v-else>
         <div class="mt-1">
-            <h5 class="card-title">{{ $t('points.index') }}</h5>
+            <h5 class="card-title">{{ $t('products.index') }}</h5>
         </div>
         <div class="mt-1">
             <div class="form-group">
-                <router-link :to="{name: 'points_create'}" class="btn btn-success">{{ $t('default.created') }}</router-link>
+                <router-link :to="{name: 'products_create'}" class="btn btn-success">{{ $t('default.created') }}</router-link>
             </div>
         </div>
 
@@ -26,31 +26,37 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>{{ $t('points.country') }}</th>
-                    <th>{{ $t('points.city') }}</th>
-                    <th>{{ $t('points.type') }}</th>
-                    <th>{{ $t('points.thumb') }}</th>
-                    <th>{{ $t('points.title') }}</th>
-                    <th>{{ $t('points.area') }}</th>
-                    <th>{{ $t('points.days') }}</th>
+                    <th>{{ $t('default.id') }}</th>
+                    <th>{{ $t('products.brand') }}</th>
+                    <th>{{ $t('products.code') }}</th>
+                    <th>{{ $t('products.title') }}</th>
+                    <th>{{ $t('products.category') }}</th>
+                    <th>{{ $t('products.thumb') }}</th>
+                    <th>{{ $t('products.price') }}</th>
+                    <th>{{ $t('products.slug') }}</th>
                     <th>{{ $t('default.created_at') }}</th>
                     <th>&nbsp;</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="item, index in items.data">
-                    <td>{{ item.country }}</td>
-                    <td>{{ item.city }}</td>
-                    <td>{{ item.type }}</td>
-                    <td><img class="mini_thumb" v-bind:src="item.thumb"/></td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.brand.title }}</td>
+                    <td>{{ item.code }}</td>
                     <td>{{ item.title }}</td>
-                    <td>{{ item.area }}</td>
-                    <td>{{ item.days }}</td>
+                    <td>
+                        <span class="badge bg-secondary me-1"  v-for="category, index in item.categories">
+                            {{ category.title }}
+                        </span>
+                    </td>
+                    <td><img class="mini_thumb" v-bind:src="item.thumb"/></td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.slug }}</td>
                     <td>{{ short_date(item.created_at) }}</td>
                     <td>
                         <router-link
                             :title="$t('default.edit')"
-                            :to="{name: 'points_edit', params: {id: item.id}}"
+                            :to="{name: 'products_edit', params: {id: item.id}}"
                             class="btn btn-sm btn-success">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  class="bi bi-pencil" viewBox="0 0 16 16">
@@ -108,20 +114,22 @@ export default {
             offset: 4,
             itemssearch: {
                 search: {
-                    country: '',
-                    city: '',
-                    days: '',
+                    id: '',
+                    brand_id: '',
+                    code: '',
                     title: '',
-                    type: '',
-                    description: '',
+                    category_id: '',
+                    slug: '',
+                    created_at: '',
                 },
                 sort: {
-                    country: '',
-                    city: '',
-                    days: '',
+                    id: '',
+                    brand_id: '',
+                    code: '',
                     title: '',
-                    type: '',
-                    created_at:'',
+                    category_id: '',
+                    slug: '',
+                    created_at: '',
                 },
                 page: 1
             },
@@ -141,7 +149,7 @@ export default {
             app.preloader = false;
             app.search = true;
             this.itemssearch.page = this.items.meta.current_page;
-            axios.post('/api/v1/points', this.itemssearch)
+            axios.post('/api/v1/products', this.itemssearch)
                 .then(function (resp) {
                     app.items = resp.data;
                     app.search = false;
@@ -154,10 +162,10 @@ export default {
             if (confirm(this.$t('alert.confirm_delete', {title:item.title}))) {
                 var app = this;
                 app.search = true;
-                axios.delete('/api/v1/points/' + item.id + '/destroy')
+                axios.delete('/api/v1/products/' + item.id + '/destroy')
                     .then(function (resp) {
                         app.search = false;
-                        app.$router.push({name: 'points_index'});
+                        app.$router.push({name: 'products_index'});
                     })
                     .catch(function (resp) {
                         alert($t('alert.cannot_delete_data'));

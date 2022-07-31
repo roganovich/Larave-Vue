@@ -57,6 +57,7 @@ export const routes = [
         path: '/admin/nopermission',
         component: Nopermission,
     },
+    /** Wikipages */
     {
         name: 'wikipages_index',
         path: '/admin/wikipages',
@@ -135,6 +136,7 @@ export const routes = [
         component: PermissionsEdit,
         beforeEnter: requireAuth,
     },
+    /** Points */
     {
         name: 'points_index',
         path: '/admin/points',
@@ -153,6 +155,7 @@ export const routes = [
         component: PointsEdit,
         beforeEnter: requireAuth,
     },
+    /** Products */
     {
         name: 'products_index',
         path: '/admin/products',
@@ -171,6 +174,7 @@ export const routes = [
         component: ProductsEdit,
         beforeEnter: requireAuth,
     },
+    /** Products Brand */
     {
         name: 'products_brand_index',
         path: '/admin/products_brand',
@@ -189,7 +193,7 @@ export const routes = [
         component: ProductsBrandEdit,
         beforeEnter: requireAuth,
     },
-
+    /** Products Category */
     {
         name: 'products_category_index',
         path: '/admin/products_category',

@@ -32,9 +32,9 @@
                 <tbody>
                 <tr v-for="item, index in items.data">
                     <td>#{{ item.id }}</td>
-                    <td>{{ status_name(item.status) }}</td>
+                    <td>{{ item.status }}</td>
                     <td>{{ item.amount }}</td>
-                    <td>{{ manager_name(item.manager_id) }}</td>
+                    <td>{{ (item.manager) ? item.manager.name : item.manager_id }}</td>
                     <td>{{ short_date(item.created_at) }}</td>
                     <td>
                         <router-link
@@ -85,8 +85,6 @@ export default {
         return {
             preloader: true,
             search: true,
-            statuses: {},
-            managers: {},
             items: {
                 meta: {
                     total: 0,
@@ -108,16 +106,14 @@ export default {
                     id: '',
                     status: '',
                     manager_id: '',
-                    created_at:'',
+                    created_at: '',
                 },
                 page: 1
             },
         }
     },
     mounted() {
-        this.getResults(),
-        this.getStatusesList(),
-        this.getManagerList()
+        this.getResults()
     },
     components: {
         VuePagination,
@@ -140,7 +136,7 @@ export default {
                 });
         },
         deleteEntry: function (item, index) {
-            if (confirm(this.$t('alert.confirm_delete', {title:item.title}))) {
+            if (confirm(this.$t('alert.confirm_delete', {title: item.title}))) {
                 var app = this;
                 app.search = true;
                 axios.delete('/api/v1/orders/' + item.id + '/destroy')
@@ -154,42 +150,8 @@ export default {
                 this.getResults();
             }
         },
-        getStatusesList: function () {
-            var app = this;
-            axios.get('/api/v1/orders/statuseslist')
-                .then(function (resp) {
-                    var myArray = [];
-                    resp.data.forEach((element) => {
-                        myArray[element.id] = element.title;
-                    });
-                    app.statuses = myArray;
-                })
-                .catch(function (resp) {
-                    alert($t('alert.cannot_load_data'));
-                });
-        },
-        getManagerList: function () {
-            var app = this;
-            axios.get('/api/v1/orders/mangerslist')
-                .then(function (resp) {
-                    var myArray = [];
-                    resp.data.forEach((element) => {
-                        myArray[element.id] = element.name;
-                    });
-                    app.managers = myArray;
-                })
-                .catch(function (resp) {
-                    alert($t('alert.cannot_load_data'));
-                });
-        },
         short_date(date) {
             return moment(String(date)).format('DD.MM.YYYY hh:mm');
-        },
-        status_name(status){
-            return this.statuses[status];
-        },
-        manager_name(manager_id){
-            return this.managers[manager_id];
         }
     },
 }

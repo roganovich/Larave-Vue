@@ -103,6 +103,25 @@ Route::group([
         Route::post('addimages', [\App\Http\Controllers\Api\V1\PointsController::class, 'add_images']);
     });
 
+    // Страницы Products
+    Route::group(['prefix' => 'products'], function () {
+        // Список, поиск записей
+        Route::post('', [\App\Http\Controllers\Api\V1\ProductsController::class, 'index']);
+        // Создание новой записи
+        Route::post('store', [\App\Http\Controllers\Api\V1\ProductsController::class, 'store']);
+        // Получить данные записи
+        Route::get('{id}/get', [\App\Http\Controllers\Api\V1\ProductsController::class, 'get']);
+        // Обновить запись
+        Route::post('{id}/update', [\App\Http\Controllers\Api\V1\ProductsController::class, 'update']);
+        // Удалить запись
+        Route::delete('{id}/destroy', [\App\Http\Controllers\Api\V1\ProductsController::class, 'destroy']);
+        // Пролучить типы
+        Route::get('brands', [\App\Http\Controllers\Api\V1\ProductsController::class, 'brandslist']);
+        // Загрузить изображение
+        Route::get('categories', [\App\Http\Controllers\Api\V1\ProductsController::class, 'categorieslist']);
+    });
+
+
     // Страницы ProductsBrands
     Route::group(['prefix' => 'products_brands'], function () {
         // Список, поиск записей

@@ -15,87 +15,109 @@
                             <h6 class="card-title">{{ $t('default.search') }}</h6>
 
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSearchParent" class="form-label">{{ $t('points.type') }}</label>
-                                <select v-model="itemssearch.search.type_id"
+                                <label for="inputSearchId" class="form-label">{{ $t('default.id') }}</label>
+                                <input v-model="itemssearch.search.id"
+                                       type="text"
+                                       class= "form-control form-control-sm"
+                                       id="inputSearchId">
+                            </div>
+
+                            <div class="col-md-2 col-g-2">
+                                <label for="inputSearchBrandId" class="form-label">{{ $t('products.brand') }}</label>
+                                <select v-model="itemssearch.search.brand_id"
                                         class= "form-control form-control-sm"
-                                        id="inputSearchParent">
+                                        id="inputSearchBrandId">
                                     <option value="">{{ $t('default.select') }}</option>
-                                    <option v-for="(item, id) in types" :value="item.id">
+                                    <option v-for="(item, id) in brands" :value="item.id">
                                         {{ item.title }}
                                     </option>
                                 </select>
                             </div>
 
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSearchCountry" class="form-label">{{ $t('points.country') }}</label>
-                                <input v-model="itemssearch.search.country"
+                                <label for="inputSearchCode" class="form-label">{{ $t('products.code') }}</label>
+                                <input v-model="itemssearch.search.code"
                                        type="text"
                                        class= "form-control form-control-sm"
-                                       id="inputSearchCountry">
+                                       id="inputSearchCode">
                             </div>
 
-                            <div class="col-md-2 col-g-2">
-                                <label for="inputSearchCity" class="form-label">{{ $t('points.city') }}</label>
-                                <input v-model="itemssearch.search.city"
-                                       type="text"
-                                       class= "form-control form-control-sm"
-                                       id="inputSearchCity">
-                            </div>
 
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSearchTitle" class="form-label">{{ $t('points.title') }}</label>
+                                <label for="inputSearchTitle" class="form-label">{{ $t('products.title') }}</label>
                                 <input v-model="itemssearch.search.title"
                                        type="text"
                                        class= "form-control form-control-sm"
                                        id="inputSearchTitle">
                             </div>
+
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSearchDescription" class="form-label">{{ $t('points.description') }}</label>
-                                <input v-model="itemssearch.search.description"
-                                       type="text" class= "form-control form-control-sm"
-                                       id="inputSearchDescription">
+                                <label for="inputSearchCategories" class="form-label">{{ $t('products.category') }}</label>
+                                <select v-model="itemssearch.search.categories"
+                                        class= "form-control form-control-sm"
+                                        id="inputSearchCategories">
+                                    <option value="">{{ $t('default.select') }}</option>
+                                    <option v-for="(item, id) in categories" :value="item.id">
+                                        {{ item.title }}
+                                    </option>
+                                </select>
                             </div>
 
-
+                            <div class="col-md-2 col-g-2">
+                                <label for="inputSearchSlug" class="form-label">{{ $t('products.slug') }}</label>
+                                <input v-model="itemssearch.search.slug"
+                                       type="text" class= "form-control form-control-sm"
+                                       id="inputSearchSlug">
+                            </div>
                         </div>
                         <div class="row p-1">
                             <h6 class="card-title">{{ $t('default.sortable') }}</h6>
 
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSortType" class="form-label">{{ $t('points.type') }}</label>
+                                <label for="inputSortId" class="form-label">{{ $t('default.id') }}</label>
                                 <div class="form-check" v-for="(item, id) in {'ASC':$t('default.search_asc'), 'DESC': $t('default.search_desc')}">
-                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.type_id" :id="'inputSortType' + id" :value="id">
-                                    <label class="form-check-label" :for="'inputSortType' + id">
+                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.id" :id="'inputSortId' + id" :value="id">
+                                    <label class="form-check-label" :for="'inputSortId' + id">
                                         {{ item }}
                                     </label>
                                 </div>
                             </div>
 
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSortCountry" class="form-label">{{ $t('points.country') }}</label>
+                                <label for="inputSortBrandId" class="form-label">{{ $t('products.brand') }}</label>
                                 <div class="form-check" v-for="(item, id) in {'ASC':$t('default.search_asc'), 'DESC': $t('default.search_desc')}">
-                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.country" :id="'inputSortCountry' + id" :value="id">
-                                    <label class="form-check-label" :for="'inputSortCountry' + id">
+                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.brand_id" :id="'inputSortBrandId' + id" :value="id">
+                                    <label class="form-check-label" :for="'inputSortBrandId' + id">
                                         {{ item }}
                                     </label>
                                 </div>
                             </div>
 
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSortCity" class="form-label">{{ $t('points.city') }}</label>
+                                <label for="inputSortCode" class="form-label">{{ $t('products.code') }}</label>
                                 <div class="form-check" v-for="(item, id) in {'ASC':$t('default.search_asc'), 'DESC': $t('default.search_desc')}">
-                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.city" :id="'inputSortCity' + id" :value="id">
-                                    <label class="form-check-label" :for="'inputSortCity' + id">
+                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.code" :id="'inputSortCode' + id" :value="id">
+                                    <label class="form-check-label" :for="'inputSortCode' + id">
                                         {{ item }}
                                     </label>
                                 </div>
                             </div>
 
                             <div class="col-md-2 col-g-2">
-                                <label for="inputSortTitle" class="form-label">{{ $t('points.title') }}</label>
+                                <label for="inputSortTitle" class="form-label">{{ $t('products.title') }}</label>
                                 <div class="form-check" v-for="(item, id) in {'ASC':$t('default.search_asc'), 'DESC': $t('default.search_desc')}">
                                     <input class="form-check-input" type="radio" v-model="itemssearch.sort.title" :id="'inputSortTitle' + id" :value="id">
                                     <label class="form-check-label" :for="'inputSortTitle' + id">
+                                        {{ item }}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-g-2">
+                                <label for="inputSortSlug" class="form-label">{{ $t('products.slug') }}</label>
+                                <div class="form-check" v-for="(item, id) in {'ASC':$t('default.search_asc'), 'DESC': $t('default.search_desc')}">
+                                    <input class="form-check-input" type="radio" v-model="itemssearch.sort.slug" :id="'inputSortSlug' + id" :value="id">
+                                    <label class="form-check-label" :for="'inputSortSlug' + id">
                                         {{ item }}
                                     </label>
                                 </div>
@@ -132,23 +154,35 @@ export default {
     },
     data: function () {
         return {
-            types: {}
+            brands: {},
+            categories: {},
         }
     },
     mounted() {
-        this.getTypeList()
+        this.getBrands(),
+        this.getCategories()
     },
     methods: {
-        getTypeList: function () {
+        getBrands: function () {
             var app = this;
-            axios.get('/api/v1/points/typeslist')
+            axios.get('/api/v1/products/brands')
                 .then(function (resp) {
-                    app.types = resp.data;
+                    app.brands = resp.data;
                 })
                 .catch(function (resp) {
                     alert($t('alert.cannot_load_data'));
                 });
-        }
+        },
+        getCategories: function () {
+            var app = this;
+            axios.get('/api/v1/products/categories')
+                .then(function (resp) {
+                    app.categories = resp.data;
+                })
+                .catch(function (resp) {
+                    alert($t('alert.cannot_load_data'));
+                });
+        },
     },
 }
 </script>
