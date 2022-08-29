@@ -85,6 +85,7 @@ class Product extends Model
             $this->code,
             $this->title,
         ];
+
         return implode(' ', $data);
     }
 

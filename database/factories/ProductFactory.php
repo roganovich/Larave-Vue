@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use File;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
@@ -26,21 +27,17 @@ class ProductFactory extends Factory
             rand(1, $max_categories),
         ];
 
-        /*$root = '/var/www/';
-        $public = 'public';
-        $base_dir = '/uploads/images/products/';
-        $product_path = $base_dir . date('Ymd') . '/';
-        if (!file_exists($root . $public . $base_dir)) {
-            mkdir($root . $public . $base_dir);
-            if (!file_exists($root . $public . $product_path)) {
-                mkdir($root . $public . $product_path);
-            }
-        }*/
-        //$thumb = $product_path . $this->faker->image($root . $public . $product_path, 640, 480, null, false);
+        $base_dir = DIRECTORY_SEPARATOR . 'products' . DIRECTORY_SEPARATOR . date('Ymd') . DIRECTORY_SEPARATOR;
+        $storage_path = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'images' . $base_dir);
+
+        File::makeDirectory($storage_path, $mode = 0777, true, true);
+        $thumb = $this->faker->image($storage_path, 640, 480, null, false);
 
         $images = [];
         for ($i = 0; $i <= rand(1, 5); $i++) {
-            //$images[] = $product_path . $this->faker->image($root . $public . $product_path, 640, 480, null, false);
+            $img_src = $this->faker->image($storage_path, 640, 480, null, false);
+            if ($img_src)
+                $images[] = $img_src;
         }
 
         $code = rand(111111, 999999);
@@ -57,7 +54,7 @@ class ProductFactory extends Factory
             'title' => $title,
             'description' => $description,
             'categories' => $categories,
-            'thumb' => $thumb,
+            'thumb' => ($thumb) ? $thumb  : NULL,
             'images' => json_encode($images),
             'price' => $price,
             'slug' => $slug,

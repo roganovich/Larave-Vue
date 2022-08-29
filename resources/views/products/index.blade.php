@@ -22,23 +22,19 @@
                                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                         <div class="card-address fw-bold">
                                             @if ($item->brand)
-
                                                 <a class="fw-bold text-success"
                                                    href="{{ route('products.index', ['Product[brand]' => $item->brand->slug]) }}">
                                                     #{{ $item->brand->title }}
                                                 </a>
-
                                             @endif
                                         </div>
                                         <div class="card-address fw-bold">
                                             @if ($item->categoriesList)
                                                 @foreach ($item->categoriesList as $category)
-
                                                     <a class="fw-bold text-info"
                                                        href="{{ route('products.index', ['Product[category]' =>$category->slug]) }}">
                                                         #{{ $category->title }}
                                                     </a>
-
                                                 @endforeach
                                             @endif
                                         </div>

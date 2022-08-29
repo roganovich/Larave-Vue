@@ -37,9 +37,9 @@
                         <div class="card-images mt-3" id="products-lightbox">
                             <h3 class="my-2">{{ __('products.images') }}</h3>
                             @foreach($item->imagesList as $image)
-                                <a href="{{URL::asset($image)}}" data-toggle="lightbox" data-gallery="products-gallery">
+                                <a href="{{url($image)}}" data-toggle="lightbox" data-gallery="products-gallery">
                                     <img class="thumb"
-                                         src="{{URL::asset($image)}}"
+                                         src="{{url($image)}}"
                                          title="{{ $item->text }}"
                                          alt="{{ $item->text }}"
                                     >

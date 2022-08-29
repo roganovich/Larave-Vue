@@ -17,14 +17,3 @@ services:
             - ./:/var/www
         ports:
             - 8098:80
-        links:
-            - mysql
-    mysql:
-        build:
-            context: .
-            dockerfile: docker/Mysql.Dockerfile
-        ports:
-            - 33061:3306
-        environment:
-            - MYSQL_ROOT_PASSWORD=root
-            - MYSQL_DATABASE=website

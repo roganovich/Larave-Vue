@@ -10,10 +10,10 @@ use Illuminate\Support\Str;
 class DatabaseSeeder extends Seeder
 {
     const COUNT_USERS = 10;
-    const COUNT_WIKIPAGES = 100;
+    const COUNT_WIKIPAGES = 10;
     const COUNT_PRODUCT_BRANDS = 10;
     const COUNT_PRODUCTS_CATEGORIES = 5;
-    const COUNT_PRODUCTS = 50;
+    const COUNT_PRODUCTS = 10;
     const COUNT_POINTS = 10;
 
     /**
@@ -23,19 +23,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        /** Текстовые страницы */
+        \App\Models\Wikipage::factory(self::COUNT_WIKIPAGES)->create();
+
+        /** Создаем права доступа */
+        DB::table('users_roles')->insert([
+            ['title' => 'Администратор', 'is_root' => 1],
+            ['title' => 'Менеджер', 'is_root' => 0],
+            ['title' => 'Контент', 'is_root' => 0],
+        ]);
+
         /** Пользователи */
         \App\Models\User::factory(self::COUNT_USERS)->create();
 
-        // admin@test.te password
-        /** Создаем права доступа */
-        DB::table('users_roles')->insert([
-             ['title' => 'Администратор', 'is_root' => 1],
-             ['title' => 'Менеджер', 'is_root' => 0],
-             ['title' => 'Контент', 'is_root' => 0],
-         ]);
-
         /** Назначаем администратора */
-        DB::table('users')->where('id', '=', 1)->update(array('role_id' => 1));
+        DB::table('users')->where('id', '=', 1)->update([
+            'role_id' => 1,
+            'name' => 'Admin',
+            'email' => 'admin@admin.loc',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            ]);
 
         /** Текстовые страницы */
         \App\Models\Wikipage::factory(self::COUNT_WIKIPAGES)->create();
