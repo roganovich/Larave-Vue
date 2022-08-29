@@ -29,9 +29,9 @@ class CreateTable extends Command
     public function handle()
     {
         try {
-            $schemaName =config("database.connections.mysql.database");
-            $charset = config("database.connections.mysql.charset",'utf8mb4');
-            $collation = config("database.connections.mysql.collation",'utf8mb4_unicode_ci');
+            $schemaName = config("database.connections.mysql.database");
+            $charset = config("database.connections.mysql.charset", 'utf8mb4');
+            $collation = config("database.connections.mysql.collation", 'utf8mb4_unicode_ci');
 
             config(["database.connections.mysql.database" => null]);
 
@@ -39,6 +39,8 @@ class CreateTable extends Command
             DB::statement($query);
 
             config(["database.connections.mysql.database" => $schemaName]);
+
+            $this->info('CREATE ' . $schemaName . ' was successful!');
         } catch (\Exception $e) {
             $this->error($e->getMessage());
         }

@@ -46,7 +46,7 @@ php artisan command:CreatePermissions
  - docker-compose build
  - docker-compose up
  - docker ps
- - docker exec -it  vuelaravelcrmloc_fpm_1 bash
+ - docker exec -it  larave-vue_fpm_1 bash
  - php artisan db:create 
  - php artisan migrate
  - chmod -R 777 /var/www/storage

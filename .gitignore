@@ -75,9 +75,11 @@ Homestead.json
 /vendor
 /node_modules
 /bootstrap/cache
-.env
 /public/.htaccess
 /public/uploads
 /storage
 storage/*.key
 public/storage
+
+# После релиза нужно добавить этот файл в ignore list
+#.env

@@ -35,6 +35,8 @@ class ClearTable extends Command
             DB::statement($query);
 
             config(["database.connections.mysql.database" => null]);
+
+            $this->info('DROP ' . $schemaName . ' was successful!');
         } catch (\Exception $e) {
             $this->error($e->getMessage());
         }
