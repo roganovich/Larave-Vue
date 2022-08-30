@@ -41,16 +41,18 @@ php artisan command:CreatePermissions
 ### MySQL
  - Поднять сервер БД и указать данные подключения в .env
  - host.docker.internal
+ - php artisan db:create создаем схему в базе данных
+ - php artisan db:clear удаляем схему в базе данных
+ - php artisan db:seed генератор фейковых данных
 
 ##Запуск контейнера
- - docker-compose build
- - docker-compose up
+ - docker-compose build --no-cache
+ - docker-compose up -d
  - docker ps
  - docker exec -it  larave-vue_fpm_1 bash
- - php artisan db:create 
+ - php artisan key:generate
+ - php artisan config:cache
  - php artisan migrate
- - chmod -R 777 /var/www/storage
  - php artisan db:seed
  - localhost:8098 
- - php artisan db:clear
 
