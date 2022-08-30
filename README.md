@@ -45,9 +45,16 @@ php artisan command:CreatePermissions
  - php artisan db:clear удаляем схему в базе данных
  - php artisan db:seed генератор фейковых данных
 
-## Запуск контейнера
+---
+
+## Развертывание сервера
  - docker-compose build --no-cache
  - docker-compose up -d
- - docker exec -it laravel_vue_app bash /var/www/docker/preloader.sh
- - localhost:8098 
+ - docker exec -it laravel_vue_app bash /var/www/docker/preloader.sh -d
 
+## Работа с приложением
+ - Открываем сайт: http://localhost:8098/
+ - Вход в панель администратора:
+   - http://localhost:8098/admin
+   - admin@admin.loc
+   - password
