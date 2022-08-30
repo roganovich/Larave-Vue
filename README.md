@@ -46,6 +46,10 @@ php artisan command:CreatePermissions
  - php artisan db:seed генератор фейковых данных
 
 ---
+## Скачивание проекта
+- cd /your_sites_directory/
+- git clone git@github.com:roganovich/Larave-Vue.git
+- cd Larave-Vue
 
 ## Развертывание сервера
  - docker-compose build --no-cache
