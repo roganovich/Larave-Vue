@@ -1,18 +1,5 @@
 FROM php:8.0-fpm
 
-RUN rm -rf /var/www/storage/logs
-RUN rm -rf /var/www/storage/framework
-
-RUN mkdir /var/www/bootstrap
-RUN mkdir /var/www/bootstrap/cache && chmod 777 /var/www/bootstrap/cache
-RUN mkdir /var/www/storage && chmod 777 /var/www/storage
-RUN mkdir /var/www/storage/logs && chmod 777 /var/www/storage/logs
-RUN mkdir /var/www/storage/framework && chmod 777 /var/www/storage/framework
-RUN mkdir /var/www/storage/framework/views && chmod 777 /var/www/storage/framework/views
-RUN mkdir /var/www/storage/framework/testing && chmod 777 /var/www/storage/framework/testing
-RUN mkdir /var/www/storage/framework/cache && chmod 777 /var/www/storage/framework/cache
-RUN mkdir /var/www/storage/framework/sessions && chmod 777 /var/www/storage/framework/sessions
-
 RUN apt-get update && apt-get upgrade -y \
     && apt-get install apt-utils -y \
     && docker-php-ext-install pdo pdo_mysql
@@ -23,26 +10,8 @@ RUN apt-get install git -y
 RUN apt-get install nodejs -y
 RUN apt-get install npm -y
 
-WORKDIR /var/www
-
 ADD https://getcomposer.org/download/latest-2.x/composer.phar /usr/local/bin/composer
 RUN chmod +x /usr/local/bin/composer
 
-COPY composer.json composer.lock ./
-
-RUN composer install \
-    --no-interaction \
-    --no-plugins \
-    --no-scripts \
-    --no-dev \
-    --prefer-dist
-
-COPY . .
-
-RUN composer dump-autoload
-
-# Cборка
-RUN npm install
-RUN npm install laravel-mix@latest
-#RUN npm audit fix
-#RUN npm run prod
+WORKDIR /var/www
+COPY . /var/www

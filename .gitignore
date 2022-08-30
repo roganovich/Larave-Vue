@@ -80,6 +80,7 @@ Homestead.json
 /storage
 storage/*.key
 public/storage
+public/js
 
 # После релиза нужно добавить этот файл в ignore list
 #.env

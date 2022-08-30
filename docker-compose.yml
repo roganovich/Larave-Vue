@@ -3,12 +3,9 @@ version: '3.8'
 services:
     db:
         image: mysql
-        container_name: db
+        container_name: laravel_vue_mysql
         restart: unless-stopped
         tty: true
-        volumes:
-            - dbdata:/var/lib/mysql/
-            - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
         ports:
             - "33061:3306"
         environment:
@@ -24,6 +21,9 @@ services:
         build:
             context: .
             dockerfile: docker/Fpm.Dockerfile
+        container_name: laravel_vue_app
+        restart: unless-stopped
+        tty: true
         volumes:
             - ./:/var/www
             - ./docker/conf/php/local.ini:/usr/local/etc/php/conf.d/local.ini
@@ -35,6 +35,9 @@ services:
         build:
             context: .
             dockerfile: docker/Nginx.Dockerfile
+        container_name: laravel_vue_nginx
+        restart: unless-stopped
+        tty: true
         volumes:
             - ./:/var/www
         ports:
