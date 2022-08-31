@@ -20,6 +20,7 @@ return [
     'yandex_map_api' => '97f02216-27b5-45c5-aa29-6b23e9fc1b41',
 
     'images' => '/uploads/images/',
+    'noimage' => 'https://www.freeiconspng.com/uploads/no-image-icon-15.png',
     /*
     |--------------------------------------------------------------------------
     | Application Environment

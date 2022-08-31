@@ -60,7 +60,7 @@ class Point extends Model
 
     public function getPointThumbAttribute()
     {
-        return (!empty($this->thumb)) ? $this->thumb : '/uploads/images/noimage.png';
+        return (!empty($this->thumb)) ? $this->thumb : config('app.noimage');
     }
 
     // Группировка типов

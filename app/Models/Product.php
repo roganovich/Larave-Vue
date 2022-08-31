@@ -58,7 +58,7 @@ class Product extends Model
 
     public function getCategoriesListAttribute()
     {
-        return collect(json_decode($this->categories))->map(function ($id) {
+        return collect($this->categories)->map(function ($id) {
             return ProductsCategory::find($id);
         });
     }
@@ -70,7 +70,7 @@ class Product extends Model
 
     public function getProductThumbAttribute()
     {
-        return (!empty($this->thumb)) ? $this->thumb : '/uploads/images/noimage.png';
+        return (!empty($this->thumb)) ? $this->thumb : config('app.noimage');
     }
 
     public function getImagesListAttribute()

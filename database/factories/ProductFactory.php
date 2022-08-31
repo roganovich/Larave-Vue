@@ -44,7 +44,7 @@ class ProductFactory extends Factory
         $brand_id = rand(1, $max_brands);
         $title = Str::ucfirst($this->faker->words(2, true));
         $description = $this->faker->paragraph(4);
-        $categories = json_encode(array_values(array_unique($categories)));
+        $categories = array_values(array_unique($categories));
         $price = rand(99, 9999);
         $slug = Str::slug($title, '_');
 

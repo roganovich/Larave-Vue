@@ -73,6 +73,6 @@ class Wikipage extends Model
 
     public function getPageThumbAttribute()
     {
-        return (!empty($this->thumb)) ? $this->thumb : '/uploads/images/noimage.png';
+        return (!empty($this->thumb)) ? $this->thumb : config('app.noimage');
     }
 }
