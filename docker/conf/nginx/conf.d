@@ -32,7 +32,7 @@ server {
         fastcgi_param APPLICATION_ENV local;
     }
 
-    location ~* \.(txt|js|css|gif|jpg|jpeg|png|svg|ttf|zip|pdf|ico|xml|html|woff|woff2|csv|xls?x)(\?(.*))?$ {
+    location ~* \.(txt|js|css|gif|jpg|jpeg|png|svg|ttf|swf|zip|pdf|ico|mov|fla|xml|html|woff|woff2|csv|xls?x)(\?(.*))?$ {
         expires 3d;
         if ($http_user_agent ~* "(Yandexbot|Googlebot)") {
             error_page 418 = @bots;
@@ -41,6 +41,7 @@ server {
         root /var/www/public/;
     }
 
-
-
+    location ~ (^/docs/asset/.*) {
+        try_files $uri $uri/ /index.php$is_args$args;
+    }
 }

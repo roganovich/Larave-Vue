@@ -2,18 +2,38 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Resources\WikiPage\WikiPageResourceCollection;
 use App\Http\Traits\UploadTrait;
 use App\Models\Wikipage;
 use Illuminate\Http\Request;
 
-class WikipagesController extends Controller
+class WikipagesController extends ApiController
 {
     use UploadTrait;
 
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/wikipages",
+     *     operationId="wikipagesAll",
+     *     tags={"Wiki"},
+     *     summary="Display a listing of the Wikipages",
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="The page number",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Everything is fine",
+     *     ),
+     * )
+     *
+     * Display a listing of the Wikipages
      *
      * @return \Illuminate\Http\Response
      */

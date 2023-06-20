@@ -182,6 +182,10 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\BasketProvider::class,
         App\Providers\FiltersProvider::class,
+
+        DaveJamesMiller\Breadcrumbs\BreadcrumbsServiceProvider::class,
+
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ],
 
     /*
@@ -196,7 +200,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // ...
+        "Breadcrumbs" => DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs::class,
     ])->toArray(),
 
 ];

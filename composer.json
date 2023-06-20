@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.0.2",
         "brianium/paratest": "*",
+        "darkaonline/l5-swagger": "^8.5",
         "davejamesmiller/laravel-breadcrumbs": "^5.3",
         "fruitcake/laravel-cors": "^2.0.5",
         "guzzlehttp/guzzle": "^7.2",
@@ -18,6 +19,7 @@
         "staudenmeir/eloquent-json-relations": "^1.6"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.13",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
@@ -49,11 +51,18 @@
         ],
         "artisan-storage-link": [
             "@php artisan storage:link"
+        ],
+        "post-update-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta"
         ]
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "barryvdh/laravel-ide-helper"
+            ]
         }
     },
     "config": {

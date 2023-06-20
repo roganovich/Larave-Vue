@@ -62,3 +62,5 @@ php artisan command:CreatePermissions
    - http://localhost:8098/admin
    - admin@admin.loc
    - password
+
+php artisan l5-swagger:generate

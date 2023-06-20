@@ -12,6 +12,9 @@
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
     </testsuites>
+    <extensions>
+        <extension class="RonasIT\Support\AutoDoc\Tests\PhpUnitExtensions\SwaggerExtension"/>
+    </extensions>
     <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">./app</directory>
